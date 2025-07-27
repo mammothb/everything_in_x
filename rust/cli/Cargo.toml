@@ -1,0 +1,7 @@
+[workspace]
+resolver = "3"
+members = ["true-rs"]
+
+[workspace.dependencies]
+clap = { version = "4.5.41", features = ["derive"] }
+
