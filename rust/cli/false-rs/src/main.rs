@@ -1,10 +1,10 @@
 use clap::{ArgAction, Parser};
 
-/// true - do nothing, successfully
+/// false - do nothing, unsuccessfully
 #[derive(Parser)]
 #[command(
-    name = "true",
-    bin_name = "true",
+    name = "false",
+    bin_name = "false",
     version = "0.0.1",
     allow_external_subcommands = true,
     disable_help_flag = true,
@@ -21,4 +21,5 @@ struct Cli {
 
 fn main() {
     Cli::parse();
+    std::process::exit(1);
 }

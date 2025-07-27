@@ -1,14 +1,18 @@
 [package]
-name = "true-rs"
+name = "echo-rs"
 version = "0.1.0"
 edition = "2024"
 
 [[bin]]
-name = "true"
+name = "echo"
 path = "src/main.rs"
 
 [dependencies]
 clap = { workspace = true }
+itertools = "0.14.0"
 
 [dev-dependencies]
+anyhow = { workspace = true }
 assert_cmd = { workspace = true }
+parameterized = { workspace = true }
+predicates = { workspace = true }

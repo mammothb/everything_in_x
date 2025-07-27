@@ -1,7 +1,10 @@
 [workspace]
 resolver = "3"
-members = ["true-rs"]
+members = [ "echo-rs", "false-rs","true-rs"]
 
 [workspace.dependencies]
+anyhow = "1.0.98"
+assert_cmd = "2.0.17"
 clap = { version = "4.5.41", features = ["derive"] }
-
+parameterized = "2.0.0"
+predicates = "3.1.3"
