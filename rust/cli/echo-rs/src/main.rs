@@ -17,7 +17,20 @@ struct Cli {
     #[arg(short = 'n', action)]
     no_newline: bool,
     /// enable interpretation of backslash escapes
-    #[arg(short = 'e', action)]
+    /// the following sequences are recognized:
+    ///   \\     backslash
+    ///   \a     alert (BEL)
+    ///   \b     backspace
+    ///   \c     produce no further output
+    ///   \e     escape
+    ///   \f     form feed
+    ///   \n     new line
+    ///   \r     carriage return
+    ///   \t     horizontal tab
+    ///   \v     vertical tab
+    ///   \0NNN  byte with octal value NNN (1 to 3 digits)
+    ///   \xHH   byte with hexadecimal value HH (1 to 2 digits)
+    #[arg(short = 'e', action, verbatim_doc_comment)]
     interpret_backslash: bool,
     /// disable interpretation of backslash escapes (default)
     #[arg(short = 'E', action)]
@@ -35,6 +48,7 @@ struct Cli {
 
 enum EscapeAction {
     Emit(char),
+    EmitStr(String),
     Stop,
     Skip,
 }
@@ -55,9 +69,10 @@ fn parse_escape(chars: &mut Peekable<Chars>) -> Option<EscapeAction> {
                 .peeking_take_while(|c| c.is_ascii_hexdigit())
                 .take(2)
                 .collect::<String>();
-            u8::from_str_radix(&hex, 16)
-                .ok()
-                .map(|val| EscapeAction::Emit(val as char))
+            match u8::from_str_radix(&hex, 16) {
+                Ok(val) => Some(EscapeAction::Emit(val as char)),
+                Err(_) => Some(EscapeAction::EmitStr(format!("\\x{hex}"))),
+            }
         }
         '0' => {
             let oct = chars
@@ -86,22 +101,20 @@ fn main() {
     let input = args.words.join(" ");
     let output = if interpret_backslash {
         let mut chars = input.chars().peekable();
-        std::iter::from_fn(|| {
-            chars.next().map(|c| {
-                if c == '\\' {
-                    match parse_escape(&mut chars) {
-                        Some(EscapeAction::Emit(c2)) => c2,
-                        Some(EscapeAction::Stop) => {
-                            std::process::exit(0);
-                        }
-                        Some(EscapeAction::Skip) | None => '\\',
-                    }
-                } else {
-                    c
+        let mut result = String::new();
+        while let Some(c) = chars.next() {
+            if c == '\\' {
+                match parse_escape(&mut chars) {
+                    Some(EscapeAction::Emit(c2)) => result.push(c2),
+                    Some(EscapeAction::EmitStr(s)) => result.push_str(&s),
+                    Some(EscapeAction::Stop) => return,
+                    _ => continue,
                 }
-            })
-        })
-        .collect()
+            } else {
+                result.push(c);
+            }
+        }
+        result
     } else {
         input
     };
