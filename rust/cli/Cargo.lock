@@ -101,6 +101,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "cat-rs"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap",
+ "parameterized",
+ "predicates",
+]
+
+[[package]]
 name = "clap"
 version = "4.5.41"
 source = "registry+https://github.com/rust-lang/crates.io-index"

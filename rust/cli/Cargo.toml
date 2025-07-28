@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = [ "echo-rs", "false-rs","true-rs"]
+members = [ "cat-rs", "echo-rs", "false-rs","true-rs"]
 
 [workspace.dependencies]
 anyhow = "1.0.98"
