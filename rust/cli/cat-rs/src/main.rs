@@ -1,6 +1,6 @@
 use std::{
     fs::File,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, stdin},
 };
 
 use anyhow::Result;
@@ -75,18 +75,65 @@ struct Config {
     squeeze_blank: bool,
 }
 
+fn cat<T>(
+    mut reader: Box<T>,
+    show_nonprinting: bool,
+    show_tabs: bool,
+    number: bool,
+    number_nonblank: bool,
+    show_ends: bool,
+    squeeze_blank: bool,
+) -> Result<()>
+where
+    T: BufRead + ?Sized,
+{
+    let mut buf = String::new();
+    while reader.read_line(&mut buf)? > 0 {
+        print!("{buf}");
+        buf.clear();
+    }
+    Ok(())
+}
+
+fn cat_simple<T>(mut reader: Box<T>) -> Result<()>
+where
+    T: BufRead + ?Sized,
+{
+    let mut buf = String::new();
+    while reader.read_line(&mut buf)? > 0 {
+        print!("{buf}");
+        buf.clear();
+    }
+    Ok(())
+}
+
+fn open(file_path: &str) -> Result<Box<dyn BufRead>> {
+    match file_path {
+        "-" => Ok(Box::new(BufReader::new(stdin()))),
+        _ => Ok(Box::new(BufReader::new(File::open(file_path)?))),
+    }
+}
+
 fn run(config: Config) -> Result<()> {
     for file_path in config.file_paths {
-        if file_path == "-" {
-            continue;
+        let reader = open(&file_path)?;
+        if !(config.number
+            || config.show_ends
+            || config.show_nonprinting
+            || config.show_tabs
+            || config.squeeze_blank)
+        {
+            cat_simple(reader)?;
         } else {
-            let f = File::open(file_path)?;
-            let reader = BufReader::new(f);
-            for line in reader.lines() {
-                if let Ok(content) = line {
-                    println!("{content}");
-                }
-            }
+            cat(
+                reader,
+                config.show_nonprinting,
+                config.show_tabs,
+                config.number,
+                config.number_nonblank,
+                config.show_ends,
+                config.squeeze_blank,
+            )?;
         }
     }
     Ok(())
