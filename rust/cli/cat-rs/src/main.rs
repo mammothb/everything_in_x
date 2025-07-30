@@ -1,4 +1,5 @@
 use std::{
+    cmp,
     fs::File,
     io::{BufRead, BufReader, stdin},
 };
@@ -75,22 +76,53 @@ struct Config {
     squeeze_blank: bool,
 }
 
-fn cat<T>(
-    mut reader: Box<T>,
-    show_nonprinting: bool,
-    show_tabs: bool,
-    number: bool,
-    number_nonblank: bool,
-    show_ends: bool,
-    squeeze_blank: bool,
-) -> Result<()>
+struct State {
+    // number of newlines
+    num_newlines: usize,
+    /// the current line number
+    line_num: usize,
+}
+
+fn cat<T>(mut reader: Box<T>, state: &mut State, config: &Config) -> Result<()>
 where
     T: BufRead + ?Sized,
 {
     let mut buf = String::new();
+    let mut line_num = String::new();
     while reader.read_line(&mut buf)? > 0 {
-        print!("{buf}");
+        if buf == "\n" {
+            state.num_newlines += 1;
+        } else {
+            state.num_newlines = 0;
+        }
+        if state.num_newlines > 0 {
+            // Prevent potential overflow
+            state.num_newlines = cmp::min(state.num_newlines, 2);
+            if state.num_newlines >= 2 && config.squeeze_blank {
+                buf.clear();
+                line_num.clear();
+                continue;
+            }
+            if config.number && !config.number_nonblank {
+                state.line_num += 1;
+                line_num.insert_str(0, &format_line_num(&state.line_num));
+            }
+        } else if config.number {
+            state.line_num += 1;
+            line_num.insert_str(0, &format_line_num(&state.line_num));
+        }
+        if config.show_ends || config.show_nonprinting || config.show_tabs {
+            print!(
+                "{line_num}{}",
+                &buf.bytes()
+                    .map(|c| format_char(c, config))
+                    .collect::<String>()
+            );
+        } else {
+            print!("{line_num}{buf}");
+        }
         buf.clear();
+        line_num.clear();
     }
     Ok(())
 }
@@ -107,6 +139,41 @@ where
     Ok(())
 }
 
+fn format_char(c: u8, config: &Config) -> String {
+    if config.show_nonprinting {
+        match c {
+            b'\t' => {
+                if config.show_tabs {
+                    String::from("^I")
+                } else {
+                    String::from(c as char)
+                }
+            }
+            b'\n' => {
+                if config.show_ends {
+                    String::from("$\n")
+                } else {
+                    String::from("\n")
+                }
+            }
+            0..=31 => format!("^{}", (c + 64) as char),
+            127 => String::from("^?"),
+            128..=255 => format!("M-{}", format_char(c - 128, config)),
+            _ => String::from(c as char),
+        }
+    } else if c == b'\t' && config.show_tabs {
+        String::from("^I")
+    } else if c == b'\n' && config.show_ends {
+        String::from("$\n")
+    } else {
+        String::from(c as char)
+    }
+}
+
+fn format_line_num(line_num: &usize) -> String {
+    format!("{line_num:>6}\t")
+}
+
 fn open(file_path: &str) -> Result<Box<dyn BufRead>> {
     match file_path {
         "-" => Ok(Box::new(BufReader::new(stdin()))),
@@ -115,8 +182,12 @@ fn open(file_path: &str) -> Result<Box<dyn BufRead>> {
 }
 
 fn run(config: Config) -> Result<()> {
-    for file_path in config.file_paths {
-        let reader = open(&file_path)?;
+    let mut state = State {
+        num_newlines: 0,
+        line_num: 0,
+    };
+    for file_path in &config.file_paths {
+        let reader = open(file_path)?;
         if !(config.number
             || config.show_ends
             || config.show_nonprinting
@@ -125,15 +196,7 @@ fn run(config: Config) -> Result<()> {
         {
             cat_simple(reader)?;
         } else {
-            cat(
-                reader,
-                config.show_nonprinting,
-                config.show_tabs,
-                config.number,
-                config.number_nonblank,
-                config.show_ends,
-                config.squeeze_blank,
-            )?;
+            cat(reader, &mut state, &config)?;
         }
     }
     Ok(())
@@ -143,7 +206,7 @@ fn main() {
     let args = Cli::parse();
     let config = Config {
         file_paths: args.file_paths.unwrap_or(vec![String::from("-")]),
-        number: args.number,
+        number: args.number || args.number_nonblank,
         number_nonblank: args.number_nonblank,
         show_ends: args.show_ends || args.show_ends_and_nonprinting || args.show_all,
         show_nonprinting: args.show_nonprinting
