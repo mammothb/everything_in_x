@@ -1,18 +1,19 @@
 [package]
-name = "echo-rs"
+name = "head-rs"
 version = "0.1.0"
 edition = "2024"
 
 [[bin]]
-name = "echo"
+name = "head"
 path = "src/main.rs"
 
 [dependencies]
+anyhow = { workspace = true }
+bitflags = "2.9.1"
 clap = { workspace = true }
 itertools = { workspace = true }
 
 [dev-dependencies]
-anyhow = { workspace = true }
 assert_cmd = { workspace = true }
 parameterized = { workspace = true }
 predicates = { workspace = true }
