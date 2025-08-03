@@ -1,4 +1,9 @@
-use std::process;
+use std::{
+    collections::VecDeque,
+    fs::File,
+    io::{BufRead, BufReader, Read, stdin},
+    process,
+};
 
 use anyhow::Result;
 use clap::{ArgAction, Parser};
@@ -56,6 +61,8 @@ struct Cli {
 #[derive(Debug)]
 struct Config {
     file_paths: Vec<String>,
+    print_header: bool,
+    line_end: char,
     count_lines: bool,
     elide_from_end: bool,
     n_units: usize,
@@ -73,13 +80,26 @@ impl Config {
         } else {
             (false, string_to_integer(&value))
         };
+        let multiple_files = args.file_paths.len() > 1;
 
         Ok(Self {
             file_paths: args.file_paths,
+            print_header: !args.quiet && (args.verbose || multiple_files),
+            line_end: if args.zero_terminated { '\0' } else { '\n' },
             count_lines,
             elide_from_end,
             n_units,
         })
+    }
+}
+
+struct State {
+    first_file: bool,
+}
+
+impl State {
+    fn new() -> Self {
+        Self { first_file: true }
     }
 }
 
@@ -107,14 +127,91 @@ fn string_to_integer(n_string: &str) -> usize {
     .unwrap_or(i64::MAX) as usize
 }
 
+fn open(file_path: &str) -> Result<(Box<dyn BufRead>, &str)> {
+    match file_path {
+        "-" => Ok((Box::new(BufReader::new(stdin())), "standard input")),
+        _ => Ok((Box::new(BufReader::new(File::open(file_path)?)), file_path)),
+    }
+}
+
 fn run(config: Config) -> Result<()> {
+    let mut state = State::new();
+    for file_path in &config.file_paths {
+        let result = open(file_path)
+            .and_then(|(reader, filename)| head(reader, filename, &mut state, &config));
+        if let Err(err) = result {
+            eprintln!("cannot open {file_path} for reading: {err}");
+        }
+    }
+    Ok(())
+}
+
+fn head(
+    reader: Box<dyn BufRead>,
+    filename: &str,
+    state: &mut State,
+    config: &Config,
+) -> Result<()> {
+    if config.print_header {
+        println!(
+            "{}==>{filename}<==",
+            if state.first_file { "" } else { "\n" }
+        );
+        state.first_file = false;
+    }
+
+    if config.elide_from_end {
+        if config.count_lines {
+            elide_tail_lines(reader, config.line_end, config.n_units)?;
+        } else {
+        }
+    } else {
+        if config.count_lines {
+            head_lines(reader, config.line_end, config.n_units)?;
+        } else {
+            head_bytes(reader, config.n_units)?;
+        }
+    }
+    Ok(())
+}
+
+fn head_bytes(reader: Box<dyn BufRead>, num_bytes: usize) -> Result<()> {
+    let mut buf = Vec::new();
+    reader.take(num_bytes as u64).read_to_end(&mut buf)?;
+    print!("{}", String::from_utf8(buf)?);
+    Ok(())
+}
+
+fn head_lines<T>(mut reader: Box<T>, line_end: char, mut num_lines: usize) -> Result<()>
+where
+    T: BufRead + ?Sized,
+{
+    let mut buf = Vec::new();
+    while num_lines > 0 && reader.read_until(line_end as u8, &mut buf)? > 0 {
+        print!("{}", String::from_utf8(buf.clone())?);
+        buf.clear();
+        num_lines -= 1;
+    }
+    Ok(())
+}
+
+fn elide_tail_lines(mut reader: Box<dyn BufRead>, line_end: char, num_elide: usize) -> Result<()> {
+    let mut queue = VecDeque::with_capacity(num_elide);
+    let mut buf = Vec::new();
+    while reader.read_until(line_end as u8, &mut buf)? > 0 {
+        if queue.len() == num_elide
+            && let Some(string) = queue.pop_front()
+        {
+            print!("{string}");
+        }
+        queue.push_back(String::from_utf8(buf.clone())?);
+        buf.clear();
+    }
     Ok(())
 }
 
 fn main() {
     let args = Cli::parse();
-    println!("{args:?}");
     let config = unwrap_or_exit(Config::from_args(args));
-    println!("{config:?}");
     unwrap_or_exit(run(config));
 }
