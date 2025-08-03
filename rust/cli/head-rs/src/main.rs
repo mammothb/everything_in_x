@@ -2,10 +2,10 @@ use std::process;
 
 use anyhow::Result;
 use clap::{ArgAction, Parser};
-use head_rs::{XToIntFlag, xnumtoumax};
+use head_rs::{XToIntFlag, xnumtoint};
 
-const AFTER_HELP: &str = "NUM may have a multiplier suffix: b 512, kB 1000, K 1024, MB
-1000*1000, M 1024*1024, GB 1000*1000*1000, G 1024*1024*1024, and
+const AFTER_HELP: &str = "NUM may have a multiplier suffix: b 512, kB 1000,
+K 1024, MB 1000*1000, M 1024*1024, GB 1000*1000*1000, G 1024*1024*1024, and
 so on for T, P, E, Z, Y, R, Q.  Binary prefixes can be used, too:
 KiB=K, MiB=M, and so on.";
 
@@ -97,16 +97,14 @@ where
 }
 
 fn string_to_integer(n_string: &str) -> usize {
-    xnumtoumax(
+    xnumtoint(
         n_string,
-        10,
         0,
-        usize::MAX,
-        "bkKmMGTPEZYRQ0",
-        "invalid number",
-        0,
+        i64::MAX,
+        Some("bEGKkMmPQRTYZ0"),
         XToIntFlag::MaxQuiet,
     )
+    .unwrap_or(i64::MAX) as usize
 }
 
 fn run(config: Config) -> Result<()> {

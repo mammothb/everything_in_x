@@ -2,112 +2,124 @@
 use std::num::IntErrorKind;
 
 use bitflags::bitflags;
+use itertools::Itertools;
+
+#[derive(Debug, PartialEq)]
+pub enum XstrtolError {
+    IntErrorKind(IntErrorKind),
+    InvalidSuffixChar,
+}
 
 bitflags! {
     pub struct XToIntFlag:u8 {
         const MinQuiet = 0x01;
         const MaxQuiet = 0x02;
-        const MinRange = 0x04;
-        const MaxRange = 0x08;
     }
 }
 
-pub fn xnumtoumax(
+pub fn xnumtoint(
     n_str: &str,
-    base: u32,
-    min: usize,
-    max: usize,
-    suffixes: &str,
-    erri: &str,
-    err_exit: i32,
+    min: i64,
+    max: i64,
+    suffixes: Option<&str>,
     flags: XToIntFlag,
-) -> usize {
-    let s = n_str.trim();
-    let (sign, digits) = match s.split_at(1) {
+) -> Result<i64, XstrtolError> {
+    let trimmed = n_str.trim();
+    let (sign, digits) = match trimmed.split_at(1) {
         ("+", rest) => (1, rest),
         ("-", rest) => (-1, rest),
-        _ => (1, s),
+        _ => (1, trimmed),
     };
-    let s = digits;
-    0
-}
+    let num_end = digits
+        .find(|c: char| !c.is_ascii_digit())
+        .unwrap_or(digits.len());
+    let (num_part, suffix_part) = digits.split_at(num_end);
 
-pub fn xstrtol(nptr: &str, base: i32, valid_suffixes: &str) {}
-
-pub fn strtol(nptr: &str, base: i32) -> Result<(i64, usize), IntErrorKind> {
-    let bytes = nptr.as_bytes();
-    let mut i = 0;
-
-    while i < bytes.len() && bytes[i].is_ascii_whitespace() {
-        i += 1;
-    }
-
-    if i == bytes.len() {
-        return Err(IntErrorKind::InvalidDigit);
-    }
-
-    let mut negative = false;
-    if bytes[i] == b'-' {
-        negative = true;
-        i += 1;
-    } else if bytes[i] == b'+' {
-        i += 1;
-    }
-
-    let mut base = base as i64;
-    if i < bytes.len() && bytes[i] == b'0' {
-        if (base == 0 || base == 16)
-            && i + 1 < bytes.len()
-            && bytes[i + 1].eq_ignore_ascii_case(&b'x')
-        {
-            base = 16;
-            i += 2;
-        } else if (base == 0 || base == 2)
-            && i + 1 < bytes.len()
-            && bytes[i + 1].eq_ignore_ascii_case(&b'b')
-        {
-            base = 2;
-            i += 2;
-        } else if base == 0 {
-            base = 8;
-        }
-    } else if base == 0 {
-        base = 10;
-    }
-
-    let cutoff = i64::MAX / base;
-    let cutlim = i64::MAX % base;
-    let mut invalid = true;
+    let base = 10;
+    let cutoff = max / base;
+    let cutlim = max % base;
+    let mut overflow = false;
     let mut result: i64 = 0;
-    while i < bytes.len() {
-        let c = bytes[i];
-        let digit = if c.is_ascii_digit() {
-            (c - b'0') as i64
-        } else if c.is_ascii_alphabetic() {
-            (c.to_ascii_uppercase() - b'A') as i64 + 10
-        } else {
-            break;
-        };
-
-        if digit >= base {
-            break;
-        }
-
+    for c in num_part.bytes() {
+        let digit = (c - b'0') as i64;
         if result > cutoff || (result == cutoff && digit > cutlim) {
-            return Err(IntErrorKind::PosOverflow);
+            overflow = true;
+            break;
         } else {
             result *= base;
             result += digit;
         }
-
-        invalid = false;
-        i += 1;
-    }
-    if invalid {
-        return Err(IntErrorKind::InvalidDigit);
     }
 
-    Ok((if negative { -result } else { result }, i))
+    if let Some(suffixes) = suffixes
+        && !suffix_part.is_empty()
+    {
+        let mut xbase = 1024;
+        let mut chars = suffix_part.chars().multipeek();
+
+        let mut nth_suffix = 0;
+        if let Some(&c1) = chars.peek() {
+            if "EGgKkMmPQRTtYZ".contains(c1)
+                && suffixes.contains('0')
+                && let Some(&c2) = chars.peek()
+            {
+                if c2 == 'i'
+                    && let Some('B') = chars.peek()
+                {
+                    nth_suffix = 2;
+                } else if c2 == 'B' {
+                    xbase = 1000;
+                    nth_suffix = 1;
+                }
+            }
+
+            match c1 {
+                'b' => result = bkm_scale(result, 512)?,
+                'E' => result = bkm_scale_by_power(result, xbase, 6)?,
+                'G' | 'g' => result = bkm_scale_by_power(result, xbase, 3)?,
+                'K' | 'k' => result = bkm_scale_by_power(result, xbase, 1)?,
+                'M' | 'm' => result = bkm_scale_by_power(result, xbase, 2)?,
+                'P' => result = bkm_scale_by_power(result, xbase, 5)?,
+                'Q' => result = bkm_scale_by_power(result, xbase, 10)?,
+                'R' => result = bkm_scale_by_power(result, xbase, 9)?,
+                'T' | 't' => result = bkm_scale_by_power(result, xbase, 4)?,
+                'w' => result = bkm_scale(result, 2)?,
+                'Y' => result = bkm_scale_by_power(result, xbase, 8)?,
+                'Z' => result = bkm_scale_by_power(result, xbase, 7)?,
+                _ => {
+                    return Err(XstrtolError::InvalidSuffixChar);
+                }
+            }
+        }
+
+        chars.nth(nth_suffix);
+        if chars.next().is_some() {
+            return Err(XstrtolError::InvalidSuffixChar);
+        }
+    }
+
+    if overflow {
+        match sign {
+            s if s > 0 && flags.contains(XToIntFlag::MaxQuiet) => Ok(max),
+            s if s < 0 && flags.contains(XToIntFlag::MinQuiet) => Ok(min),
+            _ => Ok(0),
+        }
+    } else {
+        Ok(sign * result)
+    }
+}
+
+fn bkm_scale(num: i64, scale_factor: i64) -> Result<i64, XstrtolError> {
+    num.checked_mul(scale_factor)
+        .ok_or(XstrtolError::IntErrorKind(if num < 0 {
+            IntErrorKind::NegOverflow
+        } else {
+            IntErrorKind::PosOverflow
+        }))
+}
+
+fn bkm_scale_by_power(num: i64, base: i64, power: i64) -> Result<i64, XstrtolError> {
+    (0..power).try_fold(num, |acc, _| bkm_scale(acc, base))
 }
 
 #[cfg(test)]
@@ -115,22 +127,30 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_string() {
-        assert_eq!(strtol("123", 10), Ok((123, 3)));
-        assert_eq!(strtol("123zz", 10), Ok((123, 3)));
-        assert_eq!(strtol("   -42", 10), Ok((-42, 6)));
-
-        assert_eq!(strtol("0xFF", 0), Ok((255, 4)));
-        assert_eq!(strtol("0b1011", 0), Ok((11, 6)));
-        assert_eq!(strtol("0755", 0), Ok((493, 4)));
-        assert_eq!(strtol("zzz", 36), Ok((46655, 3)));
-
-        assert_eq!(strtol("", 10), Err(IntErrorKind::InvalidDigit));
-        assert_eq!(strtol("   ", 10), Err(IntErrorKind::InvalidDigit));
-        assert_eq!(strtol("zzz", 10), Err(IntErrorKind::InvalidDigit));
+    fn invalid_suffix() {
         assert_eq!(
-            strtol("18446744073709551616", 10),
-            Err(IntErrorKind::PosOverflow)
+            xnumtoint(
+                "1 z",
+                0,
+                i64::MAX,
+                Some("bKkMmGTPEZYRQ0"),
+                XToIntFlag::MaxQuiet
+            ),
+            Err(XstrtolError::InvalidSuffixChar)
+        );
+    }
+
+    #[test]
+    fn with_suffix() {
+        assert_eq!(
+            xnumtoint(
+                "1E",
+                0,
+                i64::MAX,
+                Some("bKkMmGTPEZYRQ0"),
+                XToIntFlag::MaxQuiet
+            ),
+            Ok(i64::pow(1024, 6))
         );
     }
 }
