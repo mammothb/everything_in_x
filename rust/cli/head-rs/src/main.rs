@@ -1,13 +1,16 @@
 use std::{
     collections::VecDeque,
     fs::File,
-    io::{BufRead, BufReader, Read, stdin},
+    io::{self, BufRead, BufReader, Read, Write, stdin},
     process,
 };
 
 use anyhow::Result;
 use clap::{ArgAction, Parser};
 use head_rs::{XToIntFlag, xnumtoint};
+
+const READ_BUFSIZE: usize = 8192;
+const BYTECOUNT_THRESHOLD: usize = 1024 * 1024;
 
 const AFTER_HELP: &str = "NUM may have a multiplier suffix: b 512, kB 1000,
 K 1024, MB 1000*1000, M 1024*1024, GB 1000*1000*1000, G 1024*1024*1024, and
@@ -164,14 +167,14 @@ fn head(
         if config.count_lines {
             elide_tail_lines(reader, config.line_end, config.n_units)?;
         } else {
+            elide_tail_bytes(reader, config.n_units)?;
         }
+    } else if config.count_lines {
+        head_lines(reader, config.line_end, config.n_units)?;
     } else {
-        if config.count_lines {
-            head_lines(reader, config.line_end, config.n_units)?;
-        } else {
-            head_bytes(reader, config.n_units)?;
-        }
+        head_bytes(reader, config.n_units)?;
     }
+
     Ok(())
 }
 
@@ -191,6 +194,96 @@ where
         print!("{}", String::from_utf8(buf.clone())?);
         buf.clear();
         num_lines -= 1;
+    }
+    Ok(())
+}
+
+fn elide_tail_bytes(mut reader: Box<dyn BufRead>, num_elide: usize) -> Result<()> {
+    let mut stdout = io::stdout().lock();
+    if num_elide <= BYTECOUNT_THRESHOLD {
+        let buf_size = READ_BUFSIZE + num_elide;
+        let mut buffers = vec![vec![0u8; buf_size]; 2];
+        let mut i = 0;
+        let mut first = true;
+
+        let mut eof = false;
+        while !eof {
+            let n_read = reader.read(&mut buffers[i])?;
+            let mut delta = 0;
+            if n_read < buf_size {
+                if n_read <= num_elide && !first {
+                    delta = num_elide - n_read;
+                }
+                eof = true;
+            }
+
+            if !first {
+                let start = READ_BUFSIZE;
+                let to_write = num_elide - delta;
+                stdout.write_all(&buffers[1 - i][start..start + to_write])?;
+            }
+            first = false;
+
+            if n_read > num_elide {
+                stdout.write_all(&buffers[i][..n_read - num_elide])?;
+            }
+            i = 1 - i;
+        }
+    } else {
+        let remainer = num_elide % READ_BUFSIZE;
+        let num_buffers = num_elide / READ_BUFSIZE + if remainer != 0 { 2 } else { 1 };
+        let mut buffers: Vec<Vec<u8>> = Vec::with_capacity(num_buffers);
+        let mut i = 0;
+        let mut i_next = 1;
+        let mut n_read = 0;
+
+        let mut buffered_enough = false;
+        let mut eof = false;
+        while !eof {
+            if !buffered_enough {
+                buffers.push(vec![0u8; READ_BUFSIZE]);
+            }
+            n_read = reader.read(&mut buffers[i])?;
+            if n_read < READ_BUFSIZE {
+                eof = true;
+            }
+            if i + 1 == num_buffers {
+                buffered_enough = true;
+            }
+            if buffered_enough {
+                stdout.write_all(&buffers[i_next][..n_read])?;
+            }
+            i = i_next;
+            i_next = (i_next + 1) % num_buffers;
+        }
+
+        let rem = READ_BUFSIZE - remainer;
+        if buffered_enough {
+            let rem_in_buffer = READ_BUFSIZE - n_read;
+            if rem < rem_in_buffer {
+                stdout.write_all(&buffers[i][n_read..n_read + rem])?;
+            } else {
+                stdout.write_all(&buffers[i][n_read..n_read + rem_in_buffer])?;
+                stdout.write_all(&buffers[i_next][..rem - rem_in_buffer])?;
+            }
+        } else if i + 1 == num_buffers {
+            // This happens when
+            // n_elide < file_size < (n_bufs - 1) * READ_BUFSIZE.
+            //
+            // |READ_BUF.|
+            // |                      |  rem |
+            // |---------!---------!---------!---------|
+            // |---- n_elide----------|
+            // |                      | x |
+            // |                   |y |
+            // |---- file size -----------|
+            // |                   |n_read|
+            // |(n_bufs - 1) * READ_BUFSIZE--|
+
+            let y = READ_BUFSIZE - rem;
+            let x = n_read - y;
+            stdout.write_all(&buffers[i_next][..x])?;
+        }
     }
     Ok(())
 }
