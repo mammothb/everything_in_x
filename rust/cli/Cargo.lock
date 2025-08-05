@@ -464,6 +464,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "wc-rs"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap",
+ "itertools",
+ "parameterized",
+ "predicates",
+]
+
+[[package]]
 name = "windows-sys"
 version = "0.59.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
