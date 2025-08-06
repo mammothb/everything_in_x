@@ -2,11 +2,11 @@ use std::{
     collections::VecDeque,
     fs::File,
     io::{self, BufRead, BufReader, Read, Write, stdin},
-    process,
 };
 
 use anyhow::Result;
 use clap::{ArgAction, Parser};
+use common::unwrap_or_exit;
 use head_rs::{XToIntFlag, xnumtoint};
 
 const READ_BUFSIZE: usize = 8192;
@@ -103,19 +103,6 @@ struct State {
 impl State {
     fn new() -> Self {
         Self { first_file: true }
-    }
-}
-
-fn unwrap_or_exit<T, E>(result: Result<T, E>) -> T
-where
-    E: std::fmt::Display,
-{
-    match result {
-        Ok(val) => val,
-        Err(err) => {
-            eprintln!("Error: {err}");
-            process::exit(1);
-        }
     }
 }
 

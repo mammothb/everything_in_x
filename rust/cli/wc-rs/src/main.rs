@@ -1,4 +1,8 @@
+use std::io::BufRead;
+
+use anyhow::{Error, Result};
 use clap::{ArgAction, Parser, ValueEnum};
+use common::{open, unwrap_or_exit};
 
 #[derive(Clone, Debug, ValueEnum)]
 enum When {
@@ -47,7 +51,7 @@ struct Cli {
     #[arg(long, action = ArgAction::Version)]
     version: Option<bool>,
     /// With no FILE, or when FILE is -, read standard input.
-    #[arg(name = "FILE", default_value = "-")]
+    #[arg(name = "FILE")]
     file_paths: Vec<String>,
 }
 
@@ -63,7 +67,73 @@ struct Config {
     total_mode: When,
 }
 
+impl Config {
+    fn from_args(args: Cli) -> Result<Self> {
+        let mut print_bytes = false;
+        let mut print_lines = false;
+        let mut print_words = false;
+
+        if !(args.lines || args.words || args.chars || args.bytes || args.max_line_length) {
+            print_bytes = true;
+            print_lines = true;
+            print_words = true;
+        }
+        if args.files_from.is_some() && !args.file_paths.is_empty() {
+            return Err(Error::msg(
+                "file operands cannot be combined with --files0-from",
+            ));
+        }
+        Ok(Self {
+            file_paths: args.file_paths,
+            print_bytes,
+            print_chars: args.chars,
+            print_lines,
+            print_words,
+            print_linelength: args.max_line_length,
+            files_from: args.files_from,
+            total_mode: args.total,
+        })
+    }
+}
+
+struct ArgIter {
+    reader: Box<dyn BufRead>,
+    token: Option<String>,
+}
+
+impl ArgIter {
+    pub fn from_stream(reader: Box<dyn BufRead>) -> Self {
+        Self {
+            reader,
+            token: None,
+        }
+    }
+}
+
+impl Iterator for ArgIter {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        Some(String::from("asdf"))
+    }
+}
+
+fn run(config: Config) -> Result<()> {
+    if let Some(files_from) = config.files_from {
+        let reader = open(&files_from)?;
+        let arg_iter = ArgIter::from_stream(reader);
+        for file_name in arg_iter {
+            println!("{file_name}");
+            break;
+        }
+    }
+    Ok(())
+}
+
 fn main() {
     let args = Cli::parse();
     println!("{args:#?}");
+    let config = unwrap_or_exit(Config::from_args(args));
+    println!("{config:#?}");
+    run(config);
 }
