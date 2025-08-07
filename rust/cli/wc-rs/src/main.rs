@@ -98,14 +98,14 @@ impl Config {
 
 struct ArgIter {
     reader: Box<dyn BufRead>,
-    token: Option<String>,
+    token: Vec<u8>,
 }
 
 impl ArgIter {
     pub fn from_stream(reader: Box<dyn BufRead>) -> Self {
         Self {
             reader,
-            token: None,
+            token: Vec::new(),
         }
     }
 }
@@ -114,7 +114,12 @@ impl Iterator for ArgIter {
     type Item = String;
 
     fn next(&mut self) -> Option<Self::Item> {
-        Some(String::from("asdf"))
+        self.token.clear();
+        self.reader
+            .read_until(b'\0', &mut self.token)
+            .ok()
+            .filter(|&n| n > 0)
+            .and_then(|_| String::from_utf8(self.token.clone()).ok())
     }
 }
 
@@ -124,7 +129,6 @@ fn run(config: Config) -> Result<()> {
         let arg_iter = ArgIter::from_stream(reader);
         for file_name in arg_iter {
             println!("{file_name}");
-            break;
         }
     }
     Ok(())
