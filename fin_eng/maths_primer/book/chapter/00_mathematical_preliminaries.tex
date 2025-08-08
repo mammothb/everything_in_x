@@ -1,0 +1,54 @@
+\chapter{Mathematical preliminaries}
+
+\section{Even and odd functions}
+
+\begin{definition}
+    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an even function
+    iff
+    \begin{equation}
+        f(-x) = f(x), \quad \forall x \in \mathbb{R}.
+    \end{equation}
+\end{definition}
+The graph of any even function is symmetric with respect to the \(y\)-axis.
+
+\begin{lemma}
+    Let \(f(x)\) be an integrable even function. Then,
+    \begin{equation}
+        \int_{-a}^{0} f(x) dx = \int_{0}^{a} f(x) dx, \quad \forall a \in \mathbb{R},
+    \end{equation}
+    and therefore
+    \begin{equation}
+        \int_{-a}^{a} f(x) dx = 2 \int_{0}^{a} f(x) dx, \quad \forall a \in \mathbb{R}.
+    \end{equation}
+    Moreover, if \(\int_{0}^{\infty} f(x) dx\) exists, then
+    \begin{equation}
+        \int_{-\infty}^{0} f(x) dx = \int_{0}^{\infty} f(x) dx,
+    \end{equation}
+    and
+    \begin{equation}
+        \int_{-\infty}^{\infty} f(x) dx = 2 \int_{0}^{\infty} f(x) dx.
+    \end{equation}
+\end{lemma}
+
+\begin{definition}
+    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an odd function
+    iff
+    \begin{equation}
+        f(-x) = -f(x), \quad \forall x \in \mathbb{R}.
+        \label{eq:definition:odd}
+    \end{equation}
+\end{definition}
+If we let \(x = 0\) in \eqref{eq:definition:odd}, we find that \(f(0) = 0\) for
+any odd function \(f(x)\). Also, the graph of any odd function is symmetric with
+respect to the point (0, 0).
+
+\begin{lemma}
+    Let \(f(x)\) be an integrable odd function. Then,
+    \begin{equation}
+        \int_{-a}^{a} f(x) dx = 0, \quad \forall a \in \mathbb{R}.
+    \end{equation}
+    Moreover, if \(\int_{0}^{\infty} f(x) dx\) exists, then
+    \begin{equation}
+        \int_{-\infty}^{\infty} f(x) dx = 0.
+    \end{equation}
+\end{lemma}
