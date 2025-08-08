@@ -4,7 +4,7 @@ use anyhow::{Error, Result};
 use clap::{ArgAction, Parser, ValueEnum};
 use common::{open, unwrap_or_exit};
 
-#[derive(Clone, Debug, ValueEnum)]
+#[derive(Clone, Debug, PartialEq, ValueEnum)]
 enum When {
     Auto,
     Always,
@@ -97,6 +97,7 @@ impl Config {
 }
 
 struct ArgIter {
+    // file-mode
     reader: Box<dyn BufRead>,
     token: Vec<u8>,
 }
@@ -124,13 +125,46 @@ impl Iterator for ArgIter {
 }
 
 fn run(config: Config) -> Result<()> {
+    let arg_iter: Box<dyn Iterator<Item = String>>;
+    let mut files_from_stdin = false;
     if let Some(files_from) = config.files_from {
+        files_from_stdin = files_from == "-";
         let reader = open(&files_from)?;
-        let arg_iter = ArgIter::from_stream(reader);
-        for file_name in arg_iter {
-            println!("{file_name}");
-        }
+        arg_iter = Box::new(ArgIter::from_stream(reader));
+    } else {
+        arg_iter = Box::new(config.file_paths.into_iter());
     }
+    let number_width = if config.total_mode == When::Only {
+        1
+    } else {
+        2
+    };
+    let mut ok = true;
+    for file_name in arg_iter {
+        if files_from_stdin && file_name == "-" {
+            eprintln!(
+                "Error: when reading file names from standard input, no file names of {file_name} allowed"
+            );
+            ok = false;
+            continue;
+        }
+        if file_name.is_empty() {
+            eprintln!("Error: invalid zero-length file name");
+            ok = false;
+            continue;
+        }
+        ok = ok && wc(&file_name).is_ok();
+    }
+    if ok {
+        Ok(())
+    } else {
+        Err(Error::msg("an unexpected error occurred"))
+    }
+}
+
+fn wc(file_name: &str) -> Result<()> {
+    println!("{file_name}");
+    let reader = open(file_name)?;
     Ok(())
 }
 
@@ -139,5 +173,5 @@ fn main() {
     println!("{args:#?}");
     let config = unwrap_or_exit(Config::from_args(args));
     println!("{config:#?}");
-    run(config);
+    unwrap_or_exit(run(config));
 }
