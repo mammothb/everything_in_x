@@ -3,8 +3,7 @@
 \section{Even and odd functions}
 
 \begin{definition}
-    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an even function
-    iff
+    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an even function iff
     \begin{equation}
         f(-x) = f(x), \quad \forall x \in \mathbb{R}.
     \end{equation}
@@ -31,16 +30,14 @@ The graph of any even function is symmetric with respect to the \(y\)-axis.
 \end{lemma}
 
 \begin{definition}
-    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an odd function
-    iff
+    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an odd function iff
     \begin{equation}
         f(-x) = -f(x), \quad \forall x \in \mathbb{R}.
         \label{eq:definition:odd}
     \end{equation}
 \end{definition}
-If we let \(x = 0\) in \eqref{eq:definition:odd}, we find that \(f(0) = 0\) for
-any odd function \(f(x)\). Also, the graph of any odd function is symmetric with
-respect to the point (0, 0).
+If we let \(x = 0\) in \eqref{eq:definition:odd}, we find that \(f(0) = 0\) for any odd function \(f(x)\).
+Also, the graph of any odd function is symmetric with respect to the point (0, 0).
 
 \begin{lemma}
     Let \(f(x)\) be an integrable odd function. Then,
@@ -52,3 +49,41 @@ respect to the point (0, 0).
         \int_{-\infty}^{\infty} f(x) dx = 0.
     \end{equation}
 \end{lemma}
+
+\section{Useful sums with interesting proofs}
+
+The following sums occur frequently when estimating operation counts of numerical algorithms:
+\begin{align}
+    \sum_{k=1}^{n} k &= \frac{n (n + 1)}{2}; \label{eq:sum-pow1}\\
+    \sum_{k=1}^{n} k^2 &= \frac{n (n + 1) (2 n + 1)}{6}; \label{eq:sum-pow2}\\
+    \sum_{k=1}^{n} k^3 &= \left( \frac{n (n + 1)}{2} \right)^2. \label{eq:sum-pow3}
+\end{align}
+
+\section{Sequences satisfying linear recursions}
+
+\begin{definition}
+    A sequence \((x_n)_{n \geq 0}\) satisfies a linear recursion of order \(k\) iff there exist constants \(a_i\), \(i = 0 : k\) with \(a_k \neq 0\), such that
+    \begin{equation}
+        \sum_{i=0}^{k} a_i x_{n+i} = 0, \quad \forall n \geq 0.
+        \label{eq:definition:linear-recursion}
+    \end{equation}
+\end{definition}
+
+The recursion \eqref{eq:definition:linear-recursion} is called a linear recursion because of the following linearity properties:\\
+(i) If the sequence \((x_n)_{n \geq 0}\) satisfies the linear recursion \eqref{eq:definition:linear-recursion}, then the sequence \((z_n)_{n \geq 0}\) given by
+\begin{equation}
+    z_n = C x_n, \quad \forall n \geq 0,
+\end{equation}
+where \(C\) is an arbitrary constant, also satisfies the linear recursion \eqref{eq:definition:linear-recursion}.\\
+(ii) If the sequences \((x_n)_{n \geq 0}\) and \((y_n)_{n \geq 0}\) satisfies the linear recursion \eqref{eq:definition:linear-recursion}, then the sequence \((z_n)_{n \geq 0}\) given by
+\begin{equation}
+    z_n = x_n + y_n, \quad \forall n \geq 0,
+\end{equation}
+also satisfies the linear recursion \eqref{eq:definition:linear-recursion}.
+
+\begin{definition}
+    The characteristic polynomial \(P(z)\) corresponding to the linear recursion \(\sum_{i=0}^{k} a_i x_{n+i} = 0\), for all \(n \geq 0\), is defined as
+    \begin{equation}
+        P(z) = \sum_{i=0}^{k} a_i z^i.
+    \end{equation}
+\end{definition}
