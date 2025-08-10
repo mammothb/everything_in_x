@@ -1,17 +1,17 @@
 \chapter{Mathematical preliminaries}
 
 \section{Even and odd functions}
-
 \begin{definition}
-    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an even function iff
+    The function $ f : \mathbb{R} \rightarrow \mathbb{R} $ is an even function iff
     \begin{equation}
         f(-x) = f(x), \quad \forall x \in \mathbb{R}.
+        \label{eq:definition:even}
     \end{equation}
 \end{definition}
-The graph of any even function is symmetric with respect to the \(y\)-axis.
+The graph of any even function is symmetric with respect to the $ y $-axis.
 
 \begin{lemma}
-    Let \(f(x)\) be an integrable even function. Then,
+    Let $ f(x) $ be an integrable even function. Then,
     \begin{equation}
         \int_{-a}^{0} f(x) dx = \int_{0}^{a} f(x) dx, \quad \forall a \in \mathbb{R},
     \end{equation}
@@ -19,7 +19,7 @@ The graph of any even function is symmetric with respect to the \(y\)-axis.
     \begin{equation}
         \int_{-a}^{a} f(x) dx = 2 \int_{0}^{a} f(x) dx, \quad \forall a \in \mathbb{R}.
     \end{equation}
-    Moreover, if \(\int_{0}^{\infty} f(x) dx\) exists, then
+    Moreover, if $ \int_{0}^{\infty} f(x) dx $ exists, then
     \begin{equation}
         \int_{-\infty}^{0} f(x) dx = \int_{0}^{\infty} f(x) dx,
     \end{equation}
@@ -30,28 +30,27 @@ The graph of any even function is symmetric with respect to the \(y\)-axis.
 \end{lemma}
 
 \begin{definition}
-    The function \(f : \mathbb{R} \rightarrow \mathbb{R}\) is an odd function iff
+    The function $ f : \mathbb{R} \rightarrow \mathbb{R} $ is an odd function iff
     \begin{equation}
         f(-x) = -f(x), \quad \forall x \in \mathbb{R}.
         \label{eq:definition:odd}
     \end{equation}
 \end{definition}
-If we let \(x = 0\) in \eqref{eq:definition:odd}, we find that \(f(0) = 0\) for any odd function \(f(x)\).
+If we let $ x = 0 $ in \eqref{eq:definition:odd}, we find that $ f(0) = 0 $ for any odd function $ f(x) $.
 Also, the graph of any odd function is symmetric with respect to the point (0, 0).
 
 \begin{lemma}
-    Let \(f(x)\) be an integrable odd function. Then,
+    Let $ f(x) $ be an integrable odd function. Then,
     \begin{equation}
         \int_{-a}^{a} f(x) dx = 0, \quad \forall a \in \mathbb{R}.
     \end{equation}
-    Moreover, if \(\int_{0}^{\infty} f(x) dx\) exists, then
+    Moreover, if $ \int_{0}^{\infty} f(x) dx $ exists, then
     \begin{equation}
         \int_{-\infty}^{\infty} f(x) dx = 0.
     \end{equation}
 \end{lemma}
 
 \section{Useful sums with interesting proofs}
-
 The following sums occur frequently when estimating operation counts of numerical algorithms:
 \begin{align}
     \sum_{k=1}^{n} k &= \frac{n (n + 1)}{2}; \label{eq:sum-pow1}\\
@@ -60,9 +59,8 @@ The following sums occur frequently when estimating operation counts of numerica
 \end{align}
 
 \section{Sequences satisfying linear recursions}
-
 \begin{definition}
-    A sequence \((x_n)_{n \geq 0}\) satisfies a linear recursion of order \(k\) iff there exist constants \(a_i\), \(i = 0 : k\) with \(a_k \neq 0\), such that
+    A sequence $ (x_n)_{n \geq 0} $ satisfies a linear recursion of order $ k $ iff there exist constants $ a_i $, $ i = 0 : k $ with $ a_k \neq 0 $, such that
     \begin{equation}
         \sum_{i=0}^{k} a_i x_{n+i} = 0, \quad \forall n \geq 0.
         \label{eq:definition:linear-recursion}
@@ -70,20 +68,327 @@ The following sums occur frequently when estimating operation counts of numerica
 \end{definition}
 
 The recursion \eqref{eq:definition:linear-recursion} is called a linear recursion because of the following linearity properties:\\
-(i) If the sequence \((x_n)_{n \geq 0}\) satisfies the linear recursion \eqref{eq:definition:linear-recursion}, then the sequence \((z_n)_{n \geq 0}\) given by
+(i) If the sequence $ (x_n)_{n \geq 0} $ satisfies the linear recursion \eqref{eq:definition:linear-recursion}, then the sequence $ (z_n)_{n \geq 0} $ given by
 \begin{equation}
     z_n = C x_n, \quad \forall n \geq 0,
 \end{equation}
-where \(C\) is an arbitrary constant, also satisfies the linear recursion \eqref{eq:definition:linear-recursion}.\\
-(ii) If the sequences \((x_n)_{n \geq 0}\) and \((y_n)_{n \geq 0}\) satisfies the linear recursion \eqref{eq:definition:linear-recursion}, then the sequence \((z_n)_{n \geq 0}\) given by
+where $ C $ is an arbitrary constant, also satisfies the linear recursion \eqref{eq:definition:linear-recursion}.\\
+(ii) If the sequences $ (x_n)_{n \geq 0} $ and $ (y_n)_{n \geq 0} $ satisfies the linear recursion \eqref{eq:definition:linear-recursion}, then the sequence $ (z_n)_{n \geq 0} $ given by
 \begin{equation}
     z_n = x_n + y_n, \quad \forall n \geq 0,
 \end{equation}
 also satisfies the linear recursion \eqref{eq:definition:linear-recursion}.
 
 \begin{definition}
-    The characteristic polynomial \(P(z)\) corresponding to the linear recursion \(\sum_{i=0}^{k} a_i x_{n+i} = 0\), for all \(n \geq 0\), is defined as
+    The characteristic polynomial $ P(z) $ corresponding to the linear recursion $ \sum_{i=0}^{k} a_i x_{n+i} = 0 $, for all $ n \geq 0 $, is defined as
     \begin{equation}
         P(z) = \sum_{i=0}^{k} a_i z^i.
     \end{equation}
 \end{definition}
+
+$ P(z) $ is a polynomial of degree $ k $, i.e., $ \deg(P(z)) = k $.
+If $ P(z) $ has $ p $ different roots, $ \lambda_j $, $ j = 1 : p $, with $ p \leq k $, and if $ m(\lambda_j) $ denotes the multiplicity of the root $ \lambda_j $, then $ \sum_{j=1}^{p} m(\lambda_j) = k $ where $ \lambda_j $ can be a complex number.
+
+\begin{theorem}
+    Let $ (x_n)_{x \geq 0} $ be a sequence satisfying the linear recursion
+    \begin{equation}
+        \sum_{i=0}^{k} a_i x_{n+i} = 0, \quad \forall n \geq 0,
+        \label{eq:theorem:linear-recursion}
+    \end{equation}
+    with $ a_k \neq 0 $, and let $ P(z) = \sum_{i=0}^{k-1} a_i z^i $ be the characteristic polynomial associated with recursion \eqref{eq:theorem:linear-recursion}.
+    Let $ \lambda_j $, $ j = 1 : p $, where $ p \leq k $, be the roots of $ P(z) $, and let $ m(\lambda_j) $ be the multiplicity of $ \lambda_j $.
+    The general form of the sequence $ (x_n)_{n \geq 0} $ satisfying the linear
+    recursion \eqref{eq:theorem:linear-recursion} is
+    \begin{equation}
+        x_n = \sum_{j=1}^{p} \left( \sum_{i=0}^{m(\lambda_j)-1} C_{i,j} n^i \right) \lambda_j^n, \quad \forall n \geq 0,
+        \label{eq:theorem:linear-recursion-sequence}
+    \end{equation}
+    where $ C_{i,j} $ are constant numbers.
+\end{theorem}
+
+\section{The ``Big O" and ``little o" notations}
+\begin{definition}
+    Let $ f,g : \mathbb{R} \rightarrow \mathbb{R} $.
+    We write that $ f(x) = O(g(x) $, as $ x \rightarrow \infty $, iff there exist constants $ C > 0 $ and $ M > 0 $ such that $ \left| \frac{f(x)}{g(x)} \leq C \right| $, for any $ x \geq M $.
+    This can be written equivalently as
+    \begin{equation}
+        f(x) = O(g(x)), \quad \text{as} \quad x \rightarrow \infty, \quad \text{iff} \quad \limsup_{x \rightarrow \infty} \left| \frac{f(x)}{g(x)} \right| < \infty.
+        \label{eq:definition:big-o}
+    \end{equation}
+\end{definition}
+
+The ``little o" notation refers to functions whose ratios tend to 0 at certain fpoints, and can be defined for $ x \rightarrow \infty $, $ x \rightarrow a $, and $ x \rightarrow -\infty $ as follows:
+\begin{definition}
+    Let $ f,g : \mathbb{R} \rightarrow \mathbb{R} $.
+    Then
+    \begin{align}
+        f(x) &= o(g(x)), \quad \text{as} \quad x \rightarrow \infty, \quad \text{iff} \quad \lim_{x \rightarrow \infty} \left| \frac{f(x)}{g(x)} \right| = 0; \\
+        f(x) &= o(g(x)), \quad \text{as} \quad x \rightarrow -\infty, \quad \text{iff} \quad \lim_{x \rightarrow -\infty} \left| \frac{f(x)}{g(x)} \right| = 0; \\
+        f(x) &= o(g(x)), \quad \text{as} \quad x \rightarrow a, \quad \text{iff} \quad \lim_{x \rightarrow a} \left| \frac{f(x)}{g(x)} \right| = 0.
+    \end{align}
+\end{definition}
+
+
+\section{Exercises}
+\subsection{Question 1}
+Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ be an odd function.
+
+\subsubsection{Part (i)}
+Show that $ x f(x) $ is an even function and $ x^2 f(x) $ is an odd function.
+
+\paragraph{Answer}
+Let $ g(x) = x f(x) $, using definition \eqref{eq:definition:odd}, we have
+\begin{align*}
+    g(-x) &= -x f(-x) \\
+          &= -x (-f(x)) \\
+          &= x f(x) \\
+          &= g(x).
+\end{align*}
+Therefore, $ x f(x) $ is an even function.
+
+Let $ g(x) = x^2 f(x) $, using definition \eqref{eq:definition:odd}, we have
+\begin{align*}
+    g(-x) &= (-x)^2 f(-x) \\
+          &= x^2 (-f(x)) \\
+          &= -x^2 f(x) \\
+          &= -g(x)
+\end{align*}
+Therefore, $ x^2 f(x) $ is an odd function.
+
+\subsubsection{Part (ii)}
+Show that the function $ g_1 : \mathbb{R} \rightarrow \mathbb{R} $ given by $ g_1(x) = f(x^2) $ is an even function and that the function $ g_2 : \mathbb{R} \rightarrow \mathbb{R} $ given by $ g_2(x) = f(x^3) $ is an odd function.
+
+\paragraph{Answer}
+\begin{align*}
+    g_1(-x) &= f((-x)^2) \\
+            &= f(x^2) \\
+            &= g_1(x)
+\end{align*}
+Therefore $ g_1 $ is an even function.
+
+Let $ y = x^3 $:
+\begin{align*}
+    g_2(-x) &= f((-x)^3) \\
+            &= f(-x^3) \\
+            &= f(-y) \\
+            &= -f(y) \\
+            &= -f(x^3) \\
+            &= -g_2(x)
+\end{align*}
+Therefore $ g_2 $ is an odd function.
+
+\subsubsection{Part (iii)}
+Let $ i $ be even, $ j $ be odd, and $ y = x^j $:
+\begin{align*}
+    h(-x) &= (-x)^i f((-x)^j) \\
+          &= x^i f(-x^j) \\
+          &= x^i f(-y) \\
+          &= -x^i f(y) \\
+          &= -x^i f(x^j) \\
+          &= -h(x)
+\end{align*}
+
+Let $ i $ be odd, $ j $ be even:
+\begin{align*}
+    h(-x) &= (-x)^i f((-x)^j) \\
+          &= -x^i f(x^j) \\
+          &= -h(x)
+\end{align*}
+
+When $ i + j $ is odd, $ h(x) $ is an odd function.
+
+\subsection{Question 2}
+Let $ S(n,2) = \sum_{k=1}^{n} k^2 $ and $ S(n,3) = \sum_{k=1}^{n} k^3 $.
+
+\subsubsection{Part (i)}
+Let $ T(n,2,x) = \sum_{k=1}^{n} k^2 x^k $. Use formulas,
+\begin{equation*}
+    T(n, 2, x) = x \frac{d}{dx} (T(n, 1, x)),
+\end{equation*}
+and
+\begin{equation*}
+    T(n, 1, x) = \frac{x - (n + 1) x^{n + 1} + n x^{n + 2}}{(1 - x)^2},
+\end{equation*}
+to show that
+\begin{equation*}
+    T(n, 2, x) = \frac{x + x^2 - (n + 1)^2 x^{n + 1} + (2 n^2 + 2 n - 1) x^{n + 2} - n^2 x^{n + 3}}{(1 - x)^3}.
+\end{equation*}
+
+\paragraph{Answer}
+Using quotient rule,
+\begin{align*}
+    T(n, 2, x) &= x \frac{d}{dx} (T(n, 1, x)) \\
+               &= x \frac{d}{dx} \left( \frac{x - (n + 1) x^{n + 1} + n x^{n + 2}}{(1 - x)^2} \right) \\
+               &= x \left( \frac{\frac{d}{dx} (x - (n + 1) x^{n + 1} + n x^{n + 2}) (1 - x)^2 - (x - (n + 1) x^{n + 1} + n x^{n + 2}) \frac{d}{dx} (1 - x)^2}{(1 - x)^4} \right) \\
+               &= x \left( \frac{(1 - (n + 1)^2 x^n + (n^2 + 2 n) x^{n + 1})(1 - x)^2 - (x - (n + 1) x^{n + 1} + n x^{n + 2}) (-2(1 - x))}{(1 - x)^4} \right) \\
+               &= x \left( \frac{(1 - (n + 1)^2 x^n + (n^2 + 2 n) x^{n + 1})(1 - x)^2 + 2 (x - (n + 1) x^{n + 1} + n x^{n + 2}) (1 - x)}{(1 - x)^4} \right) \\
+               &= x \left( \frac{(1 - (n + 1)^2 x^n + (n^2 + 2 n) x^{n + 1})(1 - x) + 2 (x - (n + 1) x^{n + 1} + n x^{n + 2})}{(1 - x)^3} \right) \\
+               &= x \left( \frac{(1 - (n + 1)^2 x^n + (n^2 + 2 n) x^{n + 1}) - (x - (n + 1)^2 x^{n + 1} + (n^2 + 2 n) x^{n + 2}) + \cdots}{(1 - x)^3} \right) \\
+               &= x \left( \frac{1 - x - (n + 1)^2 x^n + (2n^2 + 4 n + 1) x^{n + 1} - (n^2 + 2 n) x^{n + 2} + \cdots}{(1 - x)^3} \right) \\
+               &= x \left( \frac{1 + x - (n + 1)^2 x^n + (2n^2 + 2 n - 1) x^{n + 1} - n^2 x^{n + 2}}{(1 - x)^3} \right) \\
+               &= \frac{x + x^2 - (n + 1)^2 x^{n + 1} + (2n^2 + 2 n - 1) x^{n + 2} - n^2 x^{n + 3}}{(1 - x)^3}
+\end{align*}
+
+\subsubsection{Part (ii)}
+Note that $ S(n,2) = T(n,2,1) $.
+Use l'H\^{o}pitals's rule to evaluate $ T(n,2,1) $, and conclude that $ S(n,2) = \frac{n(n+1)(2n+1)}{6} $.
+
+\paragraph{Answer}
+\begin{align*}
+    \lim_{x \rightarrow 1} T(n, 2, x) &= \lim_{x \rightarrow 1} \frac{x + x^2 - (n + 1)^2 x^{n + 1} + (2n^2 + 2 n - 1) x^{n + 2} - n^2 x^{n + 3}}{(1 - x)^3} \\
+                                      &= \lim_{x \rightarrow 1} \frac{(n - 1) n (n + 1)^3 x^{n - 2} - n(n + 1)(n + 2)(2 n^2 + 2 n - 1) x^{n - 1} + (n + 1)(n + 2)(n + 3) n^2 x^n}{6} \\
+                                      &= \frac{(n - 1) n (n + 1)^3 - n(n + 1)(n + 2)(2 n^2 + 2 n - 1) + (n + 1)(n + 2)(n + 3) n^2}{6} \\
+                                      &= \frac{n (n + 1) (2 n + 1)}{6} \\
+    S(n, 2) &= \frac{n (n + 1) (2 n + 1)}{6} \\
+\end{align*}
+
+\subsubsection{Part (iii)}
+Compute $ T(n,3,x) = \sum_{k=1}^{n} k^3 x^k $ using the formula
+\begin{equation*}
+    T(n, 3, x) = x \frac{d}{dx} (T(n, 2, x)).
+\end{equation*}
+
+\paragraph{Answer}
+\begin{align*}
+    T(n, 3, x) &= x \frac{d}{dx} (T(n, 2, x)) \\
+               &= x \frac{d}{dx} \frac{x + x^2 - (n + 1)^2 x^{n + 1} + (2 n^2 + 2 n - 1) x^{n + 2} - n^2 x^{n + 3}}{(1 - x)^3}\\
+               &= \frac{x((n^3 (x - 1)^3 - 3 n^2 (x - 1)^2 + 3 n (x^2 - 1) - x (x + 4) - 1) x^n + (x + 4) x + 1)}{(1 - x)^4}
+\end{align*}
+
+\subsubsection{Part (iv)}
+Note that $ S(n,3) = T(n,3,1) $.
+Use l'H\^{o}pital's rule to evaluate $ T(n,3,1) $, and conclude that $ S(n,3) = \left( \frac{n(n+1)}{2} \right)^2 $.
+\begin{align*}
+    \lim_{x \rightarrow 1} T(n, 3, x) &= \lim_{x \rightarrow 1} \frac{x((n^3 (x - 1)^3 - 3 n^2 (x - 1)^2 + 3 n (x^2 - 1) - x (x + 4) - 1) x^n + (x + 4) x + 1)}{(1 - x)^4} \\
+\end{align*}
+
+\subsection{Question 3}
+Compute $ S(n, 4) = \sum_{k=1}^{n} k^4 $ using the recursion formula for $ i = 4 $, the fact that $ S(n, 0) = n $, and formulas for $ S(n, 1) $, $ S(n, 2) $, and $ S(n, 3) $.
+
+\paragraph{Answer}
+\begin{align*}
+    S(n, 4) &= \frac{1}{5} \left( (n + 1)^5 - 1 - \sum_{j=0}^{3} \binom{5}{j} S(n, j) \right) \\
+            &= \frac{1}{5} \left( (n + 1)^5 - 1 - S(n, 0) - 5 S(n, 1) - 10 S(n, 2) - 10 S(n, 3) \right) \\
+            &= \frac{1}{5} \left( (n + 1)^5 - 1 - n - 5 \frac{n (n + 1)}{2} - 10 \frac{n (n + 1)(2 n + 1)}{6} - 10 \left( \frac{n (n + 1)}{2} \right)^2 \right) \\
+            &= \frac{n (n + 1)(2 n + 1)(3 n^2 + 3 n - 1)}{30}
+\end{align*}
+
+\subsection{Question 4}
+It is easy to see that the sequence $ (x_n)_{n \geq 1} $ given by $ x_n = \sum_{k=1}^{n} k^2 $ satisfies the recursion
+\begin{equation}
+    x_{n + 1} = x_n + (n + 1)^2, \quad \forall n \geq 1,
+    \label{eq:exercise:ch0-q4}
+\end{equation}
+with $ x_1 = 1 $.
+
+\subsubsection{Part (i)}
+By substituting $ n + 1 $ for $ n $ in \eqref{eq:exercise:ch0-q4}, obtain that
+\begin{equation}
+    x_{n + 2} = x_{n + 1} + (n + 2)^2.
+    \label{eq:exercise:ch0-q4i-1}
+\end{equation}
+Substract \eqref{eq:exercise:ch0-q4} from \eqref{eq:exercise:ch0-q4i-1} to find that
+\begin{equation}
+    x_{n + 2} = 2 x_{n + 1} - x_n + 2 n + 3, \quad \forall n \geq 1,
+    \label{eq:exercise:ch0-q4i-2}
+\end{equation}
+with $ x_1 = 1 $ and $ x_2 = 5 $.
+
+\paragraph{Answer}
+\begin{align*}
+    x_{(n + 1) + 1} &= x_{n + 1} ((n + 1) + 1)^2 \\
+    x_{n + 2} &= x_{n + 1} (n + 2)^2
+\end{align*}
+Substract \eqref{eq:exercise:ch0-q4} from \eqref{eq:exercise:ch0-q4i-1}:
+\begin{align*}
+    x_{n + 2} - x_{n + 1} &= x_{n + 1} + (n + 2)^2 - x_n - (n + 1)^2 \\
+    x_{n + 2} &= 2 x_{n + 1} - x_n + n^2 + 4 n + 4 - n^2 - 2 n - 1 \\
+              &= 2 x_{n + 1} - x_n + 2 n + 3
+\end{align*}
+
+\subsubsection{Part (ii)}
+Similarly, substitute $ n + 1 $ for $ n $ in \eqref{eq:exercise:ch0-q4i-2} and obtain that
+\begin{equation}
+    x_{n + 3} = 2 x_{n + 2} - x_{n + 1} + 2(n + 1) + 3.
+    \label{eq:exercise:ch0-q4ii-1}
+\end{equation}
+Substract \eqref{eq:exercise:ch0-q4i-2} from \eqref{eq:exercise:ch0-q4ii-1} to find that
+\begin{equation}
+    x_{n + 3} = 3 x_{n + 2} - 3 x_{n + 1} + x_n + 2, \quad \forall n \geq 1,
+    \label{eq:exercise:ch0-q4ii-2}
+\end{equation}
+with $ x_1 = 1 $, $ x_2 = 5 $, and $ x_3 = 14 $.
+
+\paragraph{Answer}
+\begin{align*}
+    x_{(n + 1) + 2} &= 2 x_{(n + 1) + 1} - x_{n + 1} + 2(n + 1) + 3 \\
+    x_{n + 3} &= 2 x_{n + 2} - x_{n + 1} + 2(n + 1) + 3
+\end{align*}
+Substract \eqref{eq:exercise:ch0-q4i-2} from \eqref{eq:exercise:ch0-q4ii-1}
+\begin{align*}
+    x_{n + 3} - x_{n + 2} &= 2 x_{n + 2} - x_{n + 1} + 2(n + 1) + 3 - 2 x_{n + 1} + x_n - 2 n - 3 \\
+    x_{n + 3} &= 3 x_{n + 2} -3 x_{n + 1} + x_n + 2
+\end{align*}
+
+\subsubsection{Part (iii)}
+Use a similar method to prove that the sequence $ (x_n)_{n \geq 0} $ satisfies the linear recursion
+\begin{equation}
+    x_{n + 4} - 4 x_{n + 3} + 6 x_{n + 2} - 4 x_{n + 1} + x_n = 0, \quad \forall n \geq 1.
+    \label{eq:exercise:ch0-q4iii}
+\end{equation}
+The characteristic polynomial associated to the recursion \eqref{eq:exercise:ch0-q4iii} is
+\begin{equation*}
+    P(z) = z^4 - 4 z^3 + 6 z^2 - 4 z + 1 = (z - 1)^4.
+\end{equation*}
+Use the fact that $ x_1 = 1 $, $ x_2 = 5 $, $ x_3 = 14 $, and $ x_4 = 30 $ to show that
+\begin{equation*}
+    x_n = \frac{n (n + 1) (2 n + 1)}{6}, \quad \forall n \geq 1,
+\end{equation*}
+and conclude that
+\begin{equation*}
+    S(n, 2) = \sum_{k=1}^{n} k^2 = \frac{n (n + 1) (2 n + 1)}{6}, \quad \forall n \geq 1.
+\end{equation*}
+
+\paragraph{Answer}
+Substitute $ n + 1 $ for $ n $ in \eqref{eq:exercise:ch0-q4ii-2} to obtain
+\begin{equation}
+    x_{n + 4} = 3 x_{n + 3} - 3 x_{n + 2} + x_{n + 1} + 2.
+    \label{eq:exercise:ch0-q4iii-ans-1}
+\end{equation}
+Substract \eqref{eq:exercise:ch0-q4ii-2} from \eqref{eq:exercise:ch0-q4iii-ans-1} to obtain that
+\begin{align*}
+    x_{n + 4} - x_{n + 3} &= 3 x_{n + 3} - 3 x_{n + 2} + x_{n + 1} + 2 - (3 x_{n + 2} - 3 x_{n + 1} + x_n + 2) \\
+    x_{n + 4} - 4 x_{n + 3} + 6 x_{n + 2} - 4 x_{n + 1} - x_n &= 0
+\end{align*}
+
+The characteristic polynomial has root $ \lambda = 1 $ with multiplicity 4.
+There exist constants $ C_i $, $ i = 1 : 4 $, such that
+\begin{equation*}
+    x_n = C_1 + C_2 n + C_3 n^2 + C_4 n^3.
+\end{equation*}
+Since $ x_1 = 1 $, $ x_2 = 5 $, $ x_3 = 14 $, and $ x_4 = 30 $, $ C_1 $, $ C_2 $, $ C_3 $, and $ C_4 $ must solve the linear system
+\begin{equation*}
+    \begin{pmatrix}
+        1 & 1 & 1 & 1 \\
+        1 & 2 & 4 & 8 \\
+        1 & 3 & 9 & 27 \\
+        1 & 4 & 16 & 64
+    \end{pmatrix}
+    \begin{pmatrix}
+        C_1 \\
+        C_2 \\
+        C_3 \\
+        C_4
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 \\
+        5 \\
+        14 \\
+        30
+    \end{pmatrix}.
+\end{equation*}
+We obtain that $ C_1 = 0 $, $ C_2 = \frac{1}{6} $, $ C_3 = \frac{1}{2} $, and $ C_4 = \frac{1}{3} $ and therefore
+\begin{equation*}
+    x_n = \frac{n}{6} + \frac{n^2}{2} + \frac{n^3}{3} = \frac{n (n + 1) (n + 2)}{6}
+\end{equation*}
