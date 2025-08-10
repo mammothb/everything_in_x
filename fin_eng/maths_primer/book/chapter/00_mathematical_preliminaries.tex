@@ -362,10 +362,12 @@ Substract \eqref{eq:exercise:ch0-q4ii-2} from \eqref{eq:exercise:ch0-q4iii-ans-1
 \end{align*}
 
 The characteristic polynomial has root $ \lambda = 1 $ with multiplicity 4.
-There exist constants $ C_i $, $ i = 1 : 4 $, such that
-\begin{equation*}
-    x_n = C_1 + C_2 n + C_3 n^2 + C_4 n^3.
-\end{equation*}
+The linear recurssion can be expressed as
+\begin{align*}
+    x_n &= \sum_{j=1}^{p} \left( \sum_{i=0}^{3} C_{i,j} n^i \right) \lambda_j^n \\
+        &= \sum_{j=1}^{p} \left( C_{0,j} + C_{1,j} n + C_{2,j} n^2 + C_{3,j} n^3 \right) \lambda_j^n \\
+        &= C_1 + C_2 n + C_3 n^2 + C_4 n^3
+\end{align*}
 Since $ x_1 = 1 $, $ x_2 = 5 $, $ x_3 = 14 $, and $ x_4 = 30 $, $ C_1 $, $ C_2 $, $ C_3 $, and $ C_4 $ must solve the linear system
 \begin{equation*}
     \begin{pmatrix}
