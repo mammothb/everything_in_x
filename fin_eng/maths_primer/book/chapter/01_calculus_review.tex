@@ -1,0 +1,98 @@
+\chapter{Calculus review. Plain vanilla options.}
+
+\section{Brief review of differentiation}
+The function $ f : \mathbb{R} \rightarrow \mathbb{R} $ is differentiable at the point $ x \in \mathbb{R} $ if the limit
+\begin{equation*}
+    \lim_{h \rightarrow 0} \frac{f(x + h) - f(x)}{h}
+\end{equation*}
+exists, in which case the derivative $ f'(x) $ is defined as
+\begin{equation}
+    f'(x) = \lim_{h \rightarrow 0} \frac{f(x + h) - f(x)}{h}.
+    \label{eq:definition:derivative}
+\end{equation}
+\begin{theorem}[Product Rule.]
+    The product $ f(x) g(x) $ of two differentiable functions $ f(x) $ and $ g(x) $ is differentiable, and
+    \begin{equation}
+        (f(x) g(x))' = f'(x) g(x) + f(x) g'(x).
+        \label{eq:theorem:product-rule}
+    \end{equation}
+\end{theorem}
+\begin{theorem}[Quotient Rule.]
+    The quotient $ \frac{f(x)}{g(x)} $ of two differentiable functions $ f(x) $ and $ g(x) $ is differentiable at every point $ x $ where the function $ \frac{f(x)}{g(x)} $ is well defined, and
+    \begin{equation}
+        \left( \frac{f(x)}{g(x)} \right)' = \frac{f'(x) g(x) - f(x) g'(x)}{(g(x))^2}.
+        \label{eq:definition:quotient-rule}
+    \end{equation}
+\end{theorem}
+\begin{theorem}[Chain Rule.]
+    The composite function $ (g \circ f)(x) = g(f(x)) $ of two differentiable functions $ f(x) $ and $ g(x) $ is differentiable at every point $ x $ where $ g(f(x)) $ is well defined, and
+    \begin{equation}
+        (g(f(x)))' = g'(f(x)) f'(x).
+        \label{eq:definition:chain-rule}
+    \end{equation}
+\end{theorem}
+The Chain Rule formula \eqref{eq:definition:chain-rule} can also be written as
+\begin{equation*}
+    \frac{dg}{dx} = \frac{dg}{du} \frac{du}{dx},
+\end{equation*}
+where $ u = f(x) $ is a function of $ x $ and $ g = g(u) = g(f(x)) $.
+
+Chain Rule is often used for power functions, exponential functions, and logarithmic function:
+\begin{align}
+    \frac{d}{dx} ((f(x))^n) &= n (f(x))^{n - 1} f'(x); \label{eq:formula:chain-rule:power} \\
+    \frac{d}{dx} (e^{f(x)}) &= e^{f(x)} f'(x); \label{eq:formula:chain-rule:exp} \\
+    \frac{d}{dx} (\ln f(x)) &= \frac{f'(x)}{f(x)}. \label{eq:formula:chain-rule:log}
+\end{align}
+
+\begin{lemma}
+    Let $ f : [a, b] \rightarrow [c, d] $ be a differentiable function, and assume that $ f(x) $ has an inverse function denoted by $ f^{-1}(x) $ with $ f^{-1} : [c, d] \rightarrow [a, b] $.
+    The function $ f^{-1}(x) $ is differentiable at every point $ x \in [c, d] $ where $ f'(f^{-1}(x)) \neq 0 $ and
+    \begin{equation}
+        (f^{-1}(x))' = \frac{1}{f'(f^{-1}(x))}.
+        \label{eq:lemma:inverse}
+    \end{equation}
+\end{lemma}
+
+\section{Brief review of integration}
+Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ be an integrable function.
+Recall that $ F(x) $ is the antiderivative of $ f(x) $ iff $ F'(x) = f $, i.e.,
+\begin{equation*}
+    F(x) = \int f(x) dx \quad \Longleftrightarrow \quad F'(x) = f(x).
+\end{equation*}
+\begin{theorem}[Fundamental Theorem of Calculus.]
+    Let $ f(x) $ be a continuous function on the interval $ [a, b] $, and let $ F(x) $ be the antiderivative of $ f(x) $.
+    Then
+    \begin{equation*}
+        \int_{a}^{b} f(x) dx = F(x) |_a^b = F(b) - F(a).
+    \end{equation*}
+\end{theorem}
+Integration by parts is the counterpart for integration of the product rule.
+\begin{theorem}[Integration by parts.]
+    Let $ f(x) $ and $ g(x) $ be continuous function.
+    Then
+    \begin{equation}
+        \int f(x) g(x) dx = F(x) g(x) - \int F(x) g'(x) dx,
+        \label{eq:theorem:int-by-parts}
+    \end{equation}
+    where $ F(x) = \int f(x) dx $ is the antiderivative of $ f(x) $.
+    For definite integrals,
+    \begin{equation}
+        \int_{a}^{b} f(x) g(x) dx = F(b) g(b) - F(a) g(a) - \int_{a}^{b} F(x) g'(x) dx.
+        \label{eq:theorem:int-by-parts-definite}
+    \end{equation}
+\end{theorem}
+Integration by substitution if the counterpart for integration of the chain rule.
+\begin{theorem}[Integration by substitution]
+    Let $ f(x) $ be an integrable function.
+    Assume that $ g(u) $ is an invertible and continuously differentiable function.
+    The substitution $ x = g(u) $ changes the integration variable from $ x $ to $ u $ as follows:
+    \begin{equation}
+        \int f(x) dx = \int f(g(u)) g'(u) du.
+        \label{eq:theorem:int-by-sub}
+    \end{equation}
+    For definite integrals,
+    \begin{equation}
+        \int_{a}^{b} f(x) dx = \int_{g^{-1}(a)}^{g^{-1}(b)} f(g(u)) g'(u) du.
+        \label{eq:theorem:int-by-sub-definite}
+    \end{equation}
+\end{theorem}
