@@ -96,3 +96,76 @@ Integration by substitution if the counterpart for integration of the chain rule
         \label{eq:theorem:int-by-sub-definite}
     \end{equation}
 \end{theorem}
+
+\section{Differentiating definite integrals}
+If a definite integral has functions as limits of integration, e.g.,
+\begin{equation*}
+    \int_{a(t)}^{b(t)} f(x) dx,
+\end{equation*}
+or if the function to be integrated is a function of the integrating variable and of another variable, e.g.,
+\begin{equation*}
+    \int_{a}^{b} f(x, t) dx
+\end{equation*}
+then the result of the integration is a function (of the variable $ t $ in both cases above).
+
+\begin{lemma}\label{lemma:int-function-limit}
+    Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ be a continuous function.
+    Then,
+    \begin{equation}
+        \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x) dx \right) = f(b(t)) b'(t) - f(a(t)) a'(t),
+        \label{eq:lemma:int-function-limit}
+    \end{equation}
+    where $ a(t) $ and $ b(t) $ are differentiable functions.
+\end{lemma}
+
+\begin{lemma}\label{lemma:int-function-another-var}
+    Let $ f : \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R} $ be a continuous function such that the partial derivative $ \frac{\partial f}{\partial t} (x, t) $ exists and is continuous in both variables $ x $ and $ t $.
+    \begin{equation}
+        \frac{d}{dt} \left( \int_{a}^{b} f(x, t) dx \right) = \int_{a}^{b} \frac{\partial f}{\partial t} (x, t) dx.
+        \label{eq:lemma:int-function-another-var}
+    \end{equation}
+\end{lemma}
+
+\begin{lemma}\label{lemma:int-function-general}
+    Let $ f(x, t) $ be a continuous function such that the partial derivative $ \frac{\partial f}{\partial t} (x, t) $ exists and is continuous.
+    Then,
+    \begin{equation*}
+        \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x, t) dx \right) = \int_{a(t)}^{b(t)} \frac{\partial f}{\partial t} (x, t) + f(b(t), t) b'(t) - f(a(t), t) a'(t).
+    \end{equation*}
+\end{lemma}
+Note that Lemma \ref{lemma:int-function-limit} and Lemma \ref{lemma:int-function-another-var} are special cases of Lemma \ref{lemma:int-function-general}.
+
+\section{Limits}
+\begin{definition}
+    Let $ g : \mathbb{R} \rightarrow \mathbb{R} $.
+    The limit of $ g(x) $ as $ x \rightarrow x_0 $ exists and is finite and equal to $ l $ iff for any $ \epsilon > 0 $ there exists $ \delta > 0 $ such that $ |g(x) - l| < \epsilon $ for all $ x \in (x_0 - \delta, x_0 + \delta) $, i.e.,
+    \begin{equation*}
+        \lim_{x \rightarrow x_0} g(x) = l, \quad \text{iff} \quad \forall \epsilon > 0 \exists \delta > 0 \quad \text{such that} \quad |g(x) - l| < \epsilon,\ \forall |x - x_0| < \delta.
+    \end{equation*}
+    Similarly,
+    \begin{equation*}
+        \lim_{x \rightarrow x_0} g(x) = \infty, \quad \text{iff} \quad \forall C > 0 \exists \delta > 0 \quad \text{such that} \quad g(x) > C,\ \forall |x - x_0| < \delta.
+    \end{equation*}
+    \begin{equation*}
+        \lim_{x \rightarrow x_0} g(x) = -\infty, \quad \text{iff} \quad \forall C < 0 \exists \delta > 0 \quad \text{such that} \quad g(x) < C,\ \forall |x - x_0| < \delta.
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    If $ P(x) $ and $ Q(x) $ are polynomials and $ c > 1 $ is a fixed constant, then
+    \begin{align}
+        \lim_{x \rightarrow \infty} \frac{P(x)}{c^x} &= 0, \quad \forall c > 1; \\
+        \lim_{x \rightarrow \infty} \frac{\ln |Q(x)|}{P(x)} &= 0.
+    \end{align}
+\end{theorem}
+
+\begin{lemma}
+    Let $ c > 0 $ be a positive constant.
+    Then,
+    \begin{align}
+        \lim_{x \rightarrow \infty} x^{\frac{1}{x}} &= 1; \\
+        \lim_{x \rightarrow \infty} c^{\frac{1}{x}} &= 1; \\
+        \lim_{x \searrow 0} x^x &= 1, \\
+    \end{align}
+    where the notation $ x \searrow 0 $ means that $ x $ goes to 0 while always being positive, i.e., $ x \rightarrow 0 $ with $ x > 0 $.
+\end{lemma}
