@@ -1,7 +1,8 @@
 \chapter{Calculus review. Plain vanilla options.}
 
 \section{Brief review of differentiation}
-The function $ f : \mathbb{R} \rightarrow \mathbb{R} $ is differentiable at the point $ x \in \mathbb{R} $ if the limit
+The function $ f : \mathbb{R} \rightarrow \mathbb{R} $ is differentiable at the
+    point $ x \in \mathbb{R} $ if the limit
 \begin{equation*}
     \lim_{h \rightarrow 0} \frac{f(x + h) - f(x)}{h}
 \end{equation*}
@@ -11,21 +12,27 @@ exists, in which case the derivative $ f'(x) $ is defined as
     \label{eq:definition:derivative}
 \end{equation}
 \begin{theorem}[Product Rule.]
-    The product $ f(x) g(x) $ of two differentiable functions $ f(x) $ and $ g(x) $ is differentiable, and
+    The product $ f(x) g(x) $ of two differentiable functions $ f(x) $ and
+        $ g(x) $ is differentiable, and
     \begin{equation}
         (f(x) g(x))' = f'(x) g(x) + f(x) g'(x).
         \label{eq:theorem:product-rule}
     \end{equation}
 \end{theorem}
 \begin{theorem}[Quotient Rule.]
-    The quotient $ \frac{f(x)}{g(x)} $ of two differentiable functions $ f(x) $ and $ g(x) $ is differentiable at every point $ x $ where the function $ \frac{f(x)}{g(x)} $ is well defined, and
+    The quotient $ \frac{f(x)}{g(x)} $ of two differentiable functions $ f(x) $
+        and $ g(x) $ is differentiable at every point $ x $ where the function
+        $ \frac{f(x)}{g(x)} $ is well defined, and
     \begin{equation}
-        \left( \frac{f(x)}{g(x)} \right)' = \frac{f'(x) g(x) - f(x) g'(x)}{(g(x))^2}.
+        \left( \frac{f(x)}{g(x)} \right)' =
+            \frac{f'(x) g(x) - f(x) g'(x)}{(g(x))^2}.
         \label{eq:definition:quotient-rule}
     \end{equation}
 \end{theorem}
 \begin{theorem}[Chain Rule.]
-    The composite function $ (g \circ f)(x) = g(f(x)) $ of two differentiable functions $ f(x) $ and $ g(x) $ is differentiable at every point $ x $ where $ g(f(x)) $ is well defined, and
+    The composite function $ (g \circ f)(x) = g(f(x)) $ of two differentiable
+        functions $ f(x) $ and $ g(x) $ is differentiable at every point $ x $
+        where $ g(f(x)) $ is well defined, and
     \begin{equation}
         (g(f(x)))' = g'(f(x)) f'(x).
         \label{eq:definition:chain-rule}
@@ -37,16 +44,23 @@ The Chain Rule formula \eqref{eq:definition:chain-rule} can also be written as
 \end{equation*}
 where $ u = f(x) $ is a function of $ x $ and $ g = g(u) = g(f(x)) $.
 
-Chain Rule is often used for power functions, exponential functions, and logarithmic function:
+Chain Rule is often used for power functions, exponential functions, and
+    logarithmic function:
 \begin{align}
-    \frac{d}{dx} ((f(x))^n) &= n (f(x))^{n - 1} f'(x); \label{eq:formula:chain-rule:power} \\
-    \frac{d}{dx} (e^{f(x)}) &= e^{f(x)} f'(x); \label{eq:formula:chain-rule:exp} \\
-    \frac{d}{dx} (\ln f(x)) &= \frac{f'(x)}{f(x)}. \label{eq:formula:chain-rule:log}
+    \frac{d}{dx} ((f(x))^n) &= n (f(x))^{n - 1} f'(x);
+        \label{eq:formula:chain-rule:power} \\
+    \frac{d}{dx} (e^{f(x)}) &= e^{f(x)} f'(x);
+        \label{eq:formula:chain-rule:exp} \\
+    \frac{d}{dx} (\ln f(x)) &= \frac{f'(x)}{f(x)}.
+        \label{eq:formula:chain-rule:log}
 \end{align}
 
 \begin{lemma}
-    Let $ f : [a, b] \rightarrow [c, d] $ be a differentiable function, and assume that $ f(x) $ has an inverse function denoted by $ f^{-1}(x) $ with $ f^{-1} : [c, d] \rightarrow [a, b] $.
-    The function $ f^{-1}(x) $ is differentiable at every point $ x \in [c, d] $ where $ f'(f^{-1}(x)) \neq 0 $ and
+    Let $ f : [a, b] \rightarrow [c, d] $ be a differentiable function, and
+        assume that $ f(x) $ has an inverse function denoted by $ f^{-1}(x) $
+        with $ f^{-1} : [c, d] \rightarrow [a, b] $.
+    The function $ f^{-1}(x) $ is differentiable at every point $ x \in [c, d] $
+        where $ f'(f^{-1}(x)) \neq 0 $ and
     \begin{equation}
         (f^{-1}(x))' = \frac{1}{f'(f^{-1}(x))}.
         \label{eq:lemma:inverse}
@@ -60,7 +74,8 @@ Recall that $ F(x) $ is the antiderivative of $ f(x) $ iff $ F'(x) = f $, i.e.,
     F(x) = \int f(x) dx \quad \Longleftrightarrow \quad F'(x) = f(x).
 \end{equation*}
 \begin{theorem}[Fundamental Theorem of Calculus.]
-    Let $ f(x) $ be a continuous function on the interval $ [a, b] $, and let $ F(x) $ be the antiderivative of $ f(x) $.
+    Let $ f(x) $ be a continuous function on the interval $ [a, b] $, and let
+        $ F(x) $ be the antiderivative of $ f(x) $.
     Then
     \begin{equation*}
         \int_{a}^{b} f(x) dx = F(x) |_a^b = F(b) - F(a).
@@ -77,15 +92,19 @@ Integration by parts is the counterpart for integration of the product rule.
     where $ F(x) = \int f(x) dx $ is the antiderivative of $ f(x) $.
     For definite integrals,
     \begin{equation}
-        \int_{a}^{b} f(x) g(x) dx = F(b) g(b) - F(a) g(a) - \int_{a}^{b} F(x) g'(x) dx.
+        \int_{a}^{b} f(x) g(x) dx = F(b) g(b) - F(a) g(a) -
+            \int_{a}^{b} F(x) g'(x) dx.
         \label{eq:theorem:int-by-parts-definite}
     \end{equation}
 \end{theorem}
-Integration by substitution if the counterpart for integration of the chain rule.
+Integration by substitution if the counterpart for integration of the chain
+    rule.
 \begin{theorem}[Integration by substitution]
     Let $ f(x) $ be an integrable function.
-    Assume that $ g(u) $ is an invertible and continuously differentiable function.
-    The substitution $ x = g(u) $ changes the integration variable from $ x $ to $ u $ as follows:
+    Assume that $ g(u) $ is an invertible and continuously differentiable
+        function.
+    The substitution $ x = g(u) $ changes the integration variable from $ x $
+        to $ u $ as follows:
     \begin{equation}
         \int f(x) dx = \int f(g(u)) g'(u) du.
         \label{eq:theorem:int-by-sub}
@@ -102,59 +121,82 @@ If a definite integral has functions as limits of integration, e.g.,
 \begin{equation*}
     \int_{a(t)}^{b(t)} f(x) dx,
 \end{equation*}
-or if the function to be integrated is a function of the integrating variable and of another variable, e.g.,
+or if the function to be integrated is a function of the integrating variable
+    and of another variable, e.g.,
 \begin{equation*}
     \int_{a}^{b} f(x, t) dx
 \end{equation*}
-then the result of the integration is a function (of the variable $ t $ in both cases above).
+then the result of the integration is a function (of the variable $ t $ in both
+    cases above).
 
 \begin{lemma}\label{lemma:int-function-limit}
     Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ be a continuous function.
     Then,
     \begin{equation}
-        \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x) dx \right) = f(b(t)) b'(t) - f(a(t)) a'(t),
+        \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x) dx \right) = f(b(t)) b'(t) -
+            f(a(t)) a'(t),
         \label{eq:lemma:int-function-limit}
     \end{equation}
     where $ a(t) $ and $ b(t) $ are differentiable functions.
 \end{lemma}
 
 \begin{lemma}\label{lemma:int-function-another-var}
-    Let $ f : \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R} $ be a continuous function such that the partial derivative $ \frac{\partial f}{\partial t} (x, t) $ exists and is continuous in both variables $ x $ and $ t $.
+    Let $ f : \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R} $ be a
+        continuous function such that the partial derivative
+        $ \frac{\partial f}{\partial t} (x, t) $ exists and is continuous in
+        both variables $ x $ and $ t $.
     \begin{equation}
-        \frac{d}{dt} \left( \int_{a}^{b} f(x, t) dx \right) = \int_{a}^{b} \frac{\partial f}{\partial t} (x, t) dx.
+        \frac{d}{dt} \left( \int_{a}^{b} f(x, t) dx \right) = \int_{a}^{b}
+            \frac{\partial f}{\partial t} (x, t) dx.
         \label{eq:lemma:int-function-another-var}
     \end{equation}
 \end{lemma}
 
 \begin{lemma}\label{lemma:int-function-general}
-    Let $ f(x, t) $ be a continuous function such that the partial derivative $ \frac{\partial f}{\partial t} (x, t) $ exists and is continuous.
+    Let $ f(x, t) $ be a continuous function such that the partial derivative
+        $ \frac{\partial f}{\partial t} (x, t) $ exists and is continuous.
     Then,
     \begin{equation*}
-        \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x, t) dx \right) = \int_{a(t)}^{b(t)} \frac{\partial f}{\partial t} (x, t) + f(b(t), t) b'(t) - f(a(t), t) a'(t).
+        \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x, t) dx \right) =
+            \int_{a(t)}^{b(t)} \frac{\partial f}{\partial t} (x, t) +
+            f(b(t), t) b'(t) - f(a(t), t) a'(t).
     \end{equation*}
 \end{lemma}
-Note that Lemma \ref{lemma:int-function-limit} and Lemma \ref{lemma:int-function-another-var} are special cases of Lemma \ref{lemma:int-function-general}.
+Note that Lemma \ref{lemma:int-function-limit} and Lemma
+    \ref{lemma:int-function-another-var} are special cases of Lemma
+    \ref{lemma:int-function-general}.
 
 \section{Limits}
 \begin{definition}
     Let $ g : \mathbb{R} \rightarrow \mathbb{R} $.
-    The limit of $ g(x) $ as $ x \rightarrow x_0 $ exists and is finite and equal to $ l $ iff for any $ \epsilon > 0 $ there exists $ \delta > 0 $ such that $ |g(x) - l| < \epsilon $ for all $ x \in (x_0 - \delta, x_0 + \delta) $, i.e.,
+    The limit of $ g(x) $ as $ x \rightarrow x_0 $ exists and is finite and
+        equal to $ l $ iff for any $ \epsilon > 0 $ there exists $ \delta > 0 $
+        such that $ |g(x) - l| < \epsilon $ for all $ x \in (x_0 - \delta, x_0 +
+        \delta) $, i.e.,
     \begin{equation*}
-        \lim_{x \rightarrow x_0} g(x) = l, \quad \text{iff} \quad \forall \epsilon > 0 \exists \delta > 0 \quad \text{such that} \quad |g(x) - l| < \epsilon,\ \forall |x - x_0| < \delta.
+        \lim_{x \rightarrow x_0} g(x) = l, \quad \text{iff} \quad
+            \forall \epsilon > 0 \exists \delta > 0 \quad \text{such that} \quad
+            |g(x) - l| < \epsilon,\ \forall |x - x_0| < \delta.
     \end{equation*}
     Similarly,
     \begin{equation*}
-        \lim_{x \rightarrow x_0} g(x) = \infty, \quad \text{iff} \quad \forall C > 0 \exists \delta > 0 \quad \text{such that} \quad g(x) > C,\ \forall |x - x_0| < \delta.
+        \lim_{x \rightarrow x_0} g(x) = \infty, \quad \text{iff} \quad
+            \forall C > 0 \exists \delta > 0 \quad \text{such that} \quad
+            g(x) > C,\ \forall |x - x_0| < \delta.
     \end{equation*}
     \begin{equation*}
-        \lim_{x \rightarrow x_0} g(x) = -\infty, \quad \text{iff} \quad \forall C < 0 \exists \delta > 0 \quad \text{such that} \quad g(x) < C,\ \forall |x - x_0| < \delta.
+        \lim_{x \rightarrow x_0} g(x) = -\infty, \quad \text{iff} \quad
+            \forall C < 0 \exists \delta > 0 \quad \text{such that} \quad
+            g(x) < C,\ \forall |x - x_0| < \delta.
     \end{equation*}
 \end{definition}
 
 \begin{theorem}
-    If $ P(x) $ and $ Q(x) $ are polynomials and $ c > 1 $ is a fixed constant, then
+    If $ P(x) $ and $ Q(x) $ are polynomials and $ c > 1 $ is a fixed constant,
+        then
     \begin{align}
-        \lim_{x \rightarrow \infty} \frac{P(x)}{c^x} &= 0, \quad \forall c > 1; \\
+        \lim_{x \rightarrow \infty} \frac{P(x)}{c^x} &= 0, \quad
+            \forall c > 1; \\
         \lim_{x \rightarrow \infty} \frac{\ln |Q(x)|}{P(x)} &= 0.
     \end{align}
 \end{theorem}
@@ -167,5 +209,261 @@ Note that Lemma \ref{lemma:int-function-limit} and Lemma \ref{lemma:int-function
         \lim_{x \rightarrow \infty} c^{\frac{1}{x}} &= 1; \\
         \lim_{x \searrow 0} x^x &= 1, \\
     \end{align}
-    where the notation $ x \searrow 0 $ means that $ x $ goes to 0 while always being positive, i.e., $ x \rightarrow 0 $ with $ x > 0 $.
+    where the notation $ x \searrow 0 $ means that $ x $ goes to 0 while always
+        being positive, i.e., $ x \rightarrow 0 $ with $ x > 0 $.
 \end{lemma}
+
+\begin{lemma}
+    If $ k $ is a positive integer number, and if $ c > 0 $ is a positive fixed
+        constant, then
+    \begin{align}
+        \lim_{k \rightarrow \infty} k^{\frac{1}{k}} &= 1; \\
+        \lim_{k \rightarrow \infty} c^{\frac{1}{k}} &= 1; \\
+        \lim_{k \rightarrow \infty} \frac{c^k}{k!} &= 0, \\
+    \end{align}
+    where $ k! = 1 \cdot 2 \cdot ... \cdot k $.
+\end{lemma}
+
+\section{L'H\^{o}pital's rule and connections to Taylor expansions}
+\begin{theorem}[L'H\^{o}pital's Rule]
+    Let $ x_0 $ be a real number; allow $ x_0 = \infty $ and $ x_0 = -\infty $
+        as well.
+    Let $ f(x) $ and $ g(x) $ be two differentiable functions.
+    \begin{enumerate}[label=(\roman*)]
+        \item Assume that $ \lim_{x \rightarrow x_0} f(x) = 0 $ and
+                $ \lim_{x \rightarrow x_0} g(x) = 0 $.
+            If $ \lim_{x \rightarrow x_0} \frac{f'(x)}{g'(x)} $ exists, and if
+                there exists an interval $ (a, b) $ around $ x_0 $ such that
+                $ g'(x) \neq 0 $ for all $ x \in (a, b) \setminus 0 $, then the
+                limit $ \lim_{x \rightarrow x_0} \frac{f(x)}{g(x)} $ also exists
+                and
+            \begin{equation*}
+                \lim_{x \rightarrow x_0} \frac{f(x)}{g(x)} =
+                    \lim_{x \rightarrow x_0} \frac{f'(x)}{g'(x)}.
+            \end{equation*}
+        \item Assume that $ \lim_{x \rightarrow x_0} f(x) $ is either
+                $ -\infty $ or $ \infty $, and that $ \lim_{x \rightarrow x_0}
+                g(x) $ is either $ -\infty $ or $ \infty $.
+            If the limit $ \lim_{x \rightarrow x_0} \frac{f'(x)}{g'(x)} $
+                exists, and if there exists an interval $ (a, b) $ around
+                $ x_0 $ such that $ g'(x) \neq 0 $ for all $ x \in (a, b)
+                \setminus 0 $, then the limit $ \lim_{x \rightarrow x_0}
+                \frac{f(x)}{g(x)} $ also exists and
+            \begin{equation*}
+                \lim_{x \rightarrow x_0} \frac{f(x)}{g(x)} =
+                    \lim_{x \rightarrow x_0} \frac{f'(x)}{g'(x)}.
+            \end{equation*}
+    \end{enumerate}
+\end{theorem}
+
+\section{Multivariable functions}
+\paragraph{Scalar Valued Functions}
+Let $ f : \mathbb{R}^n \rightarrow \mathbb{R} $ be a function of $ n $ variables
+    denoted by $ x_1, x_2, ..., x_n $, and let $ x = (x_1, x_2, ..., x_n) $.
+
+\begin{definition}
+    Let $ f : \mathbb{R}^n \rightarrow \mathbb{R} $.
+    The partial derivative of the function $ f(x) $ with respect to the variable
+        $ x_i $ is denoted by $ \frac{\partial f}{\partial x_i} (x) $ and is
+        defined as
+    \begin{equation}
+        \frac{\partial f}{\partial x_i} (x) = \lim_{h \rightarrow 0}
+            \frac{f(x_1, ..., x_{i - 1}, x_i + h, x_{i + 1}, ..., x_n) -
+            f(x_1, x_2, ..., x_n)}{h},
+        \label{eq:definition:partial-derivative-scalar-valued-function}
+    \end{equation}
+    if the limit from \eqref{eq:definition:partial-derivative-scalar-valued-function}
+        exists and is finite.
+\end{definition}
+
+A compact formula for \eqref{eq:definition:partial-derivative-scalar-valued-function}
+    can be given as follows:
+Let $ e_i $ be the vector with all entries equal to 0 with the exception of the
+    i-th entry, which is equal for 1, i.e., $ e_i(j) = 0 $, for $ j \neq i $,
+    $ 1 \leq j \leq n $, and $ e_i(j) = 1 $. Then,
+\begin{equation*}
+    \frac{\partial f}{\partial x_i}(x) = \lim_{h \rightarrow 0}
+        \frac{f(x + h e_i) - f(x)}{h}.
+\end{equation*}
+
+\begin{theorem}
+    If all the partial derivatives of order $ k $ of the function $ f(x) $ exist
+        and are continuous, then the order in which partial derivatives of
+        $ f(x) $ of order at most $ k $ is computed does not matter.
+\end{theorem}
+
+\begin{definition}
+    Let $ f : \mathbb{R}^n \rightarrow \mathbb{R} $ be a function of $ n $
+        variables and assume that $ f(x) $ is differentiable with respect to all
+        variables $ x_i $, $ i = 1 : n $.
+    The gradient $ D f(x) $ of the function $ f(x) $ is the following row vector
+        of size $ n $:
+    \begin{equation}
+        D f(x) = \left( \frac{\partial f}{\partial x_1} (x)
+            \frac{\partial f}{\partial x_2} (x) \cdots
+            \frac{\partial f}{\partial x_n} (x) \right).
+        \label{eq:definition:partial-derivative-scalar-valued-function-gradient}
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    Let $ f : \mathbb{R}^n \rightarrow \mathbb{R} $ be a function of $ n $
+        variables.
+    The Hessian of $ f(x) $ is denoted by $ D^2 f(x) $ and is defined as the
+        following $ n \times n $ matrix:
+    \begin{equation}
+        D^2 f(x) =
+        \begin{pmatrix}
+            \frac{\partial^2 f}{\partial x_1^2} (x) &
+                \frac{\partial^2 f}{\partial x_2 \partial x_1} (x) & \cdots &
+                \frac{\partial^2 f}{\partial x_n \partial x_1} (x) \\
+            \frac{\partial^2 f}{\partial x_1 \partial x_2} (x) &
+                \frac{\partial^2 f}{\partial x_2^2} (x) & \cdots &
+                \frac{\partial^2 f}{\partial x_n \partial x_2} (x) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \frac{\partial^2 f}{\partial x_1 \partial x_n} (x) &
+                \frac{\partial^2 f}{\partial x_2 \partial x_n} (x) & \cdots &
+                \frac{\partial^2 f}{\partial x_n^2} (x)
+        \end{pmatrix}.
+        \label{eq:definition:partial-derivative-scalar-valued-function-hessian}
+    \end{equation}
+\end{definition}
+Another commonly used notations for the gradient and Hessian of $ f(x) $ are
+    $ \nabla f(x) $ and $ H f(x) $, respectively.
+
+\paragraph{Vector Valued Functions}
+Let $ F : \mathbb{R}^n \rightarrow \mathbb{R}^m $ be a vector valued function
+    given by
+\begin{equation*}
+    F(x) =
+    \begin{pmatrix}
+        f_1 (x) \\
+        f_2 (x) \\
+        \vdots \\
+        f_m (x)
+    \end{pmatrix},
+\end{equation*}
+where $ x = (x_1, x_2, ..., x_n) $.
+
+\begin{definition}
+    Let $ F : \mathbb{R}^n \rightarrow \mathbb{R}^m $ given by
+        $ F(x) = (f_j(x))_{j=1:m)} $, and assume that the functions $ f_j(x) $,
+        $ j = 1:m $, are differentiable with respect to all variables
+        $ x_i = 1:n $.
+    The gradient $ D F(x) $ of the function $ F(x) $ is the following matrix of
+        size $ m \times n $:
+    \begin{equation}
+        D F(x) =
+        \begin{pmatrix}
+            \frac{\partial f_1}{\partial x_1} (x) &
+                \frac{\partial f_1}{\partial x_2} (x) & \cdots &
+                \frac{\partial f_1}{\partial x_n} (x) \\
+            \frac{\partial f_2}{\partial x_1} (x) &
+                \frac{\partial f_2}{\partial x_2} (x) & \cdots &
+                \frac{\partial f_2}{\partial x_n} (x) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \frac{\partial f_m}{\partial x_1} (x) &
+                \frac{\partial f_m}{\partial x_2} (x) & \cdots &
+                \frac{\partial f_m}{\partial x_n} (x)
+        \end{pmatrix}.
+        \label{eq:definition:partial-derivative-vector-valued-function-gradient}
+    \end{equation}
+\end{definition}
+
+\subsection{Functions of two variables}
+\paragraph{Scalar Valued Functions}
+Let $ f : \mathbb{R}^2 \rightarrow \mathbb{R} $ be a function of two variables
+    denoted by $ x $ and $ y $.
+The partial derivatives of the function $ f(x, y) $ with respect to the
+    variables $ x $ and $ y $ are denoted by $ \frac{\partial f}{\partial x}
+    (x, y) $ and $ \frac{\partial f}{\partial y} (x, y) $, respectively, and
+    defined as follows:
+\begin{align*}
+    \frac{\partial f}{\partial x} (x, y) &= \lim_{h \rightarrow 0}
+        \frac{f(x + h, y) - f(x, y)}{h}; \\
+    \frac{\partial f}{\partial y} (x, y) &= \lim_{h \rightarrow 0}
+        \frac{f(x, y + h) - f(x, y)}{h}.
+\end{align*}
+The gradient of $ f(x, y) $ is
+\begin{equation}
+    D f(x, y) =
+    \begin{pmatrix}
+        \frac{\partial f}{\partial x} (x, y) &
+            \frac{\partial f}{\partial y} (x, y)
+    \end{pmatrix}.
+    \label{eq:definiton:two-variable-scalar-function-gradient}
+\end{equation}
+The Hessian of $ f(x, y) $ is
+\begin{equation}
+    D^2 f(x, y) =
+    \begin{pmatrix}
+        \frac{\partial^2 f}{\partial x^2} (x, y) &
+            \frac{\partial^2 f}{\partial y \partial x} (x, y) \\
+        \frac{\partial^2 f}{\partial x \partial y} (x, y) &
+            \frac{\partial^2 f}{\partial y^2} (x, y)
+    \end{pmatrix}.
+    \label{eq:definition:two-variable-scalar-function-hessian}
+\end{equation}
+
+\paragraph{Vector Valued Functions}
+Let $ F : \mathbb{R}^2 \rightarrow \mathbb{R}^2 $ given by
+\begin{equation*}
+    F(x, y) =
+    \begin{pmatrix}
+        f_1(x, y) \\
+        f_2(x, y)
+    \end{pmatrix}.
+\end{equation*}
+The gradient of $ F(x, y) $ is
+\begin{equation}
+    D F(x, y) =
+    \begin{pmatrix}
+        \frac{\partial f_1}{\partial x} (x, y) &
+            \frac{\partial f_1}{\partial y} (x, y) \\
+        \frac{\partial f_2}{\partial x} (x, y) &
+            \frac{\partial f_2}{\partial y} (x, y)
+    \end{pmatrix}.
+    \label{eq:definition:two-variable-vector-function-gradient}
+\end{equation}
+
+\section{Plain vanilla European Call and Put options}
+\paragraph{Call Option}
+A Call Option on an underlying asset is a contract between two parties which
+    gives the buyer of the option the right, but not the obligation, to
+    \textbf{buy} from the seller of the option one unit of the asset at a
+    predetermined time $ T $ in the future, call the maturity of the option, for
+    a predetermined price $ K $, call the strike of the option.
+For this right, the buyer of the option pays $ C(t) $ at time $ t < T $ to the
+    seller of the option.
+
+\paragraph{Put Option}
+A Put Option to an underlying asset is a contract between two parties which
+    gives the buyer of the option the right, but not the obligation, to
+    \textbf{sell} to the seller of the option one unit of the asset at a
+    predetermined time $ T $ in the future, called the maturity of the option,
+    for a predetermined price $ K $, called the strike of the option.
+For this right, the buyer of the option pays $ P(t) $ at time $ t < T $ to the
+    seller of the option.
+
+The options described above are plain European options.
+An American option can be exercised at any time prior to maturity.
+
+In an option contract, two parties exist: the buyer of the option and the seller
+    of the option.
+The buyer of the option is long the option (or has a long position in the
+    option) and the seller of the option is short the option (or has a short
+    position in the option).
+
+Let $ S(t) $ and $ S(T) $ be the price of the underlying asset at time $ t $ and
+    at maturity $ T $, respectively.
+
+At time $ t $, a call option is in the money (ITM), at the money (ATM), or out
+    of the money (OTM), depending on whether $ S(t) > K $, $ S(t) = K $, or
+    $ S(t) < K $, respectively.
+A put option is ITM, ATM, or OTM at time $ t $ if $ S(t) < K $, $ S(t) = K $, or
+    $ S(t) > K $, respectively.
+
+At maturity $ T $, a call option expires ITM, ATM, or OTM, depending on whether
+    $ S(T) > K $, $ S(T) = K $, or $ S(T) < K $, respectively.
+A put option expires ITM, ATM, or OTM, if $ S(T) < K $, $ S(T) = K $, or
+    $ S(T) > K $, respectively.
