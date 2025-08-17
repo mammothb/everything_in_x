@@ -457,13 +457,178 @@ The buyer of the option is long the option (or has a long position in the
 Let $ S(t) $ and $ S(T) $ be the price of the underlying asset at time $ t $ and
     at maturity $ T $, respectively.
 
-At time $ t $, a call option is in the money (ITM), at the money (ATM), or out
-    of the money (OTM), depending on whether $ S(t) > K $, $ S(t) = K $, or
-    $ S(t) < K $, respectively.
-A put option is ITM, ATM, or OTM at time $ t $ if $ S(t) < K $, $ S(t) = K $, or
-    $ S(t) > K $, respectively.
+At time $ t $, a call option is
+\begin{equation*}
+    \begin{cases}
+        ITM & \text{if} \quad S(t) > K; \\
+        ATM & \text{if} \quad S(t) = K; \\
+        OTM & \text{if} \quad S(t) < K, \\
+    \end{cases}
+\end{equation*}
+where ITM is in the money, ATM is at the money, and OTM is out of the money
+    (OTM).
+A put option is
+\begin{equation*}
+    \begin{cases}
+        ITM & \text{if} \quad S(t) < K; \\
+        ATM & \text{if} \quad S(t) = K; \\
+        OTM & \text{if} \quad S(t) > K.
+    \end{cases}
+\end{equation*}
 
-At maturity $ T $, a call option expires ITM, ATM, or OTM, depending on whether
-    $ S(T) > K $, $ S(T) = K $, or $ S(T) < K $, respectively.
-A put option expires ITM, ATM, or OTM, if $ S(T) < K $, $ S(T) = K $, or
-    $ S(T) > K $, respectively.
+At maturity $ T $, a call option expires
+\begin{equation*}
+    \begin{cases}
+        ITM & \text{if} \quad S(T) > K; \\
+        ATM & \text{if} \quad S(T) = K; \\
+        OTM & \text{if} \quad X(T) < K.
+    \end{cases}
+\end{equation*}
+A put option expires
+\begin{equation*}
+    \begin{cases}
+        ITM & \text{if} \quad S(T) < K; \\
+        ATM & \text{if} \quad S(T) = K; \\
+        OTM & \text{if} \quad X(T) > K.
+    \end{cases}
+\end{equation*}
+
+The payoff of a call option at maturity is
+\begin{equation*}
+    C(T) = \max (S(T) - K, 0) =
+    \begin{cases}
+        S(T) - K, & \text{if} \quad S(T) > K; \\
+        0, & \text{if} \quad S(T) \leq K. \\
+    \end{cases}
+\end{equation*}
+The payoff of a put option at maturity is
+\begin{equation*}
+    P(T) = \max (K - S(T), 0) =
+    \begin{cases}
+        0, & \text{if} \quad S(T) \geq K; \\
+        K - S(T), & \text{if} \quad S(T) < K. \\
+    \end{cases}
+\end{equation*}
+
+\section{Arbitrage-free pricing}
+An arbitrage opportunity is an investment opportunity that is guaranteed to earn
+    money without any risk involved.
+
+In an arbitrage-free market, we can infer relationships between prices of
+    various securities, based on the following principle:
+\begin{theorem}[The (Generalized) Law of One Price.]
+    \label{theorem:law-of-one-price}
+    If two portfolios are guaranteed to have the same value at a future time
+        $ \tau > t $ regardless of the state of the market at time $ \tau $,
+        then they must have the same value at time $ t $.
+    If one portfolio is guaranteed to be more valuable (or less valuable) than
+        another portfolio at a future time $ \tau > t $ regardless of the state
+        of the market at time $ \tau $, then that portfolio is more valuable
+        (or less valuable, respectively) than the other one at time $ t < \tau $
+        as well: \\
+    If there exists $ \tau > t $ such that $ V_1(\tau) = V_2(\tau) $ ( or
+        $ V_1(\tau) > V_2(\tau) $, or $ V_1(\tau) < V_2(\tau) $, respectively
+        for any state of the market at time $ \tau $, then $ V_1(t) = V_2(t) $
+        (or $ V_1(t) > V_2(t) $, or $ V_1(t) < V_2(t) $, respectively).
+\end{theorem}
+
+\begin{corollary}
+    If the value of a portfolio of securities is guaranteed to be equal to
+        0 at a future time $ \tau > t $ regardless of the state of the market
+        at time $ \tau $, then the value of the portfolio at time $ t $ must
+        have been 0 as well: \\
+    If there exists $ \tau > t $ such that $ V(\tau) = 0 $ for any state of the
+        market at time $ \tau $, then $ V(t) = 0 $.
+\end{corollary}
+
+A consequence of Theorem \ref{theorem:law-of-one-price} is the fact that, if the
+    value of a portfolio at time $ T $ in the future is independent of the state
+    of the market at that time, then the value of the portfolio in the present
+    is the risk-neutral discounted present value of the portfolio at time $ T $.
+
+``Risk-neutral discounted present value" refers to the time value of money: cash
+    can be deposited at time $ t_1 $ to be returned at time $ t_2 $
+    ($ t_2 > t_1 $), with interest.
+The interest rate depends on several factors, one of them being the probability
+    of default of the party receiving the cash deposit.
+If this probability is zero, or close to zero, then the return is considered
+    risk-free.
+
+For continuously compounded interest, the value $ B(t_2) $ at time $ t_2 > t_1 $
+    of $ B(t_1) $ cash at time $ t_1 $ is
+\begin{equation*}
+    B(t_2) = e^{r (t_2 - t_1)} B(t_1),
+\end{equation*}
+where $ r $ is the risk-free rate between $ t_1 $ and $ t_2 $.
+The value $ B(t_1) $ at time $ t_1 < t_2 $ of $ B(t_2) $ cash at time $ t_2 $ is
+\begin{equation*}
+    B(t_1) = e^{-r (t_2 - t_1)} B(t_2).
+\end{equation*}
+
+\begin{lemma}
+    If the value $ V(T) $ of a portfolio at time $ T $ in the future is
+        independent of the state of the market at time $ T $, then
+    \begin{equation}
+        V(t) = V(T) e^{-r (T - t)},
+        \label{eq:lemma:portfolio-value}
+    \end{equation}
+    where $ t < T $ and $ r $ is the constant risk-free rate.
+\end{lemma}
+
+\section{The Put-Call parity for European options}
+The Put-Call parity states that
+\begin{equation}
+    P(t) + S(t) - C(t) = K e^{-r (T - t)},
+    \label{eq:put-call-parity}
+\end{equation}
+where $ C(t) $ and $ P(t) $ are the values at time $ t $ of a European call and
+    put option, respectively, with maturity $ T $ and strike $ K $, on the same
+    non-dividend paying asset with spot price $ S(t) $.
+If the underlying asset pays dividends continuously at the rate $ q $, the
+    Put-Call parity has the form
+\begin{equation}
+    P(t) + S(t) e^{-q (T - t)} - C(t) = K e^{-r (T - t)}.
+    \label{eq:put-call-parity-dividend}
+\end{equation}
+
+\section{Forward and Futures contracts}
+\paragraph{Forward contract}
+A forward contract is an agreement between two parties: one party (the long
+    position) agrees to buy the underlying asset from the other party (the
+    short position) at a specified time in the future and for a specified price,
+    called the forward price.
+The forward price is chosen such that the forward contract has value zero at the
+    time when the forward contract is entered into.
+
+The contractual forward price $ F $ of a forward contract with maturity $ T $
+    and struck at time 0 on a non-dividend paying underlying asset with spot
+    price $ S(0) $ is
+\begin{equation*}
+    F = S(0) e^{rT},
+\end{equation*}
+where the interest rate $ r $ is assumed to be constant over the life of the
+    forward contract, i.e., between times 0 and $ T $.
+
+If the underlying asset pays dividends continuously at the rate $ q $, the
+    forward price is
+\begin{equation*}
+    F = S(0) e^{(r - q) T}.
+\end{equation*}
+
+\paragraph{Futures contract}
+A futures contract has a similar structure as a forward contract, but it
+    requires the delivery of the underlying asset for the futures price.
+The forward and futures prices are, in theory, the same, if the risk-free
+    interest rates are constant or deterministic, i.e., just functions of time.
+Major differences exist between the ways forward and futures contracts are
+    structures, settles, and traded:
+\begin{itemize}
+    \item Futures contracts trade on an exchange and have standard features,
+        while forward contracts are over-the-counter instruments;
+    \item Futures are marked to market and settled in a margin account on a
+        daily basis, while forward contracts are settled in cash at maturity;
+    \item Futures have a range of delivery dates, while forward contracts have
+        a specified delivery date;
+    \item Futures carry almost no credit risk, since they are settled daily,
+        while entering into a forward contract carries some credit risk.
+\end{itemize}
