@@ -632,3 +632,53 @@ Major differences exist between the ways forward and futures contracts are
     \item Futures carry almost no credit risk, since they are settled daily,
         while entering into a forward contract carries some credit risk.
 \end{itemize}
+
+\section{Exercises}
+\subsection{Question 1}
+Use the integration by parts to compute $ \int \ln (x) dx $.
+
+\paragraph{Answer}
+Let $ f(x) = 1 $ and $ g(x) = \ln (x) $,
+\begin{align*}
+    \int \ln (x) dx &= \int 1 \cdot \ln (x) dx \\
+                    &= x \ln (x) - \int x \frac{1}{x} dx \\
+                    &= x \ln (x) - x + C
+\end{align*}
+
+\subsection{Question 2}
+Compute $ \int \frac{1}{x \ln (x)} dx $ by using the substitution
+    $ u = \ln (x) $.
+
+\paragraph{Answer}
+Let $ u = \ln (x) $, then $ du = \frac{dx}{x} $
+\begin{align*}
+    \int \frac{1}{x \ln (x)} dx &= \int \frac{1}{u} du \\
+                                &= \ln (|u|) + C \\
+                                &= \ln (| \ln (x) |) + C
+\end{align*}
+
+\subsection{Question 3}
+Show that $ (\tan x)' = 1 / (\cos x)^2 $ and
+\begin{equation*}
+    \int \frac{1}{1 + x^2} dx = \arctan (x) + C.
+\end{equation*}
+Note: The antiderivative of a rational function is often computed using the
+    substitution $ x = \tan (\frac{x}{2}) $.
+
+\paragraph{Answer}
+Using Quotient Rule,
+\begin{align*}
+    (\tan (x))' &= \left( \frac{\sin (x)}{\cos (x)} \right)' \\
+                &= \frac{\cos^2 (x) + \sin^2 (x)}{\cos^2 (x)} \\
+                &= \frac{1}{\cos^2 (x)}
+\end{align*}
+Let $ x = \tan (u) $, then $ dx = \frac{1}{\cos^2 (u)} du $.
+\begin{align*}
+    \int \frac{1}{1 + x^2} dx
+        &= \int \frac{1}{1 + \tan^2 (u)} \frac{1}{\cos^2 (u)} du \\
+        &= \int \frac{1}{\frac{\cos^2 (u) + \sin^2 (u)}{\cos^2 (u)}}
+            \frac{1}{\cos^2 (u)} du \\
+        &= \int du \\
+        &= u + C \\
+        &= \arctan (x) + C
+\end{align*}
