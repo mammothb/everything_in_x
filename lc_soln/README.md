@@ -11,6 +11,7 @@
 | 128. Longest Consecutive Sequence | Medium | Array, Hash Table | cpp, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
 | 1011. Capacity To Ship Packages Within D Days | Medium | Array | cpp, py, rs |
+| 1347. Minimum Number of Steps to Make Two Strings Anagram | Medium | Hash Table, String | cpp, py, rs |
 | 2438. Range Product Queries of Powers | Medium | Array, Binary | cpp, py, rs |
 
 
