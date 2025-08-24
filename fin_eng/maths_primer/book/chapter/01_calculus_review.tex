@@ -921,3 +921,340 @@ Compute $ \frac{\partial u}{\partial t} $ and
             \frac{x^2}{4 t^2} \frac{1}{\sqrt{4 \pi t}} e^{-\frac{x^2}{4 t}} \\
         &= \frac{\partial u}{\partial t}
 \end{align*}
+
+\subsection{Question 11}
+Consider a portfolio with the following positions:
+\begin{itemize}
+    \item long one call option with strike $ K_1 = 30 $;
+    \item short two call options with strike $ K_2 = 35 $;
+    \item long one call option with strike $ K_3 = 40 $.
+\end{itemize}
+All options are on the same underlying asset and have maturity $ T $.
+Draw the payoff diagram at maturity of the portfolio, i.e., plot the value of
+    the portfolio $ V(T) $ at maturity as a function of $ S(T) $, the price of
+    the underlying asset at time $ T $.
+
+\paragraph{Answer}
+Payoffs of the call options at maturity are:
+\begin{align*}
+    C_1(T) &= \max (S(T) - K_1, 0) = \max (S(T) - 30, 0); \\
+    C_2(T) &= \max (S(T) - K_2, 0) = \max (S(T) - 35, 0); \\
+    C_3(T) &= \max (S(T) - K_3, 0) = \max (S(T) - 40, 0). \\
+\end{align*}
+Value of the portfolio at maturity is
+\begin{equation*}
+    V(T) = C_1(T) - 2 C_2(T) + C_3 (T).
+\end{equation*}
+
+\begin{tikzpicture}[
+    declare function={
+        value(\x) = (\x <= 30) * (0) +
+            and(\x > 30, \x <= 35) * (\x - 30) +
+            and(\x > 35, \x <= 40) * (\x - 30 - 2 * (\x - 35)) +
+            (\x > 40) * (\x - 30 - 2 * (\x - 35) + \x - 40);
+    }
+]
+    \begin{axis}[
+        title=Payoff diagram of butterfly spread,
+        xlabel={$ S(T) $},
+        ylabel={$ V(T) $},
+    ]
+        \addplot [
+            blue,
+            domain=0:100,
+            samples=101,
+        ]
+            {value(x)};
+    \end{axis}
+\end{tikzpicture}
+
+\subsection{Question 12}
+Draw the payoff diagram at maturity of a bull spread with a long position in a
+    call with strike 30 and short a call with strike 35, and of a bear spread
+    with long a put of strike 20 and short a put of strike 15.
+
+\paragraph{Answer}
+Payoffs of the call options in bull spread at maturity are:
+\begin{align*}
+    C_1(T) &= \max (S(T) - K_{C_1}, 0) = \max (S(T) - 30, 0); \\
+    C_2(T) &= \max (S(T) - K_{C_2}, 0) = \max (S(T) - 35, 0). \\
+\end{align*}
+Payoffs of the put options in bear spread at maturity are:
+\begin{align*}
+    P_1(T) &= \max (K_{P_1} - S(T), 0) = \max (20 - S(T), 0); \\
+    P_2(T) &= \max (K_{P_2} - S(T), 0) = \max (15 - S(T), 0). \\
+\end{align*}
+Value of the portfolios at maturity are
+\begin{align*}
+    V_{bull}(T) &= C_1(T) - C_2(T); \\
+    V_{bear}(T) &= P_1(T) - P_2(T). \\
+\end{align*}
+
+\begin{tikzpicture}[
+    declare function={
+        value(\x) = (\x <= 30) * (0) +
+            and(\x > 30, \x <= 35) * (\x - 30) +
+            (\x > 35) * (\x - 30 - (\x - 35));
+    }
+]
+    \begin{axis}[
+        title=Payoff diagram of bull spread,
+        xlabel={$ S(T) $},
+        ylabel={$ V(T) $},
+    ]
+        \addplot [
+            blue,
+            domain=0:100,
+            samples=101,
+        ]
+            {value(x)};
+    \end{axis}
+\end{tikzpicture}%
+\begin{tikzpicture}[
+    declare function={
+        value(\x) = (\x <= 15) * (20 - \x - (15 - \x)) +
+            and(\x > 15, \x <= 20) * (20 - \x) +
+            (\x > 20) * (0);
+    }
+]
+    \begin{axis}[
+        title=Payoff diagram of bear spread,
+        xlabel={$ S(T) $},
+        ylabel={$ V(T) $},
+    ]
+        \addplot [
+            blue,
+            domain=0:100,
+            samples=101,
+        ]
+            {value(x)};
+    \end{axis}
+\end{tikzpicture}
+
+\subsection{Question 13}
+Which of the following two portfolios would you rather hold:
+\begin{itemize}
+    \item Portfolio 1: Long one call option with strike $ K = X - 5 $ and long
+        one call option with strike $ K = X + 5 $;
+    \item Portfolio 2: Long two call options with strike $ K = X $?
+\end{itemize}
+(All options are on the same asset and have the same maturity.)
+
+\paragraph{Answer}
+Payoffs of the call options in Portfolio 1 at maturity are:
+\begin{align*}
+    C_1(T) &= \max (S(T) - (X - 5), 0); \\
+    C_2(T) &= \max (S(T) - (X + 5), 0). \\
+\end{align*}
+Payoffs of the call options in Portfolio 2 at maturity are:
+\begin{align*}
+    C_3(T) &= \max (S(T) - X, 0). \\
+\end{align*}
+Value of the portfolios at maturity are
+\begin{align*}
+    V_1(T) &= C_1(T) + C_2(T) = \max (S(T) - (X - 5), 0) +
+        \max (S(T) - (X + 5), 0); \\
+    V_2(T) &= 2 C_3(T) = 2 \max (S(T) - X, 0).
+\end{align*}
+
+Long Portfolio 1 and short Portfolio 2 is equivalent to long a butterfly
+    spread, which is always non-negative at maturity.
+Therefore, it is better owning Portfolio 1 since its payoff at maturity will
+    always be at least as big as the payoff of Portfolio 2.
+
+\subsection{Question 14}
+Call options with strikes 100, 120, and 130 on the same underlying asset and
+    with the same maturity are trading for 8, 5, and 3, respectively (there is
+    no bid-ask spread).
+Is there an arbitrage opportunity present?
+If yes, how can you make a riskless profit?
+
+\paragraph{Answer}
+For arbitrage opportunity to be present, the portfolio must have non-negative
+    payoff at maturity and with a negative cost setting up.
+
+Let $ K_1 = 100 < K_2 = 120 < K_3 = 130 $ be the strike of the options.
+Let $ x_1 $, $ x_2 $, and $ x_3 $ be options positions at time 0.
+The portfolio value at time 0 is
+\begin{equation*}
+    V(0) = x_1 C_1(0) + x_2 C_2(0) + x_3 C_3(0).
+\end{equation*}
+The portfolio value at maturity $ T $ is
+\begin{align*}
+    V(T) &= x_1 C_1(T) + x_2 C_2(T) + x_3 C_3(T) \\
+         &= x_1 \max (S(T) - K_1, 0) + x_2 \max (S(T) - K_2, 0) +
+            x_3 \max(S(T) - K_3, 0)
+\end{align*}
+The payoff at maturity is as follows:
+\begin{table}
+    \begin{center}
+        \begin{tabular}[c]{l|l}
+            \hline
+            \multicolumn{1}{c|}{\textbf{S(T)}} &
+            \multicolumn{1}{c}{\textbf{V(T)}} \\
+            \hline
+            $ S(T) \leq K_1 $ & 0 \\
+            $ K_1 < S(T) \leq K_2 $ & $ x_1 S(T) - x_1 K_1) $  \\
+            $ K_2 < S(T) \leq K_3 $ & $ (x_1 + x_2) S(T) - x_1 K_1 -
+                x_2 K_2 $ \\
+            $ K_3 < S(T) $ & $ (x_1 + x_2 + x_3) S(T) - x_1 K_1 -
+                x_2 K_2 - x_3 K_3 $\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+$ V(T) $ is non-negative when $ S(T) \leq K_2 $ only if a long position is
+    taken for the option with strike $ K_1 $, i.e., $ x_1 \geq 0 $.
+$ V(T) $ is non-negative for any value of $ S(T) $ if and only if
+    $ x_1 \geq 0 $, if $ V(T) $ when $ S(T) = K_3 $ is non-negative, and if
+    $ x_1 + x_2 + x_3 \geq 0 $.
+
+An arbitrage exists if and only if the values $ C_1(0) $, $ C_2(0) $,
+    $ C_3(0) $ are such that the we find $ x_1 $, $ x_2 $, and $ x_3 $ with the
+    following properties:
+\begin{align*}
+    x_1 C_1(0) + x_2 C_2(0) + x_3 C_3(0) &< 0; \\
+    x_1 &\geq 0; \\
+    (x_1 + x_2) K_3 - x_1 K_1 - x_2 K_2 &\geq 0; \\
+    x_1 + x_2 + x_3 &\geq 0.
+\end{align*}
+
+For $ C_1(0) = 8 $, $ C_2(0) = 5 $, $ C_3(0) = 3 $ and $ K_1 = 100 $,
+    $ K_2 = 120 $, $ K_3 = 130 $, the problem becomes finding $ x_1 \geq 0 $,
+    $ x_2 $, and $ x_3 $ such that
+\begin{align*}
+    8 x_1 + 5 x_2 + 3 x_3 &< 0; \\
+    30 x_1 + 10 x_2 &\geq 0; \\
+    x_1 + x_2 + x_3 &\geq 0.
+\end{align*}
+
+Arbitrage can occur for a portfolio with long positions in the options with
+    lowest and highest strikes and a short position in the option with the
+    middle strike.
+Choosing $ x_3 = -x_1 - x_2 $, the constraints become
+\begin{align*}
+    5 x_1 + 2 x_2 &< 0; \\
+    3 x_1 + x_2 &\geq 0. \\
+\end{align*}
+The constraints are satisfied when
+\begin{equation*}
+    x_1 = 1; \quad x_2 = -3; \quad  x_3 = 2.
+\end{equation*}
+
+Buying one option with strike 100, selling three options with strike 120, and
+    buying two options with strike 130 will generate a positive cash flow of
+    \$1, and will result in a portfolio that will not lose money, regardless of
+    the value of the underlying asset at maturity of the options.
+
+\subsection{Question 15}
+A stock with spot price 40 pays dividends continuously at a rate of 3\%.
+The four months at-the-money put and call options on this asset are trading at
+\$2 and \$4, respectively.
+The risk-free rate is constant and equal to 5\% for all times.
+Show that the Put-Call parity is not satisfied and explain you would take
+    advantage of this arbitrage opportunity.
+
+\paragraph{Answer}
+Given the following values: $ S = 40 $, $ K = 40 $, $ q = 0.03 $, $ C = 4 $,
+    $ P = 2 $, $ r = 0.05 $, $ T = 1 / 3 $, we have
+\begin{equation*}
+    P + S e^{-qT} - C = \approx 37.6020 < 39.3389 \approx K e^{-rT}
+\end{equation*}
+To take advantage of the arbitrage opportunity, we:
+\begin{enumerate}
+    \item Short one call (+ \$4)
+    \item Long one put (- \$2)
+    \item Short one forward-like position
+        \begin{itemize}
+            \item Short one share (- \$39.6020)
+            \item Invest in risk-free bond (+ \$39.3389)
+        \end{itemize}
+\end{enumerate}
+The riskless profit at maturity will be approximately \$1.74.
+
+\subsection{Question 16}
+The bid and ask prices for a six months European call option with strike 40 on
+    a non-dividend-paying stock with spot price 42 are \$5 and \$5.5,
+    respectively.
+The bid and ask prices for a six months European put option with strike 40 on
+    the same underlying asset are \$2.75 and \$3.25, respectively.
+Assume that the risk free rate is equal to 0.
+Is there an arbitrage opportunity present?
+
+\paragraph{Answer}
+The Put-Call parity is
+\begin{align*}
+    C - P &= S - K \\
+    C - P &= 42 - 40 = 2
+\end{align*}
+An arbitrage opportunity exists if $ C - P $ can be ``bought" for less than \$2,
+    of ``sold" for more than \$2.
+
+The bid-ask spreads are
+\begin{align*}
+    C &\in [5, 5.5] \\
+    P &\in [2.75, 3.25]
+\end{align*}
+Thus, the possible range of $ C - P $ is $ C - P \in [1.75, 2.75] $.
+
+Since $ C - P $ can be ``bought" for more than \$2 and ``sold" for less than
+    \$2, there is no arbitrage opportunity.
+
+\subsection{Question 17}
+You expect that an asset with spot price \$35 will trade in the \$40 - \$45
+    range in one year.
+One year at-the-money (ATM) calls on the asset can be bought for \$4.
+To act on the expected stock price appreciation, you decide to either buy the
+    asset, or to buy ATM calls.
+Which strategy is better, depending on where the asset price will be in a year?
+
+\paragraph{Answer}
+Payoff for the strategy of buying the asset is
+\begin{equation*}
+    V_1(T) = \frac{x}{35} S(T),
+\end{equation*}
+where $ x $ is the amount invested and $ S(T) $ is the spot price of the asset
+    in one year.
+
+Payoff for the strategy of buying call option is
+\begin{equation*}
+    V_2(T) = \frac{x}{4} \max (S(T) - 35)
+\end{equation*}
+
+If the asset price is less than \$35 in a year, the calls will expire worthless
+    while the first strategy of buying the asset will not lose all its value.
+However, the strategy of buying call options can be more profitable if the
+    asset appreciates in value, i.e., the spot price is larger than \$35.
+The break even point of the two strategies is approximately \$39.5161, since
+\begin{equation*}
+    \frac{x}{35} S(T) = \frac{x}{4} \max (S(T) - 35) \Leftrightarrow
+        S(T) = 39.5161
+\end{equation*}
+If the price of the asset is expected to be \$40 - \$45, buying call options
+    will be the more profitable strategy.
+
+\subsection{Question 18}
+The risk free rate is 8\% compounded continuously and the dividend yield of a
+    stock index is 3\%.
+The index is 12,000 and the futures prices of a contract deliverable in three
+    months is 12,100.
+Is there an arbitrage opportunity, and how would you take advantage of it?
+
+\paragraph{Answer}
+Futures fair price is given by
+\begin{align*}
+    S e^{(r - q)T} &= 12000 e^{(0.08 - 0.03)/4} \\
+                   &= 12150.94 \\
+                   &> 12100
+\end{align*}
+The futures contract is underpriced.
+To take advantage of the arbitrage opportunity, we long the future and short
+    the index (spot).
+
+At maturity, the asset is bought for 12100 and the short is closed.
+The realized gain is the interest on the cash from the short position minus
+    12,100, i.e.,
+\begin{equation*}
+    e^{0.08/4} (12000 e^{-0.03/4}) - 12100 = 50.94
+\end{equation*}
