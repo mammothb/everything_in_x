@@ -1,0 +1,55 @@
+\chapter{Improper integrals. Numerical integration. Interest rates. Bonds.}
+
+\section{Double integrals}
+Let $ D \subset \mathbb{R}^2 $ be a bounded region and let
+    $ f : D \rightarrow \mathbb{R} $ be a continuous function.
+The double integral of $ f $ over $ D $, denoted by
+\begin{equation*}
+    \int \int_D f,
+\end{equation*}
+represents the volume of the three dimensional body between the domain $ D $ in
+    the two dimensional plane and the graph of the function $ f(x, y) $.
+
+For simplicity, assume that the domain $ D $ is bounded and convex, i.e., for
+    any two points $ x_1 $ and $ x_2 $ in $ D $, all the points on the segment
+    joining $ x_1 $ and $ x_2 $ are in $ D $ as well.
+Also, assume that there exist two continuous functions $ f_1(x) $ and $ f_2(x) $
+    such that $ D $ can be described as follow:
+\begin{equation}
+    D = {(x, y) | a \leq x \leq b \quad \text{and} \quad f_1(x) \leq y \leq
+        f_2(x)}.
+    \label{eq:bounded-convex-domain}
+\end{equation}
+The functions $ f_1(x) $ and $ f_2(x) $ are well defined by
+    \eqref{eq:bounded-convex-domain} since the domain $ D $ is bounded and
+    convex.
+Then, by definition,
+\begin{equation}
+    \int \int_d f(x, y) dy dx = \int_{a}^{b} \left( \int_{f_1(x)}^{f_2(x)}
+        f(x, y) dy \right) dx.
+    \label{eq:double-integral-yx}
+\end{equation}
+
+If there exists two continuous functions $ g_1(x) $ and $ g_2(x) $ such that
+    $ D = {(x, y) | c \leq y \leq d\ \text{and}\ g_1(y) \leq x \leq g_2(x)} $,
+    then, by definition,
+\begin{equation}
+    \int \int_D f(x, y) dx dy = \int_{c}^{d} \left( \int_{g_1(y)}^{g_2(y)}
+        f(x, y) dx \right) dy.
+    \label{eq:double-integral-xy}
+\end{equation}
+
+\begin{theorem}[Fubini's Theorem]
+    With the notations above, if the function $ f(x, y) $ is continuous, then
+        the integrals \eqref{eq:double-integral-yx} and
+        \eqref{eq:double-integral-xy} are equal to each other and to the double
+        integral of $ f(x, y) $ over $ D $, i.e., the order of integration does
+        not matter:
+    \begin{equation}
+        \int \int_D f = \int \int_D f(x, y) dx dy = \int \int_D f(x, y) dy dx.
+        \label{eq:theorem:fubini}
+    \end{equation}
+\end{theorem}
+
+\subsection{Improper integrals}
+
