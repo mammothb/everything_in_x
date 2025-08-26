@@ -52,4 +52,89 @@ If there exists two continuous functions $ g_1(x) $ and $ g_2(x) $ such that
 \end{theorem}
 
 \subsection{Improper integrals}
+We consider three types of improper integrals:
+
+\paragraph{Type 1}
+Integrate the function $ f(x) $ over an infinite interval of the form
+    $ [a, \infty) $ or $ (-\infty, b] $.
+The integral $ \int_{a}^{\infty} f(x) dx $ exists if and only if the limit as
+    $ t \rightarrow \infty $ of the definite integral of $ f(x) $ between $ a $
+    and $ t $ exists and is finite.
+The integral $ \int_{-\infty}^{b} f(x) dx $ exists if and only if the limit as
+    $ t \rightarrow -\infty $ of the definite integral of $ f(x) $ between $ t $
+    and $ b $ exists and is finite.
+Then
+\begin{align*}
+    \int_{a}^{\infty} f(x) dx &= \lim_{t \rightarrow \infty} \int_{a}^{t} f(x)
+        dx; \\
+    \int_{-\infty}^{b} f(x) dx &= \lim_{t \rightarrow -\infty} \int_{t}^{b}
+        f(x) dx.
+\end{align*}
+
+Adding and subtracting improper integrals of this type follows rules similar to
+    those for definite integrals:
+\begin{lemma}
+    Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ be an integrable function over
+        the interval $ [a, \infty) $.
+    If $ b > a $, then $ f(x) $ is also integrable over the interval
+        $ [b, \infty) $ and
+    \begin{equation*}
+        \int_{a}^{\infty} f(x) dx - \int_{b}^{\infty} f(x) dx =
+            \int_{a}^{b} f(x) dx.
+    \end{equation*}
+    Let $ f(x) $ be an integrable function over the interval $ (-\infty, b] $.
+    If $ a < b $, then $ f(x) $ is also integrable over the interval
+        $ (-\infty, a] $ and
+    \begin{equation*}
+        \int_{-\infty}^{b} f(x) dx - \int_{-\infty}^{a} f(x) dx =
+            \int_{a}^{b} f(x) dx.
+    \end{equation*}
+\end{lemma}
+
+\paragraph{Type 2}
+Integrate the function $ f(x) $ over an interval $ [a, b] $ where $ f(x) $ is
+    unbounded as $ x $ approaches the end points $ a $ and/or $ b $.
+For example, if the limit as $ x \searrow a $ of $ f(x) $ is infinite, then
+    $ \int_{a}^{b} f(x) dx $ exists if and only if the limit as $ t searrow a $
+    of the definite integral of $ f(x) $ between $ t $ and $ b $ exists and is
+    finite, i.e.,
+    \begin{equation*}
+        \int_{a}^{b} f(x) dx = \lim_{x \searrow a} \int_{t}^{b} f(x) dx.
+    \end{equation*}
+
+\paragraph{Type 3}
+Integrate the function $ f(x) $ on the entire real axis, i.e., on
+    $ (-\infty, \infty) $.
+The integral $ \int_{-\infty}^{\infty} f(x) dx $ exists if and only if a real
+    number $ a $ such that both $ \int_{-\infty}^{a} f(x) dx $ and
+    $ \int_{a}^{\infty} f(x) dx $ exist.
+Then,
+\begin{align}
+    \int_{-\infty}^{\infty} f(x) dx
+        &= \int_{-\infty}^{a} f(x) dx + \int_{a}^{\infty} f(x) dx \\
+        &= \lim_{t_1 \rightarrow -\infty} \int_{t_1}^{a} f(x) dx +
+            \lim_{t_2 \rightarrow \infty} \int_{a}^{t_2} f(x) dx.
+            \label{eq:undefined-integral-real-axis}
+\end{align}
+
+It is incorrect to use, instead of \eqref{eq:undefined-integral-real-axis}, the
+    following definition for the integral $ f(x) $ over the real axis
+    $ (-\infty, \infty) $:
+\begin{equation}
+    \int_{-\infty}^{\infty} f(x) dx = \lim_{t \rightarrow \infty}
+        \int_{t}^{t} f(x) dx.
+    \label{eq:defined-integral-real-axis}
+\end{equation}
+
+However, if we know that the function $ f(x) $ is integrable over the entire
+    real axis, then we can use formula \eqref{eq:defined-integral-real-axis} to
+    evaluate it:
+\begin{lemma}
+    If the improper integral $ \int_{-\infty}^{\infty} f(x) dx $ exists, then
+    \begin{equation}
+        \int_{-\infty}^{\infty} f(x) dx = \lim_{t \rightarrow \infty}
+            \int_{-t}^{t} f(x) dx.
+        \label{eq:lemma:defined-integral-real-axis}
+    \end{equation}
+\end{lemma}
 
