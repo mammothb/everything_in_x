@@ -11,6 +11,7 @@
 | 123. Best Time to Buy and Sell Stock III | Hard | Array, Dynamic Programming | cpp, py, rs |
 | 125. Valid Palindrome | Easy | String | cpp, py, rs |
 | 128. Longest Consecutive Sequence | Medium | Array, Hash Table | cpp, py, rs |
+| 150. Evaluate Reverse Polish Notation | Medium | Array, Math | cpp, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
 | 1011. Capacity To Ship Packages Within D Days | Medium | Array | cpp, py, rs |
 | 1347. Minimum Number of Steps to Make Two Strings Anagram | Medium | Hash Table, String | cpp, py, rs |
