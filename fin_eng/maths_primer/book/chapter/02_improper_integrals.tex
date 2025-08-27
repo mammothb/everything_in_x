@@ -51,7 +51,7 @@ If there exists two continuous functions $ g_1(x) $ and $ g_2(x) $ such that
     \end{equation}
 \end{theorem}
 
-\subsection{Improper integrals}
+\section{Improper integrals}
 We consider three types of improper integrals:
 
 \paragraph{Type 1}
@@ -138,3 +138,74 @@ However, if we know that the function $ f(x) $ is integrable over the entire
     \end{equation}
 \end{lemma}
 
+\section{Differentiating improper integrals with respect to the integration
+    limits}
+\begin{lemma}
+    Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ be a continuous function such
+        that the improper integral $ \int_{-\infty}^{\infty} f(x) dx $ exists.
+    Let $ g, h : \mathbb{R} \rightarrow \mathbb{R} $ be given by
+    \begin{equation*}
+        g(t) = \int_{-\infty}^{b(t)} f(x) dx; \quad
+        h(t) = \int_{a(t)}^{\infty} f(x) dx,
+    \end{equation*}
+    where $ a(t) $ and $ b(t) $ are differentiable functions.
+    Then $ g(t) $ and $ h(t) $ are differentiable, and
+    \begin{align*}
+        g'(t) &= f(b(t)) b'(t); \\
+        h'(t) &= -f(a(t)) a'(t).
+    \end{align*}
+\end{lemma}
+
+\section{Numerical methods for computing definite integrals: Midpoint rule,
+    Trapezoidal rule, and Simpson's rule}
+Computing the value of a definite integral using the Fundamental Theorem of
+    Calculus is not always possible.
+The approximate values of the definite integral are computed using numerical
+    integration methods in these cases.
+We present three of the most common such methods.
+
+Let $ f : [a, b] \rightarrow \mathbb{R} $ be an integrable function.
+To compute an approximate value of the integral
+\begin{equation*}
+    I = \int_{a}^{b} f(x) dx,
+\end{equation*}
+we partition the interval $ [a, b] $ into $ n $ intervals of equal size
+    $ h = \frac{b - a}{h} $ by using the nodes $ a_i = a + i h $, for
+    $ i = 0 : n $, i.e.,
+\begin{equation*}
+    a = a_0 < a_1 < a_2 < ... < a_{n - 1} < a_n = b.
+\end{equation*}
+Note that $ a_i - a_{i - 1} = h $, $ i = 1 : n $.
+Let $ x_i $ be the midpoint of the interval $ [a_{i - 1}, a_i] $, i.e.,
+\begin{equation*}
+    x_i = \frac{a_{i - 1} + a_i}{2}, \quad \forall i = 1 : n.
+\end{equation*}
+
+The integral $ I $ can be written as
+\begin{equation}
+    I = \sum_{i=1}^{n} \int_{a_{i-1}}^{a_i} f(x) dx.
+    \label{eq:integral-interval}
+\end{equation}
+On each interval $ [a_{i-1}, a_i] $, $ i = 1 : n $, the function $ f(x) $ is
+    approximated by a simpler function whose integral on $ [a_{i-1}, a_i] $ can
+    be computed exactly.
+The resulting values are summed up to obtain an approximate value of $ I $.
+Depending on whether constant functions, linear functions, or quadratic
+    functions are used to approximate $ f(x) $, the resulting numerical
+    integration methods are called the Midpoint rule, the Trapezoidal rule, and
+    the Simpson's rule, respectively.
+
+\paragraph{Midpoint rule}
+Approximate $ f(x) $ on the interval $ [a_{i-1}, a_i] $ by the constant function
+    $ c_i(x) $ equal to the value of the function $ f $ at the midpoint $ x_i $
+    of the interval $ [a_{i-1}, a_i] $, i.e.,
+\begin{equation}
+    c_i(x) = f(x_i), \quad \forall x \in [a_{i-1}, a_i].
+    \label{eq:midpoint-constant-function}
+\end{equation}
+Then,
+\begin{equation}
+    \int_{a_{i-1}}^{a_i} f(x) dx \approx \int_{a_{i-1}}^{a_i} c_i(x) dx =
+        (a_i - a_{i-1}) f(x_i) = h f(x_i).
+    \label{eq:midpoint-integration-approximation}
+\end{equation}
