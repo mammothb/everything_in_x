@@ -209,3 +209,83 @@ Then,
         (a_i - a_{i-1}) f(x_i) = h f(x_i).
     \label{eq:midpoint-integration-approximation}
 \end{equation}
+From \eqref{eq:integral-interval} and
+    \eqref{eq:midpoint-integration-approximation}, we obtain that the Midpoint
+    Rule approximation $ I_n^M $ of $ I $ corresponding to $ n $ partition
+    intervals is
+\begin{align}
+    \begin{split}
+        I_n^M &= \sum_{i=1}^{n} \int_{a_{i-1}}^{a_i} c_i(x) dx \\
+              &=  h \sum_{i=1}^{n} f(x_i).
+        \label{eq:midpoint-rule-sum}
+    \end{split}
+\end{align}
+
+\paragraph{Trapezoidal Rule}
+Approximate $ f(x) $ on the interval $ [a_{i-1}, a_i] $ by the linear function
+    $ l_i(x) $ equal to $ f(x) $ at the end points $ a_{i-1} $ and $ a_i $,
+    i.e.,
+\begin{equation*}
+    l_i(a_{i-1}) = f(a_{i-1}) \quad \text{and} \quad l_i(a_i) = f(a_i).
+\end{equation*}
+By linear interpolation, it is easy to see that
+\begin{equation}
+    l_i(x) = \frac{x - a_{i-1}}{a_i - a_{i-1}} f(a_i) +
+        \frac{a_i - x}{a_i - a_{i-1}} f(a_{i-1}), \quad
+        \forall x \in [a_{i-1}, a_i].
+\end{equation}
+Then,
+\begin{equation}
+    \int_{a_{i-1}}^{a_i} f(x) dx \approx \int_{a_{i_1}}^{a_i} l_i(x) dx =
+        \frac{h}{2} (f(a_{i-1}) + f(a_i)).
+    \label{eq:trapezoidal-rule-approximation}
+\end{equation}
+From \eqref{eq:integral-interval} and \eqref{eq:trapezoidal-rule-approximation},
+    we obtain that the Trapezoidal Rule approximation $ I_n^T $ of $ I $
+    corresponding to $ n $ partition intervals is
+\begin{align}
+    \begin{split}
+        I_n^T
+            &= \sum_{i=1}^{n} \int_{a_{i-1}}^{a_i} l_i(x) dx \\
+            &= \frac{h}{2} \left( f(a_0) + 2 \sum_{i=1}^{n-1} f(a_i) +
+                f(a_n) \right)
+        \label{eq:trapezoidal-rule-sum}
+    \end{split}
+\end{align}
+
+\paragraph{Simpson's Rule}
+Approximate $ f(x) $ on the interval $ [a_{i-1}, a_i] $ by the quadratic
+    function $ q_i(x) $ equal to $ f(x) $ at $ a_{i-1} $, $ a_i $, and at the
+    midpoint $ x_i = \frac{a_{i-1} - a_i}{2} $, i.e.,
+\begin{equation*}
+    q_i(a_{i-1}) = f(a_{i-1}); q_i(x_i) = f(x_i) \quad \text{and} \quad
+        q_i(a_i) = f(a_i).
+\end{equation*}
+By quadratic interpolation, we find that
+\begin{align}
+    \begin{split}
+        q_i(x)
+            =& \frac{(x - a_{i-1})(x - x_i)}{(a_i - a_{i-1})(a_i - x_i)}
+                f(a_i) + \frac{(a_i - x)(x - a_{i-1}}{(a_i - x_i)(x_i -
+                a_{i-1})} f(x_i) \\
+             &+ \frac{(a_i - x)(x_i - x)}{(a_i - a_{i-1})} f(a_{i-1}), \quad
+                \forall x \in [a_{i-1}, a_i].
+    \end{split}
+\end{align}
+Then,
+\begin{equation}
+    \int_{a_{i-1}}^{a_i} f(x) dx \approx \int_{a_{i-1}}^{a_i} q_i(x) dx =
+        \frac{h}{6} (f(a_{i-1}) + 4 f(x_i) + f(a_i)).
+    \label{eq:simpsons-rule-approximation}
+\end{equation}
+From \eqref{eq:integral-interval} and \eqref{eq:simpsons-rule-approximation},
+    we obtain that the Simpson's Rule approximation $ I_n^S $ of $ I $
+    corresponding to $ n $ partition intervals is
+\begin{align}
+    \begin{split}
+        I_n^S
+            &= \sum_{i=1}^{n} \int_{a_{i-1}}^{a_i} q_i(x) dx \\
+            &= \frac{h}{6} \left( f(a_0) + 2 \sum_{i=1}^{n-1} f(a_i) + f(a_n) +
+                4 \sum_{i=1}^{n} f(x_i) \right).
+    \end{split}
+\end{align}
