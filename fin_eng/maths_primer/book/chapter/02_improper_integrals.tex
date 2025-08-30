@@ -233,6 +233,7 @@ By linear interpolation, it is easy to see that
     l_i(x) = \frac{x - a_{i-1}}{a_i - a_{i-1}} f(a_i) +
         \frac{a_i - x}{a_i - a_{i-1}} f(a_{i-1}), \quad
         \forall x \in [a_{i-1}, a_i].
+    \label{eq:trapezoidal-linear-function}
 \end{equation}
 Then,
 \begin{equation}
@@ -270,6 +271,7 @@ By quadratic interpolation, we find that
                 a_{i-1})} f(x_i) \\
              &+ \frac{(a_i - x)(x_i - x)}{(a_i - a_{i-1})} f(a_{i-1}), \quad
                 \forall x \in [a_{i-1}, a_i].
+        \label{eq:simpsons-quadratic-function}
     \end{split}
 \end{align}
 Then,
@@ -287,5 +289,297 @@ From \eqref{eq:integral-interval} and \eqref{eq:simpsons-rule-approximation},
             &= \sum_{i=1}^{n} \int_{a_{i-1}}^{a_i} q_i(x) dx \\
             &= \frac{h}{6} \left( f(a_0) + 2 \sum_{i=1}^{n-1} f(a_i) + f(a_n) +
                 4 \sum_{i=1}^{n} f(x_i) \right).
+        \label{eq:simpsons-rule-sum}
     \end{split}
 \end{align}
+
+\section{Convergence of the Midpoint, Trapezoidal, and Simpson's rules}
+
+We derived the formulas \eqref{eq:midpoint-rule-sum},
+    \eqref{eq:trapezoidal-rule-sum}, and \eqref{eq:simpsons-rule-sum} for
+    computing approximate values $ I_n^M $, $ I_n^T $, and $ I_n^S $ of the
+    integral
+\begin{equation*}
+    I = \int_{a}^{b} f(x) dx
+\end{equation*}
+corresponding to the Midpoint, Trapezoidal, and Simpson's rules, respectively.
+In this section, we discuss the convergence of these methods.
+
+\begin{definition}
+    Denote by $ I_n $ the approximation of $ I $ obtained using a numerical
+        integration method with $ n $ partition integrals.
+    The method is convergent if and only if the approximation $ I_n $ converge
+        to I as the number of intervals $ n $ goes to infinity (and therefore
+        as $ h = \frac{b - a}{h} $ goes to 0), i.e.,
+    \begin{equation*}
+        \lim_{n \rightarrow \infty} \lvert I - I_n \rvert = 0.
+    \end{equation*}
+    The order of convergence of the numerical integration method is $ k > 0 $
+        if and only if
+    \begin{equation*}
+        \lvert I - I_n \rvert = O(h^k) = O \left( \frac{1}{n^k} \right).
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    Let $ I = \int_{a}^{b} f(x) dx $, and let $ I_n^M $, $ I_n^T $, or
+        $ I_n^S $ be the approximations of $ I $ given by the Midpoint,
+        Trapezoidal, and Simpson's rules corresponding to $ n $ partition
+        intervals of size $ h = \frac{b - a}{n} $.
+
+    (i) If $ f''(x) $ exists and is continuous on $ [a, b] $, then the
+        approximation errors of the Midpoint and Trapezoidal rules can be
+        bounded from above as follows:
+    \begin{align}
+        \lvert I - I_n^M \rvert &\leq \frac{h^2}{24} (b - a)
+            \max_{a \leq x \leq b} \lvert f''(x) \rvert;
+            \label{eq:midpoint-rule-upper-bound} \\
+        \lvert I - I_n^T \rvert &\leq \frac{h^2}{12} (b - a)
+            \max_{a \leq x \leq b} \lvert f''(x) \rvert.
+            \label{eq:trapezoidal-rule-upper-bound}
+    \end{align}
+    Thus, the Midpoint and Trapezoidal rules are quadratically convergent, i.e.,
+    \begin{align}
+        \lvert I - I_n^M \rvert &= O \left( \frac{1}{n^2} \right), \quad
+            \text{as}\quad n \rightarrow \infty; \\
+        \lvert I - I_n^T \rvert &= O \left( \frac{1}{n^2} \right), \quad
+            \text{as}\quad n \rightarrow \infty. \\
+    \end{align}
+
+    (ii) If $ f^{(4)}(x) $ exists and is continuous on $ [a, b] $, then
+    \begin{equation}
+        \lvert I - I_n^S \rvert \leq \frac{h^4}{2880} (b - a)
+            \max_{a \leq x \leq b} \lvert f^{(4)}(x) \rvert,
+        \label{eq:simpsons-rule-upper-bound}
+    \end{equation}
+    and Simpson's rule is fourth order convergent, i.e.,
+    \begin{equation}
+        \lvert I - I_n^S \rvert  O \left( \frac{1}{n^4} \right), \quad
+            \text{as}\quad n \rightarrow \infty.
+    \end{equation}
+\end{theorem}
+
+The upper bounds \eqref{eq:midpoint-rule-upper-bound},
+    \eqref{eq:trapezoidal-rule-upper-bound}, and
+    \eqref{eq:simpsons-rule-upper-bound} can be established using the following
+    approximation error results: For any $ i = 1 : n $, there exist points
+    $ \xi_{i,T} $, $ \xi_{i,M} $, and $ \xi_{i,S} $ in the interval
+    $ (a_{i-1}, a_i) $ such that
+\begin{align}
+    \int_{a_{i-1}}^{a_i} f(x) dx - \int_{a_{i-1}}^{a_i} c_i(x) dx &=
+        \frac{h^3}{24} f''(\xi_{i,T}); \\
+    \int_{a_{i-1}}^{a_i} f(x) dx - \int_{a_{i-1}}^{a_i} l_i(x) dx &=
+        -\frac{h^3}{12} f''(\xi_{i,M}); \\
+    \int_{a_{i-1}}^{a_i} f(x) dx - \int_{a_{i-1}}^{a_i} q_i(x) dx &=
+        -\frac{h^5}{2880} f^{(4)}(\xi_{i,S}),
+\end{align}
+where $ c_i(x) $, $ l_i(x) $, and $ q_i(x) $ are given by
+    \eqref{eq:midpoint-constant-function},
+    \eqref{eq:trapezoidal-linear-function}, and
+    \eqref{eq:simpsons-quadratic-function}, respectively.
+
+\subsection{Implementation of numerical integration methods}
+Computing approximate values of the definite integral of a given function
+    $ f(x) $ on the interval $ [a, b] $ using the Midpoint, Trapezoidal, or
+    Simpson's rules requires implementation of formulas
+    \eqref{eq:midpoint-rule-sum}, \eqref{eq:trapezoidal-rule-sum}, and
+    \eqref{eq:simpsons-rule-sum}, i.e.,
+\begin{align}
+    I_n^M &= h \sum_{i=1}^{n} f(x_i); \\
+    I_n^T &= h \left( \frac{f(a_0)}{2} + \frac{f(a_n)}{2} \right) +
+        h \sum_{i=1}^{n-1} f(a_i); \\
+    I_n^S &= h \left( \frac{f(a_0)}{6} + \frac{f(a_n)}{6} \right) +
+        \frac{h}{3} \sum_{i=1}^{n-1} f(a_i) +
+        \frac{2h}{3} \sum_{i=1}^{n} f(x_i). \\
+\end{align}
+Here, $ h = \frac{b-a}{n} $, $ a_i = a + i h $, $ i = 0:n $, and
+    $ x_i = a + \left( i - \frac{1}{2} \right) h $, $ i = 1:n $.
+
+A routine f\_int($ x $) evaluating the function to be integrated at the point
+    $ x $ is required.
+The end points $ a $ and $ b $ of the integration interval and the number of
+    intervals $ n $ must also be specified.
+
+\begin{algorithm}
+    \caption{Pseudocode for Midpoint Rule}
+    \begin{algorithmic}
+        \State{Input:}
+        \State{$ a $ = left endpoint of the integration interval}
+        \State{$ b $ = right endpoint of the integration interval}
+        \State{$ n $ = number of partition interval}
+        \State{f\_int($ x $) = routine evaluating $ f(x) $}
+
+        \State{}
+
+        \State{Output:}
+        \State{I\_midpoint = Midpoint Rule approximation of $ \int_{a}^{b} f(x) $}
+
+        \State{}
+
+        \State{$ h = (b - a) / n $; I\_midpoint = 0}
+        \For{$ i = 1 : n $}
+            \State{I\_midpoint = I\_midpoint + f\_int($ a + (i - 1 / 2) h $)}
+        \EndFor
+        \State{I\_midpoint = h $ \cdot $ I\_midpoint}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Pseudocode for Trapezoidal Rule}
+    \begin{algorithmic}
+        \State{Input:}
+        \State{$ a $ = left endpoint of the integration interval}
+        \State{$ b $ = right endpoint of the integration interval}
+        \State{$ n $ = number of partition interval}
+        \State{f\_int($ x $) = routine evaluating $ f(x) $}
+
+        \State{}
+
+        \State{Output:}
+        \State{I\_trap = Trapezoidal Rule approximation of
+            $ \int_{a}^{b} f(x) $}
+
+        \State{}
+
+        \State{$ h = (b - a) / n $; I\_midpoint = 0}
+        \State{I\_trap = f\_int(a) / 2 + f\_int(b) / 2}
+        \For{$ i = 1 : (n-1) $}
+            \State{I\_trap = I\_trap + f\_int($ a + i h $)}
+        \EndFor
+        \State{I\_trap = h $ \cdot $ I\_trap}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Pseudocode for Simpson's Rule}
+    \begin{algorithmic}
+        \State{Input:}
+        \State{$ a $ = left endpoint of the integration interval}
+        \State{$ b $ = right endpoint of the integration interval}
+        \State{$ n $ = number of partition interval}
+        \State{f\_int($ x $) = routine evaluating $ f(x) $}
+
+        \State{}
+
+        \State{Output:}
+        \State{I\_simpson = Simpson's Rule approximation of
+            $ \int_{a}^{b} f(x) $}
+
+        \State{}
+
+        \State{$ h = (b - a) / n $; I\_midpoint = 0}
+        \State{I\_simpson = f\_int(a) / 6 + f\_int(b) / 6}
+        \For{$ i = 1 : (n-1) $}
+            \State{I\_simpson = I\_simpson + f\_int($ a + i h $) / 3}
+        \EndFor
+        \For{$ i = 1 : n $}
+            \State{I\_simpson = I\_simpson + 2
+                f\_int($ a + (i - 1 / 2) h $) / 3}
+        \EndFor
+        \State{I\_simpson = h $ \cdot $ I\_simpson}
+    \end{algorithmic}
+\end{algorithm}
+
+In practice, we want to find an approximate value that is within a prescribed
+    tolerance \textit{tol} of the integral $ I $ of a given function $ f(x) $
+    over the interval $ [a, b] $.
+Simply using a numerical integration method with $ n $ partition intervals
+    cannot work effectively, since we do not know in advance how large $ n $
+    should be chosen to obtain an approximation of $ I $ with the desired
+    accuracy.
+
+We choose an integration method and smaller number of intervals, e.g., 4 or 8
+    intervals, and compute the numerical approximation of the integral.
+We then double the number of intervals and compute another approximation $ I $.
+If the absolute value of the difference between the new and old approximations
+    is smaller than the required tolerance \textit{tol}, we declare the last
+    computed approximation of the integral to be the approximate value of $ I $
+    that we are looking for.
+Otherwise, double the number of intervals again and repeat the process until two
+    consecutive numerical integration approximations are within the desired
+    tolerance \textit{tol} of each other.
+This condition is called the stopping criterion for the algorithm, and can be
+    written formally as
+\begin{equation}
+    \lvert I_{new} - I_{old} \rvert < tol,
+    \label{eq:stopping-criterion}
+\end{equation}
+where $ I_{old} $ and $ I_{new} $ are the last two approximations of $ I $ that
+    were computed.
+The pseudocode for this method is given in Algorithm
+    \ref{alg:stopping-criterion}.
+\begin{algorithm}
+    \caption{Pseudocode for computing an approximate value of an integral with
+        given tolerance}
+    \label{alg:stopping-criterion}
+    \begin{algorithmic}
+        \State{Input:}
+        \State{\textit{tol} = prescribed tolerance}
+        \State{I\_numerical($ n $) = result of the numerical integration rule
+            with $ n $ intervals; any integration rule can be used}
+
+        \State{}
+
+        \State{Output:}
+        \State{I\_approx = approximation of $ \int_{a}^{b} f(x) $ with
+            tolerance \textit{tol}}
+
+        \State{}
+
+        \State{$ n = 4 $; I\_old = I\_numerical($ n $)}
+        \Comment{4 intervals initial partition}
+        \State{$ n = 2n $; I\_new = I\_numerical($ n $)}
+        \While{abs(I\_new - I\_old) $ > $ \textit{tol}}
+            \State{I\_old = I\_new}
+            \State{$ n = 2 n $}
+            \State{I\_new = I\_numerical($ n $)}
+        \EndWhile
+        \State{I\_approx = I\_new}
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{A concrete example}
+We want to find an approximate value for
+\begin{equation*}
+    I = \int_{0}^{2} e^{-x^2} dx
+\end{equation*}
+which is within $ 0.5\ 10^{-7} $ of $ I $.
+
+We implement the algorithm from Algorithm \ref{alg:stopping-criterion} for each
+    of the numerical integration methods to compare their convergence
+    properties.
+We choose $ tol = 0.5\ 10^{-7} $.
+For an initial partition of the interval $ [0, 2] $ into $ n = 4 $ intervals,
+    the following approximate values of $ I $ are found using the Midpoint,
+    Trapezoidal, and Simpson's rules, respectively:
+\begin{equation*}
+    I_4^M = 0.88278895;\quad I_4^T = 0.88061863;\quad I_4^S = 0.88206551.
+\end{equation*}
+
+Then, we double the number of partition intervals and compute the numerical
+    approximates corresponding to each method.
+We keep doubling the number of partition intervals until the stopping criterion
+    \eqref{eq:stopping-criterion} is satisfied.
+The results are recorded below:
+\begin{table}
+    \center
+    \begin{tabular}[c]{l|l|l|l}
+        \hline
+        \multicolumn{1}{c|}{No. Intervals} &
+        \multicolumn{1}{c}{Midpoint Rule} &
+        \multicolumn{1}{c}{Trapezoidal Rule} &
+        \multicolumn{1}{c}{Simpson's Rule} \\
+        \hline
+        4 & 0.88278895 & 0.88061863 & 0.88206551 \\
+        8 & 0.88226870 & 0.88170379 & 0.88208040 \\
+        16 & 0.88212887 & 0.88198624 & 0.88208133 \\
+        32 & 0.88209330 & 0.88205756 & 0.88208139 \\
+        64 & 0.88208437 & 0.88207543 & \\
+        128 & 0.88208214 & 0.88207990 & \\
+        256 & 0.88208158 & 0.88208102 & \\
+        512 & 0.88208144 & 0.88208130 & \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Interest Rate Curves. Zero rates and instantaneous rates}
