@@ -7,6 +7,7 @@
 | 14. Longest Common Prefix | Easy | Array, String | cpp, py, rs |
 | 15. 3Sum | Medium | Array, Sorting | cpp, py, rs |
 | 16. 3Sum Closest | Medium | Array, Sorting | cpp, py, rs |
+| 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
 | 121. Best Time to Buy and Sell Stock | Easy | Array, Dynamic Programming | cpp, py, rs |
 | 122. Best Time to Buy and Sell Stock II | Medium | Array, Dynamic Programming, Greedy | cpp, py, rs |
 | 123. Best Time to Buy and Sell Stock III | Hard | Array, Dynamic Programming | cpp, py, rs |
