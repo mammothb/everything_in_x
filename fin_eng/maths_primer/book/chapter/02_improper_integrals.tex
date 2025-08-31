@@ -583,3 +583,134 @@ The results are recorded below:
 \end{table}
 
 \section{Interest Rate Curves. Zero rates and instantaneous rates}
+The zero rate $ r(0, t) $ between time 0 and time $ t $ is the rate of return
+    of a cash deposit made at time 0 and maturing at time $ t $.
+If specified for all values of $ t $, then $ r(0, t) $ is called the zero rate
+    curve and is a continuous function of $ t $.
+
+We assume that interest is compounded continuously.
+The value at time $ t $ of $ B(0) $ currency units is
+\begin{equation}
+    B(t) = \exp (t r(0, t)) B(0).
+    \label{eq:interest-value-time-t}
+\end{equation}
+The value at time 0 of $ B(t) $ currency units at time $ t $ is
+\begin{equation}
+    B(0) = \exp (-t r(0, t)) B(t).
+    \label{eq:interest-value-time-0}
+\end{equation}
+
+The instantaneous rate $ r(t) $ at time $ t $ is the rate of return of deposits
+    made at time $ t $ and maturing at time $ t + dt $, where $ dt $ is
+    infinitesimally small, i.e.,
+\begin{equation*}
+    r(t) = \lim_{dt \rightarrow 0} \frac{1}{dt} \frac{B(t + dt) - B(t)}{B(t)} =
+        \frac{B'(t)}{B(t)}.
+\end{equation*}
+We conclude that $ B(t) $ satisfies the ordinary differential equation (ODE)
+\begin{equation}
+    \frac{B'(\tau)}{B(\tau)} = r(\tau), \quad \forall \tau > 0,
+    \label{eq:interest-value-ode}
+\end{equation}
+with the initial condition that $ B(\tau) $ at time $ \tau = 0 $ must be equal
+    to $ B(0) $.
+By integrating \eqref{eq:interest-value-ode} between 0 and $ t > 0 $, it follows
+    that
+\begin{equation*}
+    \int_{0}^{t} r(\tau) d\tau = \int_{0}^{t} \frac{B'(\tau)}{B(\tau)} d\tau =
+        \ln (B(\tau)) \rvert_{\tau=0}^{\tau=t} =
+        \ln \left( \frac{B(t)}{B(0)} \right).
+\end{equation*}
+Therefore,
+\begin{equation}
+    B(t) = B(0) \exp \left( \int_{0}^{t} r(\tau) d\tau \right), \quad
+        \forall t > 0.
+    \label{eq:interest-value-integral}
+\end{equation}
+
+Formula \eqref{eq:interest-value-integral} gives the future value at time $ t $
+    of a cash deposit made at time $ 0 < t $.
+It can also be used to find the present value at time 0 of a cash deposit
+    $ B(t) $ made at time $ t > 0 $, i.e.,
+\begin{equation}
+    B(0) = B(t) \exp \left( -\int_{0}^{t} r(\tau) d\tau \right), \quad
+        \forall t > 0;
+    \label{eq:interest-value-integral-time-0}
+\end{equation}
+The term $ \exp \left( -\int_{0}^{t} r(\tau) d\tau \right) $ from
+    \eqref{eq:interest-value-integral-time-0} is called the discount factor.
+
+From \eqref{eq:interest-value-time-t} and \eqref{eq:interest-value-integral}, it
+    follows that
+\begin{equation}
+    r(0, t) = \frac{1}{t} \int_{0}^{t} r(\tau) d\tau.
+    \label{eq:zero-rate-integral}
+\end{equation}
+The zero rate $ r(0, t) $ is the average of the instantaneous rate $ r(t) $ over
+    the time interval $ [0, t] $.
+
+If $ r(t) $ is continuous, then it is uniquely determined if the zero rate curve
+    $ r(0, t) $ is known.
+From \eqref{eq:zero-rate-integral}, we obtain that
+\begin{equation}
+    \int_{0}^{t} r(\tau) d\tau = t r(0, t).
+    \label{eq:instantaneous-rate-integral}
+\end{equation}
+By differentiating \eqref{eq:instantaneous-rate-integral} with respect to $ t $,
+    we find that
+\begin{equation}
+    r(t) = r(0, t) + t \frac{d}{dt} (r(0, t)).
+    \label{eq:instantaneous-rate-governing}
+\end{equation}
+
+Formulas \eqref{eq:interest-value-time-t} and
+    \eqref{eq:interest-value-integral-time-0} can also be written for times
+    $ t_1 < t_2 $ instead of times 0 and $ t $, as follows:
+\begin{align}
+    B(t_2) &= B(t_1) \exp \left( \int_{t_1}^{t_2} r(\tau) d\tau \right),
+        \quad \forall 0 < t_1 < t_2;
+        \label{eq:interest-value-integral-t2} \\
+    B(t_1) &= B(t_2) \exp \left( -\int_{t_1}^{t_2} r(\tau) d\tau \right),
+        \quad \forall 0 < t_1 f, t_2.
+        \label{eq:interest-value-integral-t1}
+\end{align}
+
+\subsection{Constant interest rates}
+When the assumption that interest rates are constant is made, it is never
+    mentioned whether the zero rate or the instantaneous rates are considered
+    to be constant.
+The reason is that if either one of these rates is constant and equal to $ r $,
+    then the other rate is also constant and equal to $ r $, i.e.,
+\begin{equation*}
+    r(0, t) = r,\ \forall 0 \leq t \leq T \quad \Leftrightarrow \quad
+        r(t) = r,\ \forall 0 \leq t \leq T.
+\end{equation*}
+
+To see this, assume that $ r(t) = r, \forall 0 \leq t \leq T $.
+From \eqref{eq:zero-rate-integral}, we find that
+\begin{equation*}
+    r(0, t) = \frac{1}{t} \int_{0}^{t} r(\tau) d\tau =
+        \frac{1}{t} \int_{0}^{t} r d\tau = r, \quad \forall 0 < t \leq T.
+\end{equation*}
+Since $ r(0, t) $ is continuous, we obtain that $ r(0, 0) = r $.
+
+If $ r(0, t) = r, \forall 0 \leq t \leq T $, recall from
+    \eqref{eq:instantaneous-rate-governing} that
+\begin{equation*}
+    r(t) = r(0, t) + t \frac{d}{dt} (r(0, t)) = r,\ \forall 0 < t < T.
+\end{equation*}
+Then $ r(0) = r $ and $ r(T) = r $ as well, since $ r(t) $ is continuous.
+
+If interest rates are constant and equal to $ r $, the future value and present
+    value formulas \eqref{eq:interest-value-integral},
+    \eqref{eq:interest-value-integral-time-0},
+    \eqref{eq:interest-value-integral-t2}, and
+    \eqref{eq:interest-value-integral-t1} become
+\begin{align}
+    B(t) &= e^{rt} B(0), \quad \forall t > 0; \\
+    B(t_2) &= e^{r(t_2 - t_1)} B(t_1), \quad \forall 0 < t_1 < t_2; \\
+    B(0) &= e^{-rt} B(t), \quad \forall t > 0; \\
+    B(t_1) &= e^{-r(t_2 - t_1)} B(t_2), \quad \forall 0 < t_1 < t_2.
+\end{align}
+
+
