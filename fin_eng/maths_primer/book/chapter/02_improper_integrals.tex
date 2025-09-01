@@ -713,4 +713,246 @@ If interest rates are constant and equal to $ r $, the future value and present
     B(t_1) &= e^{-r(t_2 - t_1)} B(t_2), \quad \forall 0 < t_1 < t_2.
 \end{align}
 
+\subsection{Forward Rates}
+The forward rate of return $ r(0; t_1, t_2) $ between times $ t_1 $ and $ t_2 $
+    is the constant rate of return, \textit{as seen at time 0}, of a deposit
+    that will be made at time $ t_1 > 0 $ in the future and will mature at time
+    $ t_2 > t_1 $.
 
+An arbitrage-free value for the forward rate $ r(0; t_1, t_2) $ in terms of the
+    zero rate curve $ r(0, t) $ can be found using the Law of One Price as
+    follows.
+Consider two different strategies for investing $ B(0) $ currency units at time
+    0:
+
+\paragraph{First Strategy:}
+At time 0, deposit $ B(0) $ currency units until time $ t_1 $, with interest
+    rate $ r(0, t_1) $.
+Then, at $ t_1 $, deposit the proceeds until time $ t_2 $, at the forward rate
+    $ r(0; t_1, t_2) $, which was locked in at time 0.
+The value of the deposit at time $ t_1 $ is $ V_1(t_1) =
+    B(0) \exp (t_1 r(0, t_1)) $.
+At time $ t_2 $, the value is
+\begin{align}
+    \begin{split}
+        V_1(t_2) &= V_1(t_1) \exp((t_2 - t_1) r(0; t_1, t_2)) \\
+                 &= B(0) \exp ( t_1 r(0, t_1) + (t_2 - t_1) r(0; t_1, t_2)).
+        \label{eq:forward-strategy-1}
+    \end{split}
+\end{align}
+
+\paragraph{Second Strategy:}
+Deposit $ B(0) $ at time 0 until time $ t_2 $, with interest rate $ r(0, t_2) $.
+At time $ t_2 $, the value of the deposit is
+\begin{equation}
+    V_2(t_2) = B(0) \exp (t_2 r(0, t_2)).
+    \label{eq:forward-strategy-2}
+\end{equation}
+
+Both investment strategies are risk free and the cash amount invested at time 0
+    is the same, equal to $ B(0) $, for both strategies.
+From the Law of One Price, it follows that $ V_1(t_2) = V_2(t_2) $.
+From \eqref{eq:forward-strategy-1} and \eqref{eq:forward-strategy-2}, we find
+    that
+\begin{equation*}
+    t_1 r(0, t_1) + (t_2 - t_1) r(0; t_1, t_2) = t_2 r(0, t_1).
+\end{equation*}
+By solving for $ r(0; t_1, t_2) $, we conclude that
+\begin{equation}
+    r(0; t_1, t_2) = \frac{t_2 r(0, t_2) - t_1 r(0, t_1)}{t_2 - t_1}.
+    \label{eq:forward-rate}
+\end{equation}
+
+\subsection{Discretely compounded interest}
+Assume that interest is compounded $ n $ times every year, and let
+    $ r_n(0, t) $, for $ t \geq 0 $, denote the corresponding zero rate curve.
+Then,
+\begin{equation}
+    B_n(t) = B(0) \left( 1 + \frac{r_n(0, t)}{n} \right)^{nt},
+    \label{eq:discrete-compounded-interest}
+\end{equation}
+where $ B_n(t) $ is the amount that accumulates at time $ t $ from an amount
+    $ B(0) $ at time 0 by compounding interest $ n $ times a year between 0 and
+    $ t $.
+
+The most common types of discretely compounded interest are:
+\begin{itemize}
+    \item annually compounded, i.e., once a year:
+        \begin{equation*}
+            B_1(t) = B(0) (1 + r_1(0, t))^t;
+        \end{equation*}
+    \item semiannually compounded, i.e., every six months:
+        \begin{equation*}
+            B_2(t) = B(0) \left( 1 + \frac{r_2(0, t)}{2} \right)^{2t};
+        \end{equation*}
+    \item quarterly compounded, i.e., every three months:
+        \begin{equation*}
+            B_4(t) = B(0) \left( 1 + \frac{r_4(0, t)}{4} \right)^{4t};
+        \end{equation*}
+    \item monthly compounded, i.e., every month:
+        \begin{equation*}
+            B_{12}(t) = B(0) \left( 1 + \frac{r_{12}(0, t)}{12} \right)^{12t}.
+        \end{equation*}
+\end{itemize}
+
+Continuously compounded interest is the limiting case of discretely compounded
+    interest, i.e., $ B_{cont} (t) = \lim_{n \rightarrow \infty} B_n(t) $.
+Here, $ B_n(t) $ and $ B_{cont}(t) $ are given by
+    \eqref{eq:discrete-compounded-interest} and
+    \eqref{eq:interest-value-time-t}, respectively, i.e.,
+    $ B_{cont}(t) = e^{tr(0, t)} B(0) $.
+
+\section{Bond Pricing. Yield of a Bond. Bond Duration and Bond Convexity}
+A bond is a financial instrument used to issue debt, i.e., to borrow money.
+The issuer of the bond receives cash when the bond is issued, and must pay the
+    face value (principal) of the bond at a certain time in the future call the
+    maturity (expiry) of the bond.
+Other payments by the issuer of the bond to the buyer of the bond, called coupon
+    payments, may also be made at predetermined times in the future.
+The price of the bond is equal to the sum of all future cash flows discounted to
+    the present by using the risk-free zero rate.
+
+Let $ B $ be the value of a bond with future cash flows $ c_i $ to be paid to
+    the holder of the bond at times $ t_i $, $ i = 1 : n $.
+Let $ r(0, t_i) $ be the continuously compounded zero rates corresponding to
+    $ t_i $, $ i = 1 : n $.
+Then,
+\begin{equation}
+    B = \sum_{i=1}^{n} c_i e^{-r(0, t_i)t_i}.
+    \label{eq:bond-value}
+\end{equation}
+Note that $ e^{-r(0, t_i)t_i} $ is the discount factor corresponding to time
+    $ t_i $, $ i = 1 : n $.
+If the instantaneous interest rate curve $ r(t) $ is known, a formula similar
+    to \eqref{eq:bond-value} can be given, by substituting the discount factor
+    $ \exp \left( -\int_{0}^{t_i} r(\tau) d\tau \right) $ for
+    $ e^{-r(0, t_i) t_i} $.
+Then,
+\begin{equation}
+    B = \sum_{i=1}^{n} c_i \exp \left( -\int_{0}^{t_i} r(\tau) d\tau \right).
+    \label{eq:bond-value-integral}
+\end{equation}
+
+\begin{definition}
+    The yield of a bond is the internal rate of return of the bond, i.e., the
+        constant rate at which the sum of the discounted future cash flows of
+        the bond is equal to the price of the bond.
+    If $ B $ is the price of a bond with cash flows $ c_i $ at time $ t_i $,
+        $ i = 1 : n $, and if $ y $ is the yield of the bond, then,
+    \begin{equation}
+        B = \sum_{i=1}^{n} c_i e^{-yt_i}.
+        \label{eq:bond-price}
+    \end{equation}
+\end{definition}
+
+As expressed in \eqref{eq:bond-price}, the price of the bond $ B $ can be
+    regarded as a function of the yield.
+It is easy to see that the price of the bond goes down if the yield goes up, and
+    vice versa.
+
+To compute the yield of a bond with a known price $ B $, we must solve
+    \eqref{eq:bond-price} for $ y $.
+This can be written as a nonlinear equation in $ y $, i.e.,
+\begin{equation*}
+    f(y) = 0, \quad \text{where} \quad
+    f(y) = \sum_{i=1}^{n} c_i e^{-y t_i} - B,
+\end{equation*}
+which is then solve numerically.
+
+\begin{definition}
+    Par yield is the coupon rate that makes the value of the bond equal to its
+        face value.
+\end{definition}
+
+Duration and convexity are two of the most important parameters to estimate
+    when investing in a bond, other than its yield.
+Duration provides the sensitivity of the bond price with respect to small
+    changes in the yield, while convexity distinguishes between two bond
+    portfolios with the same duration.
+(The portfolio with higher convexity is more desirable.)
+
+The duration of a bond is the weighted time average of the future cash flows of
+    the bond discounted with respect to the yield of the bond, and normalized by
+    dividing by the price of the bond.
+
+\begin{definition}
+    The duration $ D $ of a bond with price $ B $ and yield $ y $, with cash
+        flows $ c_i $ at time $ t_i $, $ i = 1 : n $, is
+    \begin{equation}
+        D = \frac{\sum_{i=1}^{n} t_i c_i e^{-yt_i}}{B}.
+        \label{eq:bond-duration}
+    \end{equation}
+\end{definition}
+
+From \eqref{eq:bond-price} and \eqref{eq:bond-duration}, it is easy to see that
+\begin{equation*}
+    \frac{\partial B}{\partial y} = -\sum_{i=1}^{n} t_i c_i e^{-yt_i} = -B D,
+\end{equation*}
+and therefore
+\begin{equation}
+    D = -\frac{1}{B} \frac{\partial B}{\partial y}.
+    \label{eq:bond-duration-governing}
+\end{equation}
+
+The duration of a bond gives the relative change in the price of a bond for
+    \textit{small} changes $ \Delta y $ in the yield of the bond (parallel
+    shifts of the yield curve).
+Let $ \Delta B $ be the corresponding change in the price of the bond, i.e.,
+    $ \Delta B = B(y + \Delta y) - B(y) $.
+The discretized version of \eqref{eq:bond-duration-governing} is
+\begin{equation*}
+    D \approx -\frac{1}{B} \frac{B(y + \Delta y) - B(y)}{\Delta y} =
+        -\frac{\Delta B}{B \cdot y},
+\end{equation*}
+which is equivalent to
+\begin{equation}
+    \frac{\Delta B}{B} \approx -\Delta y D.
+    \label{eq:bond-duration-governing-discrete}
+\end{equation}
+
+For very small parallel shifts in the yield curve, the approximation formula
+    \eqref{eq:bond-duration-governing-discrete} is accurate.
+For larger parallel shifts, convexity is used to better capture the effect of
+    the changes in the yield curve on the price of the bond.
+\begin{definition}
+    The convexity $ C $ of a bond with price $ B $ and yield $ y $ is
+    \begin{equation}
+        C = \frac{1}{B} \frac{\partial^2 B}{\partial y^2}.
+        \label{eq:bond-convexity-govering}
+    \end{equation}
+\end{definition}
+
+Using \eqref{eq:bond-price}, it is easy to see that
+\begin{equation*}
+    C = \frac{\sum_{i=1}^{n} t_i^2 c_i e^{-yt_i}}{B}.
+\end{equation*}
+
+The following approximation of the percentage change in the price of the bond
+    for a given change in the yield of the bond is more accurate than
+    \eqref{eq:bond-duration-governing-discrete}:
+\begin{equation*}
+    \frac{\Delta B}{B} \approx -D \Delta y + \frac{1}{2} C (\Delta y)^2.
+\end{equation*}
+
+\subsection{Zero Coupon Bonds}
+A zero coupon bond is a bond that pays back the face value of the bond at
+    maturity and has no other payments, i.e., has coupon rate equal to 0.
+If $ F $ is the face value of a zero coupon bond with maturity $ T $, the bond
+    pricing formula \eqref{eq:bond-value} becomes
+\begin{equation}
+    B = F e^{-r(0, T)T},
+\end{equation}
+where $ B $ is the price of the bond at time 0 and $ r(0, T) $ is the zero rate
+    corresponding to time $ T $.
+
+If the instantaneous interest rate curve $ r(t) $ is given, the bond pricing
+    formula \eqref{eq:bond-value-integral} becomes
+\begin{equation}
+    B = F \exp \left( -\int_{0}^{T} r(\tau) d\tau \right).
+\end{equation}
+
+Let $ y $ be the yield of the bond.
+From \eqref{eq:bond-price}, we find that
+\begin{equation}
+    B = F e^{-y T}.
+\end{equation}
