@@ -918,7 +918,7 @@ For larger parallel shifts, convexity is used to better capture the effect of
     The convexity $ C $ of a bond with price $ B $ and yield $ y $ is
     \begin{equation}
         C = \frac{1}{B} \frac{\partial^2 B}{\partial y^2}.
-        \label{eq:bond-convexity-govering}
+        \label{eq:bond-convexity-governing}
     \end{equation}
 \end{definition}
 
@@ -941,6 +941,7 @@ If $ F $ is the face value of a zero coupon bond with maturity $ T $, the bond
     pricing formula \eqref{eq:bond-value} becomes
 \begin{equation}
     B = F e^{-r(0, T)T},
+    \label{eq:zero-coupon-bond-value}
 \end{equation}
 where $ B $ is the price of the bond at time 0 and $ r(0, T) $ is the zero rate
     corresponding to time $ T $.
@@ -955,4 +956,122 @@ Let $ y $ be the yield of the bond.
 From \eqref{eq:bond-price}, we find that
 \begin{equation}
     B = F e^{-y T}.
+    \label{eq:zero-coupon-bond-price}
 \end{equation}
+
+From \eqref{eq:zero-coupon-bond-value} and \eqref{eq:zero-coupon-bond-price},
+    we conclude that $ y = r(0, T) $.
+The yield of a zero coupon bond is the same as the zero rate corresponding to
+    the maturity of the bond.
+This explains why the zero rate curve $ r(0, t) $ is also called the yield
+    curve.
+
+As expected, the duration of a zero coupon bond is equal to the maturity of the
+    bond.
+From \eqref{eq:bond-duration-governing} and \eqref{eq:zero-coupon-bond-price},
+    we obtain that
+\begin{equation*}
+    D = -\frac{1}{B} \frac{\partial B}{\partial y} =
+        -\frac{1}{F e^{-yT}} (-T F e^{-yT}) = T.
+\end{equation*}
+The convexity of a zero coupon bond can be computed from
+    \eqref{eq:bond-convexity-governing} and \eqref{eq:zero-coupon-bond-price}:
+\begin{equation*}
+    C = \frac{1}{B} \frac{\partial^2 B}{\partial y^2} =
+        \frac{1}{F e^{-yT}} (T^2 F e^{-yT}) = T^2.
+\end{equation*}
+
+\section{Numerical implementation of bond mathematics}
+When specifying a bond, the maturity $ T $ of the bond, as well as the cash
+    flows $ c_i $ and the cash flows dates $ t_i $, $ i = 1 : n $ are given.
+The price of the bond can be obtained from formula \eqref{eq:bond-value}
+    provided that the zero rate curve $ r(0, t) $ is known for any $ t > 0 $,
+    or at least for the cash flow times, i.e., for $ t = t_i $, $ i = 1 : n $.
+
+If a routine r\_zero($ t $) for computing the zero rate curve is given, the
+    pseudocode from Algorithm \ref{alg:bond-price} can be used to compute the
+    price of the bond.
+
+If the instantaneous interest rate curve $ r(t) $ is known, the price of the
+    bond is given by formula \eqref{eq:bond-value-integral}.
+\begin{algorithm}
+    \caption{Pseudocode for computing the bond price given the zero rate curve}
+    \label{alg:bond-price}
+    \begin{algorithmic}
+        \State{Input:}
+        \State{$ n $ = number of cash flows}
+        \State{t\_cash\_flow = vector of cash flow dates (of size $ n $)}
+        \State{v\_cash\_flow = vector of cash flows (of size $ n $)}
+        \State{r\_zero($ t $) = zero rate corresponding to time $ t $}
+
+        \State{}
+
+        \State{Output:}
+        \State{$ B $ = bond price}
+
+        \State{}
+
+        \State{$ B = 0 $}
+        \For{$ i = 1 : n $}
+            \State{disc($ i $) = exp( -t\_cash\_flow($ i $)
+                r\_zero(t\_cash\_flow($ i $)) )}
+            \State{$ B $ = $ B $ = v\_cash\_flow($ i $) disc($ i $)}
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+If a closed formula for $ \int r(\tau) d\tau $ cannot be found, evaluating the
+    discount factors $ disc(i) = \exp \left( -\int_{0}^{t_i} r(\tau) d\tau
+    \right) $, $ i = 1 : n $, requires estimating
+\begin{equation*}
+    I_i \int_{0}^{t_i} r(\tau) d\tau, \quad \forall i = 1 : n,
+\end{equation*}
+using numerical integration methods.
+This is done by setting a tolerance $ tol(i) $ for the numerical approximation
+    of $ I_i $ and doubling the number of intervals in the partition of
+    $ [0, t_i] $ until two consecutive approximations of $ I_i $ are within
+    $ tol(i) $ of each other; see the pseudocode from Algorithm
+    \ref{alg:bond-price-numerical-int} for more details.
+
+\begin{algorithm}
+    \caption{Pseudocode for computing the bond price given the instantaneous
+        interest rate curve}
+    \label{alg:bond-price-numerical-int}
+    \begin{algorithmic}
+        \State{Input:}
+        \State{$ n $ = number of cash flows}
+        \State{t\_cash\_flow = vector of cash flow dates (of size $ n $)}
+        \State{v\_cash\_flow = vector of cash flows (of size $ n $)}
+        \State{r\_inst($ t $) = instantaneous interest rate at time $ t $}
+        \State{tol = vector of tolerances in the numerical approximation of
+            discount factor integrals (of size $ n $)}
+
+        \State{}
+
+        \State{Output:}
+        \State{$ B $ = bond price}
+
+        \State{}
+
+        \State{$ B = 0 $}
+        \For{$ i = 1 : n $}
+            \State{I\_numerical($ i $) = result of the numerical integration of
+                r\_inst($ t $) on the \\\qquad\qquad interval
+                [0, t\_cash\_flow($ i $)] with tolerance tol($ i $)}
+            \State{disc($ i $) = exp( -I\_numerical($ i $)
+                r\_zero(t\_cash\_flow($ i $)) )}
+            \State{$ B $ = $ B $ = v\_cash\_flow($ i $) disc($ i $)}
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+From a practical standpoint, we note that the cash flow at maturity
+    $ c_n = 100 \left( 1 + \frac{C}{m} \right) $, is about two orders of
+    magnitude higher than any other cash flow $ c_i = 100 \frac{C}{m} $,
+    $ i < n $, where $ m $ is the frequency of annual cash flows, e.g.,
+    $ m = 2 $ for a semiannual coupon bond.
+Therefore, an optimal vector of tolerances $ tol $ has the first $ n - 1 $
+    entries equal to each other, and the $ n $-th entry two orders of
+    magnitude smaller than the previous entry, i.e.,
+\begin{equation*}
+    tol = \left[ \tau\ \tau ... \tau\ \frac{\tau}{100} \right].
+\end{equation*}
