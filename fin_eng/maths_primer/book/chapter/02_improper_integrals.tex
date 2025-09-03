@@ -312,12 +312,12 @@ In this section, we discuss the convergence of these methods.
         to I as the number of intervals $ n $ goes to infinity (and therefore
         as $ h = \frac{b - a}{h} $ goes to 0), i.e.,
     \begin{equation*}
-        \lim_{n \rightarrow \infty} \lvert I - I_n \rvert = 0.
+        \lim_{n \rightarrow \infty} | I - I_n | = 0.
     \end{equation*}
     The order of convergence of the numerical integration method is $ k > 0 $
         if and only if
     \begin{equation*}
-        \lvert I - I_n \rvert = O(h^k) = O \left( \frac{1}{n^k} \right).
+        | I - I_n | = O(h^k) = O \left( \frac{1}{n^k} \right).
     \end{equation*}
 \end{definition}
 
@@ -331,30 +331,30 @@ In this section, we discuss the convergence of these methods.
         approximation errors of the Midpoint and Trapezoidal rules can be
         bounded from above as follows:
     \begin{align}
-        \lvert I - I_n^M \rvert &\leq \frac{h^2}{24} (b - a)
-            \max_{a \leq x \leq b} \lvert f''(x) \rvert;
+        | I - I_n^M | &\leq \frac{h^2}{24} (b - a)
+            \max_{a \leq x \leq b} | f''(x) |;
             \label{eq:midpoint-rule-upper-bound} \\
-        \lvert I - I_n^T \rvert &\leq \frac{h^2}{12} (b - a)
-            \max_{a \leq x \leq b} \lvert f''(x) \rvert.
+        | I - I_n^T | &\leq \frac{h^2}{12} (b - a)
+            \max_{a \leq x \leq b} | f''(x) |.
             \label{eq:trapezoidal-rule-upper-bound}
     \end{align}
     Thus, the Midpoint and Trapezoidal rules are quadratically convergent, i.e.,
     \begin{align}
-        \lvert I - I_n^M \rvert &= O \left( \frac{1}{n^2} \right), \quad
+        | I - I_n^M | &= O \left( \frac{1}{n^2} \right), \quad
             \text{as}\quad n \rightarrow \infty; \\
-        \lvert I - I_n^T \rvert &= O \left( \frac{1}{n^2} \right), \quad
+        | I - I_n^T | &= O \left( \frac{1}{n^2} \right), \quad
             \text{as}\quad n \rightarrow \infty. \\
     \end{align}
 
     (ii) If $ f^{(4)}(x) $ exists and is continuous on $ [a, b] $, then
     \begin{equation}
-        \lvert I - I_n^S \rvert \leq \frac{h^4}{2880} (b - a)
-            \max_{a \leq x \leq b} \lvert f^{(4)}(x) \rvert,
+        | I - I_n^S | \leq \frac{h^4}{2880} (b - a)
+            \max_{a \leq x \leq b} | f^{(4)}(x) |,
         \label{eq:simpsons-rule-upper-bound}
     \end{equation}
     and Simpson's rule is fourth order convergent, i.e.,
     \begin{equation}
-        \lvert I - I_n^S \rvert  O \left( \frac{1}{n^4} \right), \quad
+        | I - I_n^S |  O \left( \frac{1}{n^4} \right), \quad
             \text{as}\quad n \rightarrow \infty.
     \end{equation}
 \end{theorem}
@@ -501,7 +501,7 @@ Otherwise, double the number of intervals again and repeat the process until two
 This condition is called the stopping criterion for the algorithm, and can be
     written formally as
 \begin{equation}
-    \lvert I_{new} - I_{old} \rvert < tol,
+    | I_{new} - I_{old} | < tol,
     \label{eq:stopping-criterion}
 \end{equation}
 where $ I_{old} $ and $ I_{new} $ are the last two approximations of $ I $ that
@@ -618,7 +618,7 @@ By integrating \eqref{eq:interest-value-ode} between 0 and $ t > 0 $, it follows
     that
 \begin{equation*}
     \int_{0}^{t} r(\tau) d\tau = \int_{0}^{t} \frac{B'(\tau)}{B(\tau)} d\tau =
-        \ln (B(\tau)) \rvert_{\tau=0}^{\tau=t} =
+        \ln (B(\tau)) |_{\tau=0}^{\tau=t} =
         \ln \left( \frac{B(t)}{B(0)} \right).
 \end{equation*}
 Therefore,
@@ -1075,3 +1075,37 @@ Therefore, an optimal vector of tolerances $ tol $ has the first $ n - 1 $
 \begin{equation*}
     tol = \left[ \tau\ \tau ... \tau\ \frac{\tau}{100} \right].
 \end{equation*}
+
+\section{Exercise}
+
+\subsection{Question 1}
+Compute the integral of the function $ f(x, y) = x^2 - 2 y $ on the region
+    bounded by the parabola $ y = (x + 1)^2 $ and the line $ y = 5 x - 1 $.
+
+\paragraph{Answer}
+To identify the integration domain $ D $, we note that
+\begin{align*}
+    (x + 1)^2 &= 5 x - 1 \\
+    x^2 - 3 x + 2 &= 0 \\
+    (x - 1)(x - 2) &= 0.
+\end{align*}
+So, $ x = 1 $ or $ x = 2 $ and that $ (x + 1)^2 \leq 5 x - 1 $ for
+    $ 1 < x < 2 $.
+Therefore,
+\begin{equation*}
+    D = {(x, y) | 1 \leq x \leq 2\ \text{and}\ (x + 1)^2 \leq y \leq 5 x - 1}.
+\end{equation*}
+Then,
+\begin{align*}
+    \int \int_D f(x, y) dx dy
+        &= \int_{1}^{2} \left( \int_{(x+1)^2}^{5x-1} (x^2 - 2y) dy \right) dx \\
+        &= \int_{1}^{2} \left. \left( x^2 y - y^2 \right)
+            \right|_{(x+1)^2}^{5x-1} dx \\
+        &= \int_{1}^{2} x^2 ((5x - 1) - (x + 1)^2) - ((5x - 1)^2 - (x + 1)^4)
+            dx \\
+        &= \int_{1}^{2} (5x - 1 - (x + 1)^2)(x^2 - (5x - 1 + (x + 1)^2)) dx \\
+        &= \int_{1}^{2} (-x^2 + 3x - 2)(-7x) dx \\
+        &= \int_{1}^{2} 7x^3 - 21x^2 + 14x dx \\
+        &= \left. \left( \frac{7}{4} x^4 - 7 x^3 + 7 x^2 \right) \right|_1^2 \\
+        &= -\frac{7}{4}
+\end{align*}
