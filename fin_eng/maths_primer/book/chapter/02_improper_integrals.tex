@@ -1109,3 +1109,98 @@ Then,
         &= \left. \left( \frac{7}{4} x^4 - 7 x^3 + 7 x^2 \right) \right|_1^2 \\
         &= -\frac{7}{4}
 \end{align*}
+
+\subsection{Question 2}
+Let $ f : (0, \infty) \rightarrow \mathbb{R} $ denote the Gamma function, i.e.
+    let
+\begin{equation*}
+    f(\alpha) = \int_{0}^{\infty} x^{\alpha - 1} e^{-x} dx.
+\end{equation*}
+
+\subsubsection{Part (i)}
+Show that $ f(\alpha) $ is well defined for any $ \alpha > 0 $, i.e., show that
+    both
+\begin{equation*}
+    \int_{0}^{1} x^{\alpha - 1} e^{-x} dx = \lim_{t \rightarrow 0}
+        \int_{t}^{1} x^{\alpha - 1} e^{-x} dx
+\end{equation*}
+and
+\begin{equation*}
+    \int_{1}^{\infty} x^{\alpha - 1} e^{-x} dx = \lim_{t \rightarrow \infty}
+        \int_{1}^{t} x^{\alpha - 1} e^{-x} dx
+\end{equation*}
+exist and are finite.
+
+\paragraph{Answer}
+Let $ \alpha > 0 $.
+Intuitively, as $ x \searrow 0 $, the function $ x^{\alpha - 1} e^{-x} $ is on
+    the order of $ x^{\alpha - 1} $ since $ \lim_{x \searrow 0} e^{-x} = 1 $.
+Since
+\begin{align*}
+    \lim_{t \searrow 0} \int_{t}^{1} x^{\alpha - 1} dx
+        &= \lim_{t \searrow 0} \left. \frac{x^\alpha}{\alpha}  \right|_t^1 \\
+        &= \frac{1}{\alpha} \lim_{t \searrow 0} (1 - t^\alpha) \\
+        &= \frac{1}{\alpha},
+\end{align*}
+it follows that
+\begin{equation*}
+    \int_{0}^{1} x^{\alpha - 1} e^{-x} dx =
+        \lim_{t \searrow 0} \int_{t}^{1} x^{\alpha - 1} e^{-x} dx
+\end{equation*}
+exists and is finite (upper bounded by $ \frac{1}{\alpha} $.
+
+Similarly, intuitively, as $ x \rightarrow \infty $, the function
+    $ x^{\alpha - 1} e^{-x} $ is on the order of $ e^{-x} $, since the
+    exponential function dominates at infinity.
+Since
+\begin{equation*}
+    \lim_{t \rightarrow \infty} \int_{1}^{t} e^{-x} dx =
+        \lim_{t \rightarrow \infty} (1 - e^{-t}) = 1,
+\end{equation*}
+it follows that
+\begin{equation*}
+    \int_{1}^{\infty} x^{\alpha - 1} e^{-x} dx =
+        \lim_{t \rightarrow \infty} \int_{1}^{t} x^{\alpha - 1} e^{-x} dx
+\end{equation*}
+exists and is finite.
+
+The prove the second part rigorously, we need to prove that, for any
+    $ \epsilon > 0 $, there exists $ n(\epsilon) > 0 $ such that
+\begin{equation*}
+    \int_{s}^{\infty} x^{\alpha - 1} e^{-x} dx < \epsilon, \quad
+        \forall s > n(\epsilon).
+\end{equation*}
+
+There exists $ N > 0 $ such that
+\begin{equation*}
+    x^{\alpha - 1} e^{-x} < e^{-\frac{x}{2}}, \quad \forall x > N,
+\end{equation*}
+since
+\begin{equation*}
+    \lim_{x \rightarrow \infty} x^{\alpha - 1} e^{-\frac{x}{2}} = 0.
+\end{equation*}
+
+Since $ \lim_{x \rightarrow \infty} e^{-\frac{x}{2}} = 0 $, it follows that,
+    for any $ \epsilon > 0 $, there exists $ m(\epsilon) > 0 $ such that
+\begin{equation*}
+    2 e^{-\frac{m(\epsilon}{2}} < \epsilon.
+\end{equation*}
+
+Choose $ n(\epsilon) = \max (m(\epsilon), N) $, we obtain that
+\begin{align*}
+    x^{\alpha - 1} e^{-x} &< e^{-\frac{x}{2}}, \quad \forall x > n(\epsilon); \\
+    2 e^{-\frac{n(\epsilon)}{2}} &< \epsilon.
+\end{align*}
+
+For any $ s > n(\epsilon) $,
+\begin{align*}
+    \int_{s}^{\infty} x^{\alpha - 1} e^{-x} dx
+        &= \lim_{t \rightarrow \infty} \int_{s}^{t} x^{\alpha - 1} e^{-x} dx \\
+        &< \lim_{t \rightarrow \infty} \int_{s}^{t} e^{-\frac{x}{2}} dx \\
+        &= \lim_{t \rightarrow \infty} \left( -2 e^{-\frac{t}{2}} +
+            2 e^{-\frac{s}{2}} \right) \\
+        &= 2 e^{-\frac{s}{2}} \\
+        &< 2 e^{-\frac{n(\epsilon)}{2}} \\
+        &< \epsilon,
+\end{align*}
+
