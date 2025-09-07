@@ -1325,3 +1325,71 @@ The approximate value of the integral is 0.179171, and is obtained for a 32
         \hline
     \end{tabular}
 \end{table}
+
+\subsection{Question 5}
+Let $ K $, $ T $, $ \sigma $, and $ r $ be positive constants.
+Define the function $ g : \mathbb{R} \rightarrow \mathbb{R} $ as
+\begin{equation*}
+    g(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b(x)}
+        e^{-\frac{y^2}{2}} dy,
+\end{equation*}
+where $ b(x) = \left( \ln \left( \frac{x}{K} \right) + \left( r +
+    \frac{\sigma^2}{2} \right) T \right) / \left( \sigma \sqrt{T} \right) $.
+Compute $ g'(x) $.
+
+\paragraph{Answer}
+Let $ g(x) = C \int_{-\infty}^{b(x)} f(y) dy $.
+\begin{align*}
+    g'(x)
+        &= C f(b(x)) b'(x) \\
+        &= \frac{1}{x \sigma \sqrt{2 \pi T}} \exp \left( -\frac{\left(
+            \ln \left( \frac{x}{K} \right) + \left( r + \frac{\sigma^2}{2}
+            \right) T \right)^2}{2 \sigma^2 T} \right)
+\end{align*}
+
+\subsection{Question 6}
+Let $ h(x) $ be a function such that $ \int_{-\infty}^{\infty} |xh(x)| dx $
+    exists.
+Define $ g(t) $ by
+\begin{equation*}
+    g(t) = \int_{t}^{\infty} (x - t) h(x) dx,
+\end{equation*}
+and show that
+\begin{equation*}
+    \frac{\partial^2 g}{\partial t^2} = h(t).
+\end{equation*}
+
+\paragraph{Answer}
+Recall that if $ a(t) $ and $ b(t) $ are differentiable functions, and if
+$ f(x, t) $ is a continuous function, then
+\begin{equation*}
+    \frac{d}{dt} \left( \int_{a(t)}^{b(t)} f(x) dx \right) =
+        f(b(t)) b'(t) - f(a(t)) a'(t).
+\end{equation*}
+We derive a similar result for improper integrals, i.e.,
+\begin{equation*}
+    \frac{d}{dt} \left( \int_{a(t)}^{\infty} f(x, t) dx \right) =
+        \int_{a(t)}^{\infty} \frac{\partial f}{\partial t} (x, t) dx -
+        f(a(t), t) a'(t).
+\end{equation*}
+
+For our problem,
+\begin{equation*}
+    a(t) = t, \qquad \text{and} \qquad f(x, t) = (x - t) h(x).
+\end{equation*}
+We conclude that
+\begin{equation*}
+    g'(t) = \frac{d}{dt} \left( \int_{t}^{\infty} (x - t) h(x) dx \right) =
+        -\int_{t}^{\infty} h(x) dx,
+\end{equation*}
+since $ f(a(t), t) = f(t, t) = (t - t)h(t) = 0 $.
+
+Since
+\begin{equation*}
+    \frac{d}{dt} \left( \int_{a(t)}^{\infty} f(x) dx \right) =
+        -f(a(t), t) a'(t),
+\end{equation*}
+it follows that
+\begin{equation*}
+    g''(t) = h(t).
+\end{equation*}
