@@ -1259,3 +1259,69 @@ The approximate value of the integral is 0.408370, and is obtained for a 256
     intervals partition using the Midpoint rule, for a 512 intervals partition
     using the Trapezoidal rule, and for a 16 intervals partition using
     Simpson's rule.
+
+\subsection{Question 4}
+Let $ f : \mathbb{R} \rightarrow \mathbb{R} $ given by
+    $ f(x) = \frac{x^{5/2}}{1 + x^2} $.
+
+\subsubsection{Part (i)}
+Use Midpoint rule with $ tol = 10^{-6} $ to compute an approximation of
+\begin{equation*}
+    I = \int_{0}^{1} f(x) dx = \int_{0}^{1} \frac{x^{5/2}}{1 + x^2}.
+\end{equation*}
+
+\paragraph{Answer}
+The approximate value of the integral is 0.179171, and is obtained for a 512
+    intervals partitions on the interval $ [0, 1] $
+\begin{table}
+    \center
+    \begin{tabular}[c]{l|l}
+        \hline
+        \multicolumn{1}{c|}{No. Intervals} &
+        \multicolumn{1}{c}{Midpoint Rule} \\
+        \hline
+        4   & 0.17715737 \\
+        8   & 0.17867774 \\
+        16  & 0.17904866 \\
+        32  & 0.17914062 \\
+        64  & 0.17916354 \\
+        128 & 0.17916926 \\
+        256 & 0.17917070 \\
+        512 & 0.17917105 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Part (ii)}
+Show that $ f^{(4)} (x) $ is not bounded on the interval $ (0, 1) $.
+
+\paragraph{Answer}
+The fourth derivative of the numerator $ x^{5/2} $ is on the order of
+    $ x^{-3/2} $, which is not defined at 0.
+The denominator $ 1 + x^2 $ is bounded away from 0, so $ f^{(4)}(x) $ is not
+    bounded on the interval $ (0, 1) $.
+
+\subsubsection{Part (iii)}
+Apply Simpson's rule with $ n = 2^k $, $ k = 2 : 8 $, intervals to compute the
+    integral $ I $.
+Conclude that Simpson's rule converges, although the theoretical estimate
+    cannot be used to infer convergence in this case since $ f^{(4)}(x) $ is
+    unbounded on $ (0, 1) $.
+
+\paragraph{Answer}
+The approximate value of the integral is 0.179171, and is obtained for a 32
+    intervals partitions on the interval $ [0, 1] $
+\begin{table}
+    \center
+    \begin{tabular}[c]{l|l}
+        \hline
+        \multicolumn{1}{c|}{No. Intervals} &
+        \multicolumn{1}{c}{Simpson's Rule} \\
+        \hline
+        4  & 0.179155099725056 \\
+        8  & 0.179169815603871 \\
+        16 & 0.179171055067087 \\
+        32 & 0.179171162051226 \\
+        \hline
+    \end{tabular}
+\end{table}
