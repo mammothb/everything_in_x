@@ -1393,3 +1393,42 @@ it follows that
 \begin{equation*}
     g''(t) = h(t).
 \end{equation*}
+
+\subsection{Question 7}
+The continuously compounded 6-month, 12-month, 18-month, and 24-month zero
+    rates are 5\%, 5.25\%, 5.35\%, and 5.5\%, respectively.
+Find the price of a two year semiannual coupon bond with coupon rate 5\%.
+
+\paragraph{Answer}
+The value of a semiannual coupon bond is
+\begin{align*}
+    B &= \sum_{i=1}^{n} \frac{C}{2} F e^{-r(0, t_i) t_i} + \left( F +
+        \frac{C}{2} F \right) e^{-r(0, T) T} \\
+      &= \frac{C}{2} 100 e^{-r(0, 0.5) 0.5} + \frac{C}{2} 100 e^{-r(0, 1)} +
+        \frac{C}{2} 100 e^{-r(0, 1.5) 1.5} + \left( 100 + \frac{C}{2} 100
+        \right) e^{-r(0, 2) 2}
+\end{align*}
+where $ C = 0.05 $, $ r(0, 0.5) = 0.05 $, $ r(0, 1) = 0.0525 $,
+    $ r(0, 1.5) = 0.0535 $, and $ r(0, 2) = 0.055 $.
+The price of the bond is $ B = 98.940623 $.
+
+\subsection{Question 8}
+The continuously compounded 6-month, 12-month, 18-month, and 24-month zero
+    rates are 5\%, 5.25\%, 5.35\%, and 5.5\%, respectively.
+What is the par yield for a 2-year semiannual coupon bond?
+
+\paragraph{Answer}
+Par yield is the coupon rate that makes the value of the bond equal its face
+    value.
+The par yield can be found by solving
+\begin{equation*}
+    100 = \frac{C}{2} 100 e^{-r(0, 0.5) 0.5} + \frac{C}{2} 100 e^{-r(0, 1)} +
+        \frac{C}{2} 100 e^{-r(0, 1.5) 1.5} + \left( 100 + \frac{C}{2} 100
+        \right) e^{-r(0, 2) 2}
+\end{equation*}
+Thus,
+\begin{align*}
+    C &= \frac{2 (1 - e^{-r(0, 2) 2})}{e^{-r(0, 0.5) 0.5} + e^{-r(0, 1)} +
+        e^{-r(0, 1.5) 1.5} + e^{-r(0, 2) 2}} \\
+      &= 0.05566075
+\end{align*}

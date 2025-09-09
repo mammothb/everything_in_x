@@ -40,7 +40,23 @@ fn q4() {
     stopping_criterion(1e-7, partial(simpsons_rule));
 }
 
+fn q7() {
+    let n = 4;
+    let t_cash_flow = [0.5, 1.0, 1.5, 2.0];
+    let v_cash_flow = [2.5, 2.5, 2.5, 102.5];
+    let r_zero: [f64; 4] = [0.05, 0.0525, 0.0535, 0.055];
+
+    let mut bond_price: f64 = 0.0;
+    for i in 0..n {
+        let disc = (-t_cash_flow[i] * r_zero[i]).exp();
+        println!("{}\t{disc}", t_cash_flow[i]);
+        bond_price += v_cash_flow[i] * disc;
+    }
+    println!("{bond_price}");
+}
+
 fn main() {
     // q3();
-    q4();
+    // q4();
+    q7();
 }
