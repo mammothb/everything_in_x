@@ -1432,3 +1432,67 @@ Thus,
         e^{-r(0, 1.5) 1.5} + e^{-r(0, 2) 2}} \\
       &= 0.05566075
 \end{align*}
+
+\subsection{Question 9}
+Assume that the continuously compounded instantaneous interest curve has the
+    form
+\begin{equation*}
+    r(t) = 0.05 + 0.005 \ln (1 + t), \quad \forall t \geq 0.
+\end{equation*}
+
+\subsubsection{Part (i)}
+Find the corresponding zero rate curve;
+
+\paragraph{Answer}
+The zero rate curve can be obtained from instantaneous rate curve by
+\begin{equation*}
+    r(0, t) = \frac{1}{t} \int_{0}^{t} r(\tau) d\tau.
+\end{equation*}
+Thus,
+\begin{align*}
+    r(0, t) &= \frac{1}{t} \int_{0}^{t} 0.05 + 0.005 \ln (1 + \tau) d\tau \\
+            &= \frac{1}{t} (0.05 t + 0.005 ((1 + t) \ln(1 + t) - t)) \\
+            &= \frac{1}{t} (0.05 t + 0.005 (1 + t) \ln(1 + t) - 0.005 t) \\
+            &= 0.045 + 0.005 (1 + t) \frac{\ln (1 + t)}{t}.
+\end{align*}
+
+\subsubsection{Part (ii)}
+Compute the 6-month, 12-month, 18-month, and 24-month discount factors;
+
+\paragraph{Answer}
+The discount factors are:
+\begin{align*}
+    \text{disc}(1) &= e^{-r(0, 0.5) 0.5} = 0.97478242; \\
+    \text{disc}(2) &= e^{-r(0, 1)} = 0.94939392; \\
+    \text{disc}(3) &= e^{-r(0, 1.5) 1.5} = 0.92408277; \\
+    \text{disc}(4) &= e^{-r(0, 2) 2} = 0.89899376; \\
+\end{align*}
+
+\subsubsection{Part (iii)}
+Find the price of a two year semiannual coupon bond with coupon rate 5\%.
+
+\paragraph{Answer}
+\begin{align*}
+    B =& \frac{0.05}{2} 100 e^{-r(0, 0.5) 0.5} +
+        \frac{0.05}{2} 100 e^{-r(0, 1)} +
+        \frac{0.05}{2} 100 e^{-r(0, 1.5) 1.5} \\
+       &+ \left( 100 + \frac{0.05}{2} 100 \right) e^{-r(0, 2) 2} \\
+      =& 99.267508
+\end{align*}
+
+\subsection{Question 10}
+The yield of a semiannual coupon bond with 6\% coupon rate and 30 months to
+    maturity is 9\%.
+What are the price, duration, and convexity of the bond?
+
+\paragraph{Answer}
+The price, duration, and convexity of the bond are as follows
+\begin{align*}
+    B &= \sum_{i=1}^{4} 3 e^{-\frac{i}{2} y} + 103 e^{-\frac{5}{2} y}; \\
+    D &= \frac{1}{B} \left( \sum_{i=1}^{4} \frac{3 i}{2}
+        e^{-\frac{i}{2} y} + \frac{515}{2} e^{-\frac{5}{2} y} \right) \\
+    C &= \frac{1}{B} \left( \sum_{i=1}^{4} \left( \frac{i}{2} \right)^2 3
+        e^{-\frac{i}{2} y} + \left( \frac{5}{2} \right)^2 103
+        e^{-\frac{5}{2} y} \right) \\
+\end{align*}
+where $ y = 0.09 $.
