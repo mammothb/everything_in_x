@@ -1496,3 +1496,64 @@ The price, duration, and convexity of the bond are as follows
         e^{-\frac{5}{2} y} \right) \\
 \end{align*}
 where $ y = 0.09 $.
+
+\subsection{Question 11}
+The yield of a 14 months quarterly coupon bond with 8\% coupon rate is 7\%.
+Compute the price, duration, and convexity of the bond.
+
+\paragraph{Answer}
+
+The price, duration, and convexity of the bond are as follows
+\begin{align*}
+    B &= \sum_{i=1}^{4} 2 e^{-\frac{3 i - 1}{12} y} +
+        102 e^{-\frac{14}{12} y}; \\
+    D &= \frac{1}{B} \sum_{i=1}^{4} \left( \frac{2(3i - 1)}{12}
+        e^{-\frac{3 i - 1}{12} y} + 102 \frac{14}{12} e^{-\frac{14}{12} y}
+        \right); \\
+    D &= \frac{1}{B} \sum_{i=1}^{4} \left( \left( \frac{3i - 1}{12} \right)^2 2
+        e^{-\frac{3 i - 1}{12} y} + 102 \left( \frac{14}{12} \right)^2
+        e^{-\frac{14}{12} y} \right).
+\end{align*}
+
+\subsection{Question 12}
+Compute the price, duration, and convexity of a two year semiannual coupon
+    bond with face value 100 and coupon rate 8\%, if the zero rate curve is
+    given by $ r(0, t) = 0.05 + 0.01 \ln \left( 1 + \frac{t}{2} \right) $.
+
+\paragraph{Answer}
+
+The price, duration, and convexity of the bond are as follows
+\begin{align*}
+    B &= \sum_{i=1}^{4} c_i \exp \left( -\int_{0}^{t_i} 0.05 +
+        0.01 \ln \left( 1 + \frac{\tau}{2} \right) d\tau \right).
+\end{align*}
+where
+\begin{align*}
+    \mathbf{c} &=
+    \begin{bmatrix}
+        4 & 4 & 4 & 104
+    \end{bmatrix} \\
+    \mathbf{t} &=
+    \begin{bmatrix}
+        0.5 & 1 & 1.5 & 2
+    \end{bmatrix}
+\end{align*}
+
+\subsection{Question 13}
+If the coupon rate of a bond goes up, what can be said about the value of the
+    bond and its duration?
+Give a financial argument.
+Check your answer mathematically, i.e., by computing
+    $ \frac{\partial B}{\partial C} $ and $ \frac{\partial D}{\partial C} $,
+    and show that these functions are either always positive or negative.
+
+\paragraph{Answer}
+If the coupon rate of a bond goes up, the value of the bond goes up as the
+    coupon payments increase.
+
+The duration of a bond is the weighted time average of the future cash flows
+    of the bond discounted with respect to the yield of the bond, and normalized
+    by dividing by the price of the bond.
+Therefore, as the coupon rate goes up, the duration of a bond goes down as each
+    cash flow will be a larger fraction of the payment at maturity.
+
