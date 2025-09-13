@@ -1557,3 +1557,63 @@ The duration of a bond is the weighted time average of the future cash flows
 Therefore, as the coupon rate goes up, the duration of a bond goes down as each
     cash flow will be a larger fraction of the payment at maturity.
 
+\subsection{Question 14}
+By how much would the price of a ten year zero-coupon bond change if the yield
+    increases by ten basis points?
+(One percentage point is equal to 100 basis points.
+Thus, 10 basis points is equal to 0.001.)
+
+\paragraph{Answer}
+The change in price from a increase in yield by ten basis points is
+\begin{align*}
+    \frac{\Delta B}{B} &= -D \Delta y \\
+                       &= -10 * 0.001 \\
+                       &= -0.01
+\end{align*}
+The price of the bond decreases by 1\%.
+
+\paragraph{Question 15}
+A five year bond with duration $ 3 \frac{1}{2} $ years is worth 102.
+Find an approximate price of the bond if the yield decreases by fifty basis
+    points.
+
+\paragraph{Answer}
+The change in price from a decrease in yield by fifty basis points is
+\begin{align*}
+    \frac{\Delta B}{B} &= -D \Delta y \\
+                       &= -3.5 * -0.005 * 102 \\
+                       &= 1.785 \\
+    B_{new} &= B + \Delta B \\
+            &= 103.785
+\end{align*}
+
+\subsection{Question 16}
+Establish the following relationship between duration and convexity:
+\begin{equation*}
+    C = D^2 - \frac{\partial D}{\partial y}
+\end{equation*}
+
+\paragraph{Answer}
+Recall that
+\begin{equation*}
+    D = -\frac{1}{B} \frac{\partial B}{\partial y} \quad \text{and} \quad
+        C = \frac{1}{B} \frac{\partial^2 B}{\partial y^2}.
+\end{equation*}
+Therefore,
+\begin{equation*}
+    \frac{\partial B}{\partial y} = -D B
+\end{equation*}
+Using Product Rule to differentiate with respect to $ y $,
+\begin{align*}
+    \frac{\partial^2 B}{\partial y^2}
+        &= -\frac{\partial D}{\partial y} B - \frac{\partial B}{\partial y} D \\
+        &= -\frac{\partial D}{\partial y} B - D(-DB) \\
+        &= -B \frac{\partial D}{\partial y} + B D^2 \\
+        &= B \left( D^2 - \frac{\partial D}{\partial y} \right) \\
+    \frac{1}{B} \frac{\partial^2 B}{\partial y^2} &=
+        B \left( D^2 - \frac{\partial D}{\partial y} \right)
+\end{align*}
+Thus,
+\begin{equation*}
+    C = D^2 - \frac{\partial D}{\partial y}
+\end{equation*}
