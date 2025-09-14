@@ -1,0 +1,167 @@
+\chapter{Probability concepts. Black-Scholes formula. Greeks and Hedging.}
+
+\section{Discrete probability concepts}
+Let $ S = \{ s_1, s_2, ..., s_n \} $ be a finite set and let
+    $ P : S \rightarrow [0, 1] $ be a probability function defined on $ S $,
+    i.e., a function with the following properites:
+\begin{equation}
+    P(s_i) \geq 0,\ \forall i = 1 : n, \quad \text{and}
+        \sum_{i=1}^{n} P(s_i) = 1.
+    \label{eq:probability-distribution}
+\end{equation}
+Any function $ X : S \rightarrow \mathbb{R} $ is called a random variable
+    defined on the set of outcomes $ S $.
+
+\begin{definition}
+    Let $ X : S \rightarrow \mathbb{R} $ be a random variable on the set $ S $
+        endowed with a probability function $ P : S \rightarrow [0, 1] $.
+    The expected value $ E[X] $ of $ X $ (also called the mean of $ X $) is
+    \begin{equation}
+        E[X] = \sum_{i=1}^{n} P(s_i) X(s_i).
+        \label{eq:expected-value}
+    \end{equation}
+    The variance $ var(X) $ of $ X $ is
+    \begin{equation}
+        var(X) = E[(X - E[X])^2].
+        \label{eq:variance}
+    \end{equation}
+    The standard deviation of $ \sigma(X) $ of $ X $ is
+    \begin{equation}
+        \sigma(x) = \sqrt{var(X)}.
+        \label{eq:standard-deviation}
+    \end{equation}
+\end{definition}
+
+\begin{lemma}
+    Let $ X : S \rightarrow \mathbb{R} $ be a random variable on the set $ S $
+        endowed with a probability function $ P : S \rightarrow [0, 1] $.
+    Then,
+    \begin{equation*}
+        var(X) = E[X^2] - (E[X])^2 = \sum_{i=1}^{n} P(s_i) (X(s_i))^2 -
+            (E[X])^2.
+    \end{equation*}
+\end{lemma}
+
+\section{Continuous probability concepts}
+Let $ S $ be a set, and consider a family $ \mathbb{F} $ of subsets of $ S $
+    such that
+\begin{enumerate}
+    \item $ S \in \mathbb{F}; $
+    \item if $ A \in \mathbb{F} $, then $ S \setminus A \in \mathbb{F} $;
+    \item if $ A_k \in \mathbb{F} $, $ k=1:\infty $, then
+        $ \bigcup_{k=1}^{\infty} A_k \in \mathbb{F} $.
+\end{enumerate}
+
+The set $ S $ represents the sample space, any element of $ S $ is a possible
+    outcome, and a set $ A \in \mathbb{F} $ is an event, i.e., a collection of
+    possible outcomes.
+
+A probability function $ P : \mathbb{F} \rightarrow [0, 1] $ defined
+    $ \mathbb{F} $ is a nonnegative function such that $ P(S) = 1 $ and
+\begin{equation*}
+    P \left( \bigcup_{k=1}^{\infty} A_k \right) = \sum_{k=1}^{\infty} P(A_k),
+        \quad \forall A_k \in \mathbb{F}, k = 1 : \infty,
+        \quad \forall A_i \cap A_j = \emptyset, i \neq j.
+\end{equation*}
+
+A function $ X : S \rightarrow \mathbb{R} $ is called a random variable if
+\begin{equation*}
+    \{ s \in S\ \text{such that}\ X(s) \leq t \} \in \mathbb{F}, \quad
+        \forall t \in \mathbb{R}.
+\end{equation*}
+
+The cumulative distribution function $ F : \mathbb{R} \rightarrow [0, 1] $ of
+    the random variable $ X $ is defined as
+\begin{equation}
+    F(t) = P(X \leq t).
+\end{equation}
+
+For any random variable $ X $ considered here, we assume that $ X $ has a
+    probability density function $ f(x) $, i.e., we assume that there exists a
+    function $ f : \mathbb{R} \rightarrow \mathbb{R} $ such that
+\begin{equation}
+    P(a \leq X \leq b) = \int_{a}^{b} f(x) dx.
+\end{equation}
+
+For an integrable function $ f(x) $ to be the probability density function of a
+    random variable, it is necessary and sufficient that $ f(x) \geq 0 $, for
+    all $ x \in \mathbb{R} $, and
+\begin{equation}
+    \int_{-\infty}^{\infty} f(x) dx = 1.
+\end{equation}
+
+\begin{lemma}
+    Let $ f(x) $ be the probability density function of the random variable
+        $ X $.
+    Then the cumulative distribution function of $ X $ can be written as
+    \begin{equation}
+        F(t) = \int_{-\infty}^{t} f(x) dx.
+        \label{eq:cumulative-distribution-function}
+    \end{equation}
+\end{lemma}
+
+\begin{definition}
+    Let $ f(x) $ be the probability density function of the random variable
+        $ X $.
+    The expected value $ E[X] $ of $ X $ (also called the mean of $ X $) is
+        defined as
+    \begin{equation}
+        E[X] = \int_{-\infty}^{\infty} x f(x) dx.
+        \label{eq:continuous-expected-value}
+    \end{equation}
+\end{definition}
+The expected value of a random variable is a linear operator:
+\begin{lemma}
+    Let $ X $ and $ Y $ be two random variables over the same probability
+        space.
+    Then
+    \begin{align}
+        E[X + Y] &= E[X] + E[Y]; \\
+        E[cX] &= c E[X], \quad \forall c \in \mathbb{R}.
+    \end{align}
+\end{lemma}
+
+\begin{lemma}
+    Let $ h : \mathbb{R} \rightarrow \mathbb{R} $ be a piecewise continuous
+        function, and let $ X : S \rightarrow \mathbb{R} $ be a random
+        variable with probability density function $ f(x) $ such that
+        $ \int_{\mathbb{R}} | h(x) | f(x) dx < \infty $.
+    Then $ h(X) : S \rightarrow \mathbb{R} $ is a random variable and the
+        expected value of $ h(X) $ is
+    \begin{equation}
+        E[h(X)] = \int_{-\infty}^{\infty} h(x) f(x) dx.
+        \label{eq:piecewise-continuous-expected-value}
+    \end{equation}
+\end{lemma}
+
+\subsection{Variance, covariance, and correlation}
+\begin{definition}
+    Let $ f(x) $ be the probability density function of the random variable
+        $ X $, and assume that $ \int_{\mathbb{R}} x^2 f(x) dx < 0 $.
+    Let $ m = E[X] $ denote the expected value of $ X $.
+    The variance $ var(X) $ of $ X $ is defined as
+    \begin{equation}
+        var(X) = E[(X - E[X])^2] = \int_{-\infty}^{\infty} (x - m)^2 f(x) dx.
+        \label{eq:continuous-variance}
+    \end{equation}
+    The standard deviation $ \sigma(X) $ of $ X $ is defined as
+    \begin{equation}
+        \sigma(X) = \sqrt{var(X)}.
+        \label{eq:continuous-standard-deviation}
+    \end{equation}
+    Therefore, $ var(X) = (\sigma(X))^2 = \sigma^2(X) $.
+\end{definition}
+
+From \eqref{eq:continuous-variance} and
+    \eqref{eq:continuous-standard-deviation}, it is easy to see that
+\begin{align}
+    var(c X) &= c^2 var(X), \quad \forall c \in \mathbb{R}; \\
+    \sigma(c X) &= |c| \sigma(X), \quad \forall c \in \mathbb{R}.
+\end{align}
+
+\begin{lemma}
+    If $ X $ is a random variable, then
+    \begin{equation*}
+        var(X) = E[X^2] - (E[X])^2.
+    \end{equation*}
+\end{lemma}
