@@ -165,3 +165,85 @@ From \eqref{eq:continuous-variance} and
         var(X) = E[X^2] - (E[X])^2.
     \end{equation*}
 \end{lemma}
+
+\begin{definition}
+    Let $ X $ and $ Y $ be two random variables over the sample probability
+        space.
+    The covariance $ cov(X, Y) $ of $ X $ and $ Y $ is defined as
+    \begin{equation}
+        cov(X, Y) = E[(X - E[X]) (Y - E[Y])].
+        \label{eq:continuous-covariance}
+    \end{equation}
+    The correlation $ corr(X, Y) $ between $ X $ and $ Y $ is equal to the
+        covariance of $ X $ and $ Y $ normalized with respect to the standard
+        deviations of $ X $ and $ Y $, i.e.,
+    \begin{equation}
+        corr(X, Y) = \frac{cov(X, Y)}{\sigma(X) \sigma(Y)},
+        \label{eq:continuous-correlation}
+    \end{equation}
+    where $ \sigma(X) $ and $ \sigma(Y) $ are the standard deviations of $ X $
+        and $ Y $, respectively.
+\end{definition}
+
+\begin{lemma}
+    Let $ X $ and $ Y $ be two random variables over the same probability space.
+    Then
+    \begin{equation}
+        cov(X, Y) = E[XY] - E[X]E[Y].
+    \end{equation}
+\end{lemma}
+
+\begin{lemma}
+    Let $ X $ and $ Y $ be two random variables over the same probability space.
+    Then
+    \begin{equation}
+        var(X + Y) = var(X) + 2 cov(X, Y) + var(Y),
+    \end{equation}
+    or, equivalently,
+    \begin{equation}
+        var(X + Y) = \sigma^2(X) + 2 \sigma(X) \sigma(Y) corr(X, Y) +
+            \sigma^2(Y),
+    \end{equation}
+    where $ \sigma(X) $ and $ \sigma(Y) $ are the standard deviation of $ X $
+        and $ Y $, respectively.
+\end{lemma}
+
+The correlation of two random variables contains the same information as the
+    covariance, in terms of its sign, but its size is also relevant, since it
+    is scaled to adjust for multiplication by constants, i.e.,
+\begin{equation}
+    corr(c_1 X, c_2 Y) = sign(c_1 c_2) corr(X, Y), \quad
+        \forall c_1, c_2 \in \mathbb{R}.
+\end{equation}
+
+\begin{lemma}
+    Let $ X $ and $ Y $ be two random variables over the same probability space.
+    Then
+    \begin{equation}
+        -1 \leq corr(X, Y) \leq 1.
+    \end{equation}
+\end{lemma}
+
+\begin{lemma}
+    Let $ X_i $, $ i = 1 : n $, be random variables over the same probability
+        space, and let $ c_i \in \mathbb{R} $ be real number.
+    Then,
+    \begin{align}
+        E \left[ \sum_{i=1}^{n} c_i X_i \right] &=
+            \sum_{i=1}^{n} c_i E[X_i]; \\
+        var \left( \sum_{i=1}^{n} c_i X_i \right) &=
+            \sum_{i=1}^{n} c_i^2 var(X_i) + 2 \sum_{i \leq i < j \leq n}
+            c_i c_j cov(X_i, X_j).
+        \label{eq:multi-var-variance}
+    \end{align}
+    If $ \rho_{i, j} = corr(X_i, X_j) $, $ 1 \leq i < j \leq n $, is the
+        correlation between $ X_i $ and $ X_j $, and if
+        $ \sigma_i^2 = var(X_i) $, $ i = 1 : n $, then
+        \eqref{eq:multi-var-variance} can be written as
+    \begin{equation}
+        var \left( \sum_{i=1}^{n} c_i X_i \right) =
+            \sum_{i=1}^{n} c_i^2 \sigma_i^2 +
+            2 \sum_{i \leq i < j < \leq n} c_i c_j \sigma_i \sigma_j
+            corr(X_i, X_j).
+    \end{equation}
+\end{lemma}
