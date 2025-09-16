@@ -247,3 +247,93 @@ The correlation of two random variables contains the same information as the
             corr(X_i, X_j).
     \end{equation}
 \end{lemma}
+
+\section{The standard normal variable}
+The standard normal variable, denoted by $ Z $, is the random variable with
+    probability density function
+\begin{equation}
+    f(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}.
+    \label{eq:standard-pdf}
+\end{equation}
+
+\begin{lemma}
+    The standard normal variable has mean 0 and variance 1, i.e.,
+    \begin{align}
+        E[Z] &= 0; \label{eq:standard-expected-value} \\
+        var(Z) &= 1. \label{eq:standard-variance}
+    \end{align}
+\end{lemma}
+
+\begin{lemma}
+    If $ Z $ is the standard normal variable, then $ E[Z^2] = 1 $.
+\end{lemma}
+
+\begin{definition}
+    Denote by $ N(t) $ the cumulative distribution of the standard normal
+        variable $ Z $.
+    Then,
+    \begin{equation}
+        N(t) = P(Z \leq t) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{t}
+            e^{-\frac{x^2}{2}} dx.
+    \end{equation}
+\end{definition}
+
+\begin{lemma}
+    Let $ Z $ be the standard normal variable.
+    Then,
+    \begin{equation}
+        P(Z \geq a) = P(Z \leq -a), \quad \forall a \in \mathbb{R}.
+    \end{equation}
+    In other words, if $ N(t) $ is the cumulative distribution of $ Z $, then
+    \begin{equation}
+        1 - N(a) = N(-a), \quad \forall a \in \mathbb{R}.
+    \end{equation}
+\end{lemma}
+
+\section{Normal random variables}
+\begin{definition}
+    The random variable $ X $ is a normal variable if and only if
+    \begin{equation}
+        X = \mu + \sigma Z,
+    \end{equation}
+    where $ Z $ is the standard normal variable and
+        $ \mu, \sigma \in \mathbb{R} $
+\end{definition}
+
+\begin{lemma}
+    Let $ X = \mu + \sigma Z $ be a normal variable.
+    Then
+    \begin{align}
+        E[X] &= \mu; \\
+        var(X) &= \sigma^2; \\
+        \sigma(X) = | \sigma |.
+    \end{align}
+\end{lemma}
+
+\begin{lemma}
+    Let $ X = \mu + \sigma Z $ be a normal variable, with $ \sigma \neq 0 $, and
+        denote by $ h(x) $ the probability density function of $ X $.
+    Then,
+    \begin{equation}
+        h(x) = \frac{1}{| \sigma  \sqrt{2 \pi}} \exp \left(
+            -\frac{(x - \mu)^2}{2 \sigma^2} \right).
+    \end{equation}
+\end{lemma}
+
+\section{The Black-Scholes formula}
+The Black-Scholes formulas give the price of plain vanilla European call and put
+    options, under the assumption that the price of the underlying asset has
+    lognormal distribution.
+For any values of $ t_1 $ and $ t_2 $ with $ t_1 < t_2 $, the random variable
+    $ \frac{S(t_2)}{S(t_1)} $ is lognormal with paramaters
+    $ \left( \mu - q - \frac{\sigma^2}{2} \right) (t_2 - t_1) $ and
+    $ \sigma^2 (t_2 - t_1) $, i.e.,
+\begin{equation}
+    \ln \left( \frac{S(t_2)}{S(t_1)} \right) = \left( \mu - q -
+        \frac{\sigma^2}{2} \right) (t_2 - t_1) + \sigma \sqrt{t_2 - t_1} Z,
+\end{equation}
+where $ Z $ is the standard normal variable.
+The constants $ \mu $ and $ \sigma $ are called the drift and the volatility of
+    the price $ S(t) $ of the underlying asset and represent the expected value
+    and the standard deviation of the returns of the asset; $ q $ is the
+    continuous rate at which the asset pays dividends.
