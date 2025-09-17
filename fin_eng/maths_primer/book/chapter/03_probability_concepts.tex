@@ -337,3 +337,95 @@ The constants $ \mu $ and $ \sigma $ are called the drift and the volatility of
     the price $ S(t) $ of the underlying asset and represent the expected value
     and the standard deviation of the returns of the asset; $ q $ is the
     continuous rate at which the asset pays dividends.
+
+In the Black-Scholes formulas, the price of a plain vanilla European option
+    depends on the following parameters:
+\begin{itemize}
+    \item $ S $, the spot price of the underlying asset at time $ t $;
+    \item $ T $, the maturity of the option; note that the time to maturity is
+        $ T - t $;
+    \item $ K $, the strike price of the option;
+    \item $ r $, the risk-free interest rate, assumed to be constant over the
+        life of the option, i.e., between $ t $ and $ T $;
+    \item $ \sigma $, the volatility of the underlying asset, i.e., the standard
+        deviation of the returns of the asset;
+    \item $ q $, the dividend rate of the underlying asset; the asset is assumed
+        to pay dividends at a continuous rate.
+\end{itemize}
+Assume that the price of the underlying asset has lognormal distribution and
+    volatility $ \sigma $, that the asset pays dividends continuously at the
+    rate $ q $, and that the risk-free interest rate is constant and equal to
+    $ r $.
+Let $ C(S,t) $ be the value at time $ t $ of a call option with strike $ K $
+    and maturity $ T $, and let $ P(S,t) $ be the value at time $ t $ of a put
+    option with strike $ K $ and maturity $ T $.
+Then,
+\begin{align}
+    C(S, t) &= S e^{-q (T - t)} N(d_1) - Ke^{-r (T - t)} N(d_2);
+    \label{eq:black-scholes-call} \\
+    P(S, t) &= K e^{-r (T - t)} N(-d_2) - S e^{-q (T - t)} N(-d_1),
+    \label{eq:black-scholes-put}
+\end{align}
+where
+\begin{align}
+    d_1 &= \frac{\ln \left( \frac{S}{K} \right) + \left( r - q +
+        \frac{\sigma^2}{2} \right) (T - t)}{\sigma \sqrt{T - t}};
+    \label{eq:black-scholes-drift-1} \\
+    d_2 &= d_1 - \sigma \sqrt{T - t} = \frac{\ln \left( \frac{S}{K} \right) +
+        \left( r - q - \frac{\sigma^2}{2} \right) (T - t)}{\sigma \sqrt{T - t}}.
+    \label{eq:black-scholes-drift-2}
+\end{align}
+Here, $ N(z) $ is the cumulative distribution of the standard normal variable:
+\begin{equation*}
+    N(z) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{z} e^{-\frac{x^2}{2}} dx.
+\end{equation*}
+
+For a non-dividend paying asset, i.e., $ q = 0 $, the Black-Scholes formulas are
+\begin{align}
+    C(S, t) &= S N(d_1) - Ke^{-r (T - t)} N(d_2);
+    \label{eq:black-scholes-call-non-dividend} \\
+    P(S, t) &= K e^{-r (T - t)} N(-d_2) - S N(-d_1),
+    \label{eq:black-scholes-put-non-dividend}
+\end{align}
+where
+\begin{align}
+    d_1 &= \frac{\ln \left( \frac{S}{K} \right) + \left( r +
+        \frac{\sigma^2}{2} \right) (T - t)}{\sigma \sqrt{T - t}};
+    \label{eq:black-scholes-non-dividend-drift-1} \\
+    d_2 &= d_1 - \sigma \sqrt{T - t} = \frac{\ln \left( \frac{S}{K} \right) +
+        \left( r - \frac{\sigma^2}{2} \right) (T - t)}{\sigma \sqrt{T - t}}.
+    \label{eq:black-scholes-non-dividend-drift-2}
+\end{align}
+The general rule of thumb that, for a continuous dividend paying asset with
+    dividend rate $ q $, the Black-Scholes formulas
+    \eqref{eq:black-scholes-call} and \eqref{eq:black-scholes-put} can be
+    obtained from the formulas \eqref{eq:black-scholes-call-non-dividend} and
+    \eqref{eq:black-scholes-put-non-dividend} for a non-dividend paying asset
+    by substituting $ r - q $ for $ r $, is \textit{wrong}.
+While $ r $ represents the risk-neutral drift of the underlying asset in
+    \eqref{eq:black-scholes-non-dividend-drift-1} and
+    \eqref{eq:black-scholes-non-dividend-drift-2}, and therefore
+    \eqref{eq:black-scholes-drift-1} and \eqref{eq:black-scholes-drift-2} can be
+    obtained from \eqref{eq:black-scholes-non-dividend-drift-1} and
+    \eqref{eq:black-scholes-non-dividend-drift-2} by substituing $ r - q $ for
+    $ r $, the term $ e^{-r (T - t)} $ from
+    \eqref{eq:black-scholes-call-non-dividend} and
+    \eqref{eq:black-scholes-put-non-dividend} is the discount factor from time
+    $ T $ to time $ t $ and does not change in the formulas
+    \eqref{eq:black-scholes-call} and \eqref{eq:black-scholes-put} corresponding
+    to the dividend-paying asset.
+
+If $ V(S(t), K) $ denotes the value at time $ t $ of a plain vanilla options
+    with strike $ K $ and spot price $ S(t) $ of the underlying asset, then
+    $ V(a S(t), a K) = a V(S(t), K) $ for any $ a > 0 $.
+Therefore,
+\begin{equation*}
+    V(S(t), K) = K V \left( \frac{S(t)}{K}, 1 \right) = K V \left( 1 +
+        \frac{S(t) - K}{K}, 1 \right).
+\end{equation*}
+Thus, the relevant factor when pricing an option with strike $ K $ is
+\begin{equation*}
+    \frac{S - K}{K} = \frac{S(t) - K}{K},
+\end{equation*}
+which represents the percentage by which an option is in-the-money or
+    out-of-money at time $ t $.
