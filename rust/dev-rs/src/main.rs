@@ -2,6 +2,8 @@ use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
 
+use dev_rs::get_config_path;
+
 #[derive(Debug, Parser)]
 #[command(name = "dev")]
 #[command(about = "Dev utility tools")]
@@ -37,6 +39,9 @@ enum LambdaCommands {
 
 fn main() {
     let args = Cli::parse();
+
+    let config_path = get_config_path();
+    println!("{config_path:?}");
 
     match args.command {
         Commands::Lambda { command } => {
