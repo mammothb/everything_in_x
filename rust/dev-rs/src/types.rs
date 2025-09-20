@@ -1,7 +1,11 @@
 use std::str::FromStr;
 
-#[derive(Clone, Debug)]
+use serde::{Deserialize, Deserializer, de};
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "kebab-case")]
 pub enum Environment {
+    #[default]
     Dev,
     Uat,
     Prd,
@@ -20,13 +24,15 @@ impl FromStr for Environment {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub enum StackSuffix {
+    #[default]
     Dev1,
     Dev2,
     Dev3,
     Dev4,
     NoSuffix,
+    /// Custom suffix, typically '-<username>'
     Custom(String),
 }
 
@@ -44,9 +50,19 @@ impl FromStr for StackSuffix {
                 if s.chars().all(|c| c.is_ascii_lowercase()) {
                     Ok(Self::Custom(s.to_lowercase()))
                 } else {
-                    Err(format!("Unknow stack suffix: {s}"))
+                    Err(format!("unknown stack suffix: {s}"))
                 }
             }
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for StackSuffix {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        StackSuffix::from_str(&s).map_err(de::Error::custom)
     }
 }
