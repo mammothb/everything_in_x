@@ -9,12 +9,12 @@ use dev_rs::types::{Environment, StackSuffix};
 
 #[derive(Clone, Debug, Deserialize)]
 pub(crate) struct Settings {
-    pub lambda: LambdaSettings,
+    pub lambda: Option<LambdaSettings>,
 }
 
 impl Settings {
     pub(crate) fn validate(&self) -> Result<()> {
-        self.lambda.validate()?;
+        self.lambda.as_ref().map(|l| l.validate()).transpose()?;
         Ok(())
     }
 }
