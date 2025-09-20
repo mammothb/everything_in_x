@@ -1,16 +1,42 @@
-use std::env;
-use std::fs;
 use std::path::PathBuf;
 
-use anyhow::{Context, Result};
+use clap::{Args, Parser, Subcommand};
 
-pub fn get_config_path() -> Result<PathBuf> {
-    let mut path = env::home_dir().context("cannot find home directory")?;
+#[derive(Debug, Parser)]
+#[command(name = "dev")]
+#[command(about = "Dev utility tools")]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Box<Commands>,
+}
 
-    path.push(".config");
-    fs::create_dir_all(&path)?;
+#[derive(Debug, Subcommand)]
+pub enum Commands {
+    /// Lambda utilities
+    Lambda(LambdaNamespace),
+    /// Run commands through a custom environment
+    Run,
+}
 
-    path.push("dev.toml");
+#[derive(Args, Debug)]
+pub struct LambdaNamespace {
+    #[command(subcommand)]
+    pub command: Option<LambdaCommands>,
+}
 
-    Ok(path)
+#[derive(Debug, Subcommand)]
+pub enum LambdaCommands {
+    /// List the Lambda's dependencies
+    Deps,
+    /// Fetch Lambda function names
+    Fetch(FetchArgs),
+    /// Open CloudWatch logs
+    Log,
+}
+
+#[derive(Args, Debug)]
+pub struct FetchArgs {
+    /// Path to infra definition file
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
 }

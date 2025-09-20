@@ -1,60 +1,40 @@
-use std::path::PathBuf;
+use anyhow::{Context, Result};
+use clap::Parser;
 
-use clap::{Parser, Subcommand};
+use dev_rs::{Cli, Commands, LambdaCommands, LambdaNamespace};
 
-use dev_rs::get_config_path;
+pub(crate) mod cache;
+pub(crate) mod commands;
+pub(crate) mod dirs;
 
-#[derive(Debug, Parser)]
-#[command(name = "dev")]
-#[command(about = "Dev utility tools")]
-struct Cli {
-    #[command(subcommand)]
-    command: Commands,
-}
+fn run() -> Result<()> {
+    let args = Cli::parse();
 
-#[derive(Debug, Subcommand)]
-enum Commands {
-    /// Lambda utilities
-    Lambda {
-        #[command(subcommand)]
-        command: Option<LambdaCommands>,
-    },
-    /// Run commands through a custom environment
-    Run,
-}
+    let cache_dir = dirs::user_cache_dir().context("Cannot find cache directory")?;
+    fs_err::create_dir_all(&cache_dir)?;
+    let cache = cache::Cache::from_path(cache_dir);
 
-#[derive(Debug, Subcommand)]
-enum LambdaCommands {
-    /// List the Lambda's dependencies
-    Deps,
-    /// Fetch Lambda function names
-    Fetch {
-        /// Path to infra definition file
-        #[arg(short, long)]
-        path: Option<PathBuf>,
-    },
-    /// Open CloudWatch logs
-    Log,
+    match *args.command {
+        Commands::Lambda(LambdaNamespace { command: None }) => {
+            println!("fzf");
+        }
+        Commands::Lambda(LambdaNamespace {
+            command: Some(LambdaCommands::Deps),
+        }) => {}
+        Commands::Lambda(LambdaNamespace {
+            command: Some(LambdaCommands::Fetch(args)),
+        }) => commands::lambda_fetch(args.path.as_deref()),
+        Commands::Lambda(LambdaNamespace {
+            command: Some(LambdaCommands::Log),
+        }) => {}
+        Commands::Run => {}
+    }
+    Ok(())
 }
 
 fn main() {
-    let args = Cli::parse();
-
-    let config_path = get_config_path();
-    println!("{config_path:?}");
-
-    match args.command {
-        Commands::Lambda { command } => {
-            if let Some(command) = command {
-                match command {
-                    LambdaCommands::Deps => {}
-                    LambdaCommands::Fetch { path } => {}
-                    LambdaCommands::Log => {}
-                }
-            } else {
-                println!("fzf");
-            }
-        }
-        Commands::Run => {}
+    if let Err(error) = run() {
+        eprintln!("Error: {}", error);
+        std::process::exit(1);
     }
 }
