@@ -2,6 +2,10 @@ use std::path::PathBuf;
 
 use clap::{Args, Parser, Subcommand};
 
+use crate::types::{Environment, StackSuffix};
+
+pub mod types;
+
 #[derive(Debug, Parser)]
 #[command(name = "dev")]
 #[command(about = "Dev utility tools")]
@@ -22,6 +26,17 @@ pub enum Commands {
 pub struct LambdaNamespace {
     #[command(subcommand)]
     pub command: Option<LambdaCommands>,
+
+    #[command(flatten)]
+    pub global_args: LambdaGlobalArgs,
+}
+
+#[derive(Debug, Parser)]
+pub struct LambdaGlobalArgs {
+    #[arg(short, long, value_enum)]
+    pub suffix: Option<StackSuffix>,
+    #[arg(short, long, value_enum)]
+    pub environment: Option<Environment>,
 }
 
 #[derive(Debug, Subcommand)]
@@ -29,13 +44,13 @@ pub enum LambdaCommands {
     /// List the Lambda's dependencies
     Deps,
     /// Fetch Lambda function names
-    Fetch(FetchArgs),
+    Fetch(LambdaFetchArgs),
     /// Open CloudWatch logs
     Log,
 }
 
 #[derive(Args, Debug)]
-pub struct FetchArgs {
+pub struct LambdaFetchArgs {
     /// Path to infra definition file
     #[arg(short, long)]
     pub path: Option<PathBuf>,
