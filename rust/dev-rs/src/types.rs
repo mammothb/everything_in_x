@@ -1,14 +1,24 @@
-use std::str::FromStr;
+use std::{fmt, str::FromStr};
 
 use serde::{Deserialize, Deserializer, de};
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "kebab-case")]
 pub enum Environment {
     #[default]
     Dev,
     Uat,
     Prd,
+}
+
+impl fmt::Display for Environment {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Dev => write!(f, "dev"),
+            Self::Uat => write!(f, "uat"),
+            Self::Prd => write!(f, "prd"),
+        }
+    }
 }
 
 impl FromStr for Environment {
@@ -24,7 +34,7 @@ impl FromStr for Environment {
     }
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub enum StackSuffix {
     #[default]
     Dev1,
@@ -34,6 +44,19 @@ pub enum StackSuffix {
     NoSuffix,
     /// Custom suffix, typically '-<username>'
     Custom(String),
+}
+
+impl fmt::Display for StackSuffix {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Dev1 => write!(f, "-dev1"),
+            Self::Dev2 => write!(f, "-dev2"),
+            Self::Dev3 => write!(f, "-dev3"),
+            Self::Dev4 => write!(f, "-dev4"),
+            Self::NoSuffix => write!(f, "<no suffix>"),
+            Self::Custom(suffix) => write!(f, "-{suffix}"),
+        }
+    }
 }
 
 impl FromStr for StackSuffix {

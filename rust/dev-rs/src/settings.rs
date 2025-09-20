@@ -1,7 +1,7 @@
 use std::io;
 use std::path::Path;
 
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use serde::Deserialize;
 
 use crate::dirs::user_config_dir;
@@ -12,10 +12,30 @@ pub(crate) struct Settings {
     pub lambda: LambdaSettings,
 }
 
+impl Settings {
+    pub(crate) fn validate(&self) -> Result<()> {
+        self.lambda.validate()?;
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug, Deserialize)]
 pub(crate) struct LambdaSettings {
     pub(crate) environment: Environment,
     pub(crate) suffix: StackSuffix,
+}
+
+impl LambdaSettings {
+    pub(crate) fn validate(&self) -> Result<()> {
+        if self.environment != Environment::Dev && self.suffix != StackSuffix::NoSuffix {
+            return Err(anyhow!(
+                "'{}' environment cannot be used with '{}' suffix",
+                self.environment,
+                self.suffix
+            ));
+        }
+        Ok(())
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -28,7 +48,10 @@ impl FilesystemSettings {
         };
         let config_path = config_dir.join("config.toml");
         match read_file(&config_path) {
-            Ok(settings) => Ok(Some(Self(settings))),
+            Ok(settings) => {
+                settings.validate()?;
+                Ok(Some(Self(settings)))
+            }
             Err(err)
                 if matches!(
                     err.downcast_ref::<io::Error>().map(|e| e.kind()),
