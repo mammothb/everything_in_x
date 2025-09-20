@@ -53,7 +53,7 @@ impl fmt::Display for StackSuffix {
             Self::Dev2 => write!(f, "-dev2"),
             Self::Dev3 => write!(f, "-dev3"),
             Self::Dev4 => write!(f, "-dev4"),
-            Self::NoSuffix => write!(f, "<no suffix>"),
+            Self::NoSuffix => write!(f, ""),
             Self::Custom(suffix) => write!(f, "-{suffix}"),
         }
     }

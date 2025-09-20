@@ -5,6 +5,7 @@ use dev_rs::{Cli, Commands, LambdaCommands, LambdaNamespace};
 
 pub(crate) mod cache;
 pub(crate) mod commands;
+pub(crate) mod config;
 pub(crate) mod dirs;
 pub(crate) mod settings;
 
@@ -33,8 +34,8 @@ fn run() -> Result<()> {
             global_args,
         }) => {
             let cache = cache.init()?;
-            println!("{global_args:?}");
-            commands::lambda_fetch(args.path.as_deref(), cache)
+            let config = config::LambdaFetchConfig::resolve(args, global_args, settings)?;
+            commands::lambda_fetch(config, cache)?;
         }
         Commands::Lambda(LambdaNamespace {
             command: Some(LambdaCommands::Log),
