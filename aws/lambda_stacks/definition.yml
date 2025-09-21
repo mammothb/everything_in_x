@@ -1,0 +1,13 @@
+stacks:
+  - name: MyStacks-First
+    template_path: ./stacks/first/cf_template.yml
+    irrelevant: value2
+    key: value3
+  - name: MyStacks-Second
+    template_path: ./stacks/second/cf_template.yml
+    irrelevant: value2
+    key: value3
+  - name: MyStacks-Third
+    template_path: ./stacks/third/cf_template.yml
+    irrelevant: value2
+    key: value3

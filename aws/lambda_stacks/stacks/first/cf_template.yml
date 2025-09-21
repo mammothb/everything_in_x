@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: MyStacks-First with 2 Lambda functions
+Resources:
+  FirstStackLambda1:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: first_stack-lambda_1
+      Handler: func1.handler
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Hello from Func1!")
+              return {"statusCode": 200, "body": "Hello from Lambda 1"}
+      Role: arn:aws:iam::000000000000:role/lambda-ex
+  FirstStackLambda2:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: first_stack-lambda_2
+      Handler: func2.handler
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Hello from Func2!")
+              return {"statusCode": 200, "body": "Hello from Lambda 2"}
+      Role: arn:aws:iam::000000000000:role/lambda-ex
+  FirstStackBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: first-stack-bucket

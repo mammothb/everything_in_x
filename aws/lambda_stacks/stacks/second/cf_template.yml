@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: MyStacks-Second with 3 Lambda functions
+Resources:
+  SecondStackLambda1:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: second_stack-lambda_1
+      Handler: func1.handler
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Hello from Func1!")
+              return {"statusCode": 200, "body": "Hello from Lambda 1"}
+      Role: arn:aws:iam::000000000000:role/lambda-ex
+  SecondStackLambda2:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: second_stack-lambda_2
+      Handler: func2.handler
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Hello from Func2!")
+              return {"statusCode": 200, "body": "Hello from Lambda 2"}
+      Role: arn:aws:iam::000000000000:role/lambda-ex
+  SecondStackLambda3:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: second_stack-lambda_3
+      Handler: func3.handler
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Hello from Func3!")
+              return {"statusCode": 200, "body": "Hello from Lambda 3"}
+      Role: arn:aws:iam::000000000000:role/lambda-ex
+  SecondStackBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: second-stack-bucket

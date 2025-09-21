@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: MyStacks-Third with 2 Lambda functions
+Resources:
+  ThirdStackLambda1:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: third_stack-lambda_1
+      Handler: func1.handler
+      Runtime: python3.11
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Hello from Func1!")
+              return {"statusCode": 200, "body": "Hello from Lambda 1"}
+      Role: arn:aws:iam::000000000000:role/lambda-ex
+  ThirdStackBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: third-stack-bucket

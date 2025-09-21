@@ -1,0 +1,14 @@
+[project]
+name = "lambda-stacks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aws-cdk-lib>=2.215.0",
+]
+
+[dependency-groups]
+dev = [
+    "localstack>=4.8.1",
+]
