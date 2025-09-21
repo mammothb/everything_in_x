@@ -1,29 +1,111 @@
-use anyhow::Result;
+use std::path::Path;
+
+use anyhow::{Result, anyhow};
+use aws_sdk_cloudformation::Client;
+use saphyr::{LoadableYamlNode, Yaml};
+use tokio::runtime::Runtime;
 
 use crate::{
     cache::{Cache, CacheBucket, CacheEntry},
     config::{LambdaConfig, LambdaFetchConfig},
 };
+use dev_rs::types::StackSuffix;
 
-pub(crate) fn fetch(config: LambdaFetchConfig, cache: Cache) -> Result<()> {
+const DEFAULT_STACK_NAMES: [&str; 2] = ["MyStacks-First", "MyStacks-Second"];
+
+pub(crate) fn fetch(config: &LambdaFetchConfig, cache: &Cache) -> Result<()> {
     let LambdaFetchConfig {
         definition_path,
-        config: LambdaConfig {
-            environment,
-            suffix,
-        },
+        config:
+            LambdaConfig {
+                environment,
+                suffix,
+                verbose,
+            },
     } = config;
+
+    let stack_names: Vec<String> = if let Some(path) = definition_path {
+        parse_stack_names(&path)?
+    } else {
+        DEFAULT_STACK_NAMES.iter().map(|s| s.to_string()).collect()
+    };
+    let stack_names = with_suffix(stack_names, &suffix);
+    let data = fetch_all_lambda_names(&stack_names, *verbose)?;
+
     let file = format!("{}{}.json", environment, suffix);
-    println!("lambda fetch: {:?}", definition_path);
     let cache_entry = cache.entry(CacheBucket::Lambda, file);
-    let data = vec![String::from("asdf"), String::from("qwer")];
-    write_cache(cache_entry, data)?;
+    write_cache(cache_entry, &data)?;
     Ok(())
 }
 
-fn write_cache(cache_entry: CacheEntry, data: Vec<String>) -> Result<()> {
-    let content = serde_json::to_string_pretty(&data)?;
-    fs_err::create_dir_all(cache_entry.dir())?;
-    fs_err::write(cache_entry.path(), content)?;
+fn fetch_all_lambda_names(stack_names: &[String], verbose: bool) -> Result<Vec<String>> {
+    let rt = Runtime::new()?;
+    rt.block_on(async {
+        let config = aws_config::load_from_env().await;
+        let client = Client::new(&config);
+
+        let futures = stack_names
+            .iter()
+            .map(|stack_name| fetch_lambda_names(&client, stack_name, verbose));
+        let results = futures::future::join_all(futures).await;
+
+        let mut all_names = Vec::new();
+        for result in results {
+            match result {
+                Ok(names) => all_names.extend(names),
+                Err(err) => return Err(anyhow!(err)),
+            }
+        }
+        Ok(all_names)
+    })
+}
+
+async fn fetch_lambda_names(
+    client: &Client,
+    stack_name: &str,
+    verbose: bool,
+) -> Result<Vec<String>> {
+    if verbose {
+        tracing::info!("Fetching stack '{stack_name}'");
+    }
+    let response = client
+        .list_stack_resources()
+        .stack_name(stack_name)
+        .send()
+        .await?;
+    Ok(response
+        .stack_resource_summaries()
+        .iter()
+        .filter(|res| res.resource_type() == Some("AWS::Lambda::Function"))
+        .filter_map(|res| res.physical_resource_id().map(|id| id.to_string()))
+        .collect())
+}
+
+/// Parses the definition file for the stack names
+fn parse_stack_names(path: &Path) -> Result<Vec<String>> {
+    let content = fs_err::read_to_string(path)?;
+    let docs = Yaml::load_from_str(&content)?;
+    let stacks = &docs[0]["stacks"]
+        .as_vec()
+        .ok_or_else(|| anyhow!("'stacks' must be a sequence"))?;
+    Ok(stacks
+        .iter()
+        .filter_map(|stack| stack["name"].as_str().map(|s| s.to_string()))
+        .collect())
+}
+
+/// Appends the stack suffix to each item in the provided `items`
+fn with_suffix(items: Vec<String>, suffix: &StackSuffix) -> Vec<String> {
+    let suffix_name = suffix.to_string();
+    items
+        .into_iter()
+        .map(|item| format!("{item}{suffix_name}"))
+        .collect()
+}
+
+fn write_cache(cache_entry: CacheEntry, data: &Vec<String>) -> Result<()> {
+    let content = serde_json::to_string_pretty(data)?;
+    let cache_path = cache_entry.get()?;
+    fs_err::write(cache_path, content)?;
     Ok(())
 }

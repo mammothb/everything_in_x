@@ -37,6 +37,8 @@ pub struct LambdaGlobalArgs {
     pub suffix: Option<StackSuffix>,
     #[arg(short, long, value_enum)]
     pub environment: Option<Environment>,
+    #[arg(short, long)]
+    pub verbose: bool,
 }
 
 #[derive(Debug, Subcommand)]

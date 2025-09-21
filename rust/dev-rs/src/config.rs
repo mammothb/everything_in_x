@@ -12,10 +12,7 @@ use dev_rs::{
 pub(crate) struct LambdaConfig {
     pub(crate) environment: Environment,
     pub(crate) suffix: StackSuffix,
-}
-
-impl LambdaConfig {
-    pub(crate) fn combine() {}
+    pub(crate) verbose: bool,
 }
 
 #[derive(Clone, Debug)]
@@ -43,6 +40,7 @@ impl LambdaFetchConfig {
             config: LambdaConfig {
                 environment: global_args.environment.unwrap_or(environment),
                 suffix: global_args.suffix.unwrap_or(suffix),
+                verbose: global_args.verbose,
             },
         };
         config.validate()?;
