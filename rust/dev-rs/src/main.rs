@@ -28,7 +28,9 @@ fn run() -> Result<()> {
             command: None,
             global_args,
         }) => {
-            println!("fzf");
+            let cache = cache.init()?;
+            let config = config::LambdaConfig::resolve(global_args, settings)?;
+            commands::lambda_find(&config, &cache)?;
         }
         Commands::Lambda(LambdaNamespace {
             command: Some(LambdaCommands::Deps),

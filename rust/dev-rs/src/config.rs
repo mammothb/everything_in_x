@@ -15,6 +15,41 @@ pub(crate) struct LambdaConfig {
     pub(crate) verbose: bool,
 }
 
+impl LambdaConfig {
+    pub(crate) fn resolve(
+        global_args: LambdaGlobalArgs,
+        filesystem_settings: Option<FilesystemSettings>,
+    ) -> Result<Self> {
+        let Settings { lambda } = filesystem_settings
+            .map(FilesystemSettings::into_settings)
+            .unwrap_or_default();
+        let LambdaSettings {
+            environment,
+            suffix,
+        } = lambda.unwrap_or_default();
+
+        let config = Self {
+            environment: global_args.environment.unwrap_or(environment),
+            suffix: global_args.suffix.unwrap_or(suffix),
+            verbose: global_args.verbose,
+        };
+        config.validate()?;
+
+        Ok(config)
+    }
+
+    pub fn validate(&self) -> Result<()> {
+        if self.environment != Environment::Dev && self.suffix != StackSuffix::NoSuffix {
+            return Err(anyhow!(
+                "'{}' environment cannot be used with '{}' suffix",
+                self.environment,
+                self.suffix
+            ));
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug)]
 pub(crate) struct LambdaFetchConfig {
     pub(crate) definition_path: Option<PathBuf>,
@@ -49,15 +84,7 @@ impl LambdaFetchConfig {
     }
 
     pub fn validate(&self) -> Result<()> {
-        if self.config.environment != Environment::Dev
-            && self.config.suffix != StackSuffix::NoSuffix
-        {
-            return Err(anyhow!(
-                "'{}' environment cannot be used with '{}' suffix",
-                self.config.environment,
-                self.config.suffix
-            ));
-        }
+        self.config.validate()?;
         Ok(())
     }
 }
