@@ -3,7 +3,6 @@ use std::path::Path;
 use anyhow::{Result, anyhow};
 use aws_sdk_cloudformation::Client;
 use saphyr::{LoadableYamlNode, Yaml};
-use tokio::runtime::Runtime;
 
 use crate::{
     cache::{Cache, CacheBucket, CacheEntry},
@@ -13,7 +12,10 @@ use dev_rs::types::StackSuffix;
 
 const DEFAULT_STACK_NAMES: [&str; 2] = ["MyStacks-First", "MyStacks-Second"];
 
-pub(crate) fn fetch(config: &LambdaFetchConfig, cache: &Cache) -> Result<()> {
+pub(crate) async fn fetch(
+    config: &LambdaFetchConfig,
+    cache: &Cache,
+) -> Result<()> {
     let LambdaFetchConfig {
         definition_path,
         config:
@@ -24,43 +26,35 @@ pub(crate) fn fetch(config: &LambdaFetchConfig, cache: &Cache) -> Result<()> {
             },
     } = config;
 
-    let stack_names: Vec<String> = if let Some(path) = definition_path {
-        parse_stack_names(path)?
-    } else {
-        DEFAULT_STACK_NAMES.iter().map(|s| s.to_string()).collect()
+    let stack_names: Vec<String> = match definition_path {
+        Some(path) => parse_stack_names(path)?,
+        None => DEFAULT_STACK_NAMES.iter().map(|&s| s.into()).collect(),
     };
-    let stack_names = with_suffix(stack_names, suffix);
-    let data = fetch_all_lambda_names(&stack_names, *verbose)?;
+    let stack_names = with_suffix(&stack_names, suffix);
+    let data = fetch_all_lambda_names(&stack_names, *verbose).await?;
 
-    let file = format!("{}{}.json", environment, suffix);
+    let file = format!("{environment}{suffix}.json");
     let cache_entry = cache.entry(CacheBucket::Lambda, file);
     write_cache(cache_entry, &data)?;
     Ok(())
 }
 
-fn fetch_all_lambda_names(
+async fn fetch_all_lambda_names(
     stack_names: &[String],
     verbose: bool,
 ) -> Result<Vec<String>> {
-    let rt = Runtime::new()?;
-    rt.block_on(async {
-        let config = aws_config::load_from_env().await;
-        let client = Client::new(&config);
+    let config = aws_config::load_from_env().await;
+    let client = Client::new(&config);
 
-        let futures = stack_names
-            .iter()
-            .map(|stack_name| fetch_lambda_names(&client, stack_name, verbose));
-        let results = futures::future::join_all(futures).await;
+    let futures = stack_names
+        .iter()
+        .map(|stack_name| fetch_lambda_names(&client, stack_name, verbose));
+    let results = futures::future::join_all(futures).await;
 
-        let mut all_names = Vec::new();
-        for result in results {
-            match result {
-                Ok(names) => all_names.extend(names),
-                Err(err) => return Err(anyhow!(err)),
-            }
-        }
-        Ok(all_names)
-    })
+    results
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
+        .map(|names| names.into_iter().flatten().collect())
 }
 
 async fn fetch_lambda_names(
@@ -80,7 +74,7 @@ async fn fetch_lambda_names(
         .stack_resource_summaries()
         .iter()
         .filter(|res| res.resource_type() == Some("AWS::Lambda::Function"))
-        .filter_map(|res| res.physical_resource_id().map(|id| id.to_string()))
+        .filter_map(|res| res.physical_resource_id().map(str::to_owned))
         .collect())
 }
 
@@ -93,20 +87,20 @@ fn parse_stack_names(path: &Path) -> Result<Vec<String>> {
         .ok_or_else(|| anyhow!("'stacks' must be a sequence"))?;
     Ok(stacks
         .iter()
-        .filter_map(|stack| stack["name"].as_str().map(|s| s.to_string()))
+        .filter_map(|stack| stack["name"].as_str().map(str::to_owned))
         .collect())
 }
 
 /// Appends the stack suffix to each item in the provided `items`
-fn with_suffix(items: Vec<String>, suffix: &StackSuffix) -> Vec<String> {
+fn with_suffix(items: &[String], suffix: &StackSuffix) -> Vec<String> {
     let suffix_name = suffix.to_string();
     items
-        .into_iter()
+        .iter()
         .map(|item| format!("{item}{suffix_name}"))
         .collect()
 }
 
-fn write_cache(cache_entry: CacheEntry, data: &Vec<String>) -> Result<()> {
+fn write_cache(cache_entry: CacheEntry, data: &[String]) -> Result<()> {
     let content = serde_json::to_string_pretty(data)?;
     let cache_path = cache_entry.get()?;
     fs_err::write(cache_path, content)?;

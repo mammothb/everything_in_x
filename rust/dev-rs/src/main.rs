@@ -10,12 +10,7 @@ pub(crate) mod config;
 pub(crate) mod dirs;
 pub(crate) mod settings;
 
-fn run() -> Result<()> {
-    let subscriber = FmtSubscriber::builder()
-        .with_max_level(tracing::Level::INFO)
-        .finish();
-    tracing::subscriber::set_global_default(subscriber)?;
-
+async fn run() -> Result<()> {
     let args = Cli::parse();
 
     let cache_dir =
@@ -51,7 +46,7 @@ fn run() -> Result<()> {
                 global_args,
                 settings,
             )?;
-            commands::lambda_fetch(&config, &cache)?;
+            commands::lambda_fetch(&config, &cache).await?;
             let lambda_name = commands::lambda_find(&config.config, &cache)?;
             commands::lambda_display_url(
                 &lambda_name,
@@ -75,9 +70,18 @@ fn run() -> Result<()> {
     Ok(())
 }
 
-fn main() {
-    if let Err(error) = run() {
-        eprintln!("Error: {}", error);
+#[tokio::main]
+async fn main() {
+    let subscriber = FmtSubscriber::builder()
+        .with_max_level(tracing::Level::INFO)
+        .finish();
+    if let Err(error) = tracing::subscriber::set_global_default(subscriber) {
+        eprintln!("Tracing setup error: {error}");
+        std::process::exit(1);
+    }
+
+    if let Err(error) = run().await {
+        eprintln!("Error: {error}");
         std::process::exit(1);
     }
 }
