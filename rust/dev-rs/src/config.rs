@@ -39,7 +39,9 @@ impl LambdaConfig {
     }
 
     pub fn validate(&self) -> Result<()> {
-        if self.environment != Environment::Dev && self.suffix != StackSuffix::NoSuffix {
+        if self.environment != Environment::Dev
+            && self.suffix != StackSuffix::NoSuffix
+        {
             return Err(anyhow!(
                 "'{}' environment cannot be used with '{}' suffix",
                 self.environment,

@@ -23,11 +23,14 @@ impl Cache {
 
         Ok(Self {
             root: std::path::absolute(root)?,
-            ..self
         })
     }
 
-    pub fn entry(&self, cache_bucket: CacheBucket, file: impl AsRef<Path>) -> CacheEntry {
+    pub fn entry(
+        &self,
+        cache_bucket: CacheBucket,
+        file: impl AsRef<Path>,
+    ) -> CacheEntry {
         CacheEntry::new(self.bucket(cache_bucket), file)
     }
 }

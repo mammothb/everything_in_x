@@ -18,7 +18,8 @@ fn run() -> Result<()> {
 
     let args = Cli::parse();
 
-    let cache_dir = dirs::user_cache_dir().context("Cannot find cache directory")?;
+    let cache_dir =
+        dirs::user_cache_dir().context("Cannot find cache directory")?;
     fs_err::create_dir_all(&cache_dir)?;
     let cache = cache::Cache::from_path(cache_dir);
     let settings = settings::FilesystemSettings::user()?;
@@ -30,7 +31,11 @@ fn run() -> Result<()> {
         }) => {
             let cache = cache.init()?;
             let config = config::LambdaConfig::resolve(global_args, settings)?;
-            commands::lambda_find(&config, &cache)?;
+            let lambda_name = commands::lambda_find(&config, &cache)?;
+            commands::lambda_display_url(
+                &lambda_name,
+                commands::LambdaDisplayUrlType::Function,
+            )?;
         }
         Commands::Lambda(LambdaNamespace {
             command: Some(LambdaCommands::Deps),
@@ -41,14 +46,30 @@ fn run() -> Result<()> {
             global_args,
         }) => {
             let cache = cache.init()?;
-            let config = config::LambdaFetchConfig::resolve(args, global_args, settings)?;
+            let config = config::LambdaFetchConfig::resolve(
+                args,
+                global_args,
+                settings,
+            )?;
             commands::lambda_fetch(&config, &cache)?;
-            commands::lambda_find(&config.config, &cache)?;
+            let lambda_name = commands::lambda_find(&config.config, &cache)?;
+            commands::lambda_display_url(
+                &lambda_name,
+                commands::LambdaDisplayUrlType::Function,
+            )?;
         }
         Commands::Lambda(LambdaNamespace {
             command: Some(LambdaCommands::Log),
             global_args,
-        }) => {}
+        }) => {
+            let cache = cache.init()?;
+            let config = config::LambdaConfig::resolve(global_args, settings)?;
+            let lambda_name = commands::lambda_find(&config, &cache)?;
+            commands::lambda_display_url(
+                &lambda_name,
+                commands::LambdaDisplayUrlType::Log,
+            )?;
+        }
         Commands::Run => {}
     }
     Ok(())

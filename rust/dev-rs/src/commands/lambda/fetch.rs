@@ -25,11 +25,11 @@ pub(crate) fn fetch(config: &LambdaFetchConfig, cache: &Cache) -> Result<()> {
     } = config;
 
     let stack_names: Vec<String> = if let Some(path) = definition_path {
-        parse_stack_names(&path)?
+        parse_stack_names(path)?
     } else {
         DEFAULT_STACK_NAMES.iter().map(|s| s.to_string()).collect()
     };
-    let stack_names = with_suffix(stack_names, &suffix);
+    let stack_names = with_suffix(stack_names, suffix);
     let data = fetch_all_lambda_names(&stack_names, *verbose)?;
 
     let file = format!("{}{}.json", environment, suffix);
@@ -38,7 +38,10 @@ pub(crate) fn fetch(config: &LambdaFetchConfig, cache: &Cache) -> Result<()> {
     Ok(())
 }
 
-fn fetch_all_lambda_names(stack_names: &[String], verbose: bool) -> Result<Vec<String>> {
+fn fetch_all_lambda_names(
+    stack_names: &[String],
+    verbose: bool,
+) -> Result<Vec<String>> {
     let rt = Runtime::new()?;
     rt.block_on(async {
         let config = aws_config::load_from_env().await;
