@@ -8,12 +8,15 @@ use crate::dirs::user_config_dir;
 use dev_rs::types::{Environment, StackSuffix};
 
 #[derive(Clone, Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub(crate) struct Settings {
-    pub lambda: Option<LambdaSettings>,
+    #[serde(flatten)]
+    pub global: Option<GlobalSettings>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
-pub(crate) struct LambdaSettings {
+#[serde(deny_unknown_fields)]
+pub(crate) struct GlobalSettings {
     pub(crate) environment: Environment,
     pub(crate) suffix: StackSuffix,
 }

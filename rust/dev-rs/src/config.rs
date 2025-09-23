@@ -2,11 +2,18 @@ use std::path::PathBuf;
 
 use anyhow::{Result, anyhow};
 
-use crate::settings::{FilesystemSettings, LambdaSettings, Settings};
+use crate::settings::{FilesystemSettings, GlobalSettings, Settings};
 use dev_rs::{
-    LambdaFetchArgs, LambdaGlobalArgs,
+    GlobalArgs, LambdaFetchArgs,
     types::{Environment, StackSuffix},
 };
+
+#[derive(Clone, Debug)]
+pub(crate) struct CtlConfig {
+    pub(crate) environment: Environment,
+    pub(crate) suffix: StackSuffix,
+    pub(crate) verbose: bool,
+}
 
 #[derive(Clone, Debug)]
 pub(crate) struct LambdaConfig {
@@ -17,16 +24,16 @@ pub(crate) struct LambdaConfig {
 
 impl LambdaConfig {
     pub(crate) fn resolve(
-        global_args: LambdaGlobalArgs,
+        global_args: GlobalArgs,
         filesystem_settings: Option<FilesystemSettings>,
     ) -> Result<Self> {
-        let Settings { lambda } = filesystem_settings
+        let Settings { global } = filesystem_settings
             .map(FilesystemSettings::into_settings)
             .unwrap_or_default();
-        let LambdaSettings {
+        let GlobalSettings {
             environment,
             suffix,
-        } = lambda.unwrap_or_default();
+        } = global.unwrap_or_default();
 
         let config = Self {
             environment: global_args.environment.unwrap_or(environment),
@@ -61,16 +68,16 @@ pub(crate) struct LambdaFetchConfig {
 impl LambdaFetchConfig {
     pub(crate) fn resolve(
         args: LambdaFetchArgs,
-        global_args: LambdaGlobalArgs,
+        global_args: GlobalArgs,
         filesystem_settings: Option<FilesystemSettings>,
     ) -> Result<Self> {
-        let Settings { lambda } = filesystem_settings
+        let Settings { global } = filesystem_settings
             .map(FilesystemSettings::into_settings)
             .unwrap_or_default();
-        let LambdaSettings {
+        let GlobalSettings {
             environment,
             suffix,
-        } = lambda.unwrap_or_default();
+        } = global.unwrap_or_default();
 
         let config = Self {
             definition_path: args.path,

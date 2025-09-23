@@ -12,10 +12,28 @@ pub mod types;
 pub struct Cli {
     #[command(subcommand)]
     pub command: Box<Commands>,
+
+    #[command(flatten)]
+    pub global_args: Box<GlobalArgs>,
+}
+
+#[derive(Debug, Parser)]
+pub struct GlobalArgs {
+    /// Stack suffix
+    #[arg(short, long, value_enum)]
+    pub suffix: Option<StackSuffix>,
+    /// Deployment environment
+    #[arg(short, long, value_enum)]
+    pub environment: Option<Environment>,
+    /// Verbose logging
+    #[arg(short, long)]
+    pub verbose: bool,
 }
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
+    /// IaC deploy/destroy
+    Ctl(CtlNamespace),
     /// Lambda utilities
     Lambda(LambdaNamespace),
     /// Run commands through a custom environment
@@ -23,22 +41,29 @@ pub enum Commands {
 }
 
 #[derive(Args, Debug)]
+pub struct CtlNamespace {
+    #[command(subcommand)]
+    pub command: CtlCommand,
+}
+
+#[derive(Debug, Subcommand)]
+pub enum CtlCommand {
+    Down2,
+    Up(CtlUpArgs),
+    Up2,
+}
+
+#[derive(Args, Debug)]
+pub struct CtlUpArgs {
+    /// Stacks to deploy
+    #[arg(short, long)]
+    pub stacks: Vec<String>,
+}
+
+#[derive(Args, Debug)]
 pub struct LambdaNamespace {
     #[command(subcommand)]
     pub command: Option<LambdaCommands>,
-
-    #[command(flatten)]
-    pub global_args: LambdaGlobalArgs,
-}
-
-#[derive(Debug, Parser)]
-pub struct LambdaGlobalArgs {
-    #[arg(short, long, value_enum)]
-    pub suffix: Option<StackSuffix>,
-    #[arg(short, long, value_enum)]
-    pub environment: Option<Environment>,
-    #[arg(short, long)]
-    pub verbose: bool,
 }
 
 #[derive(Debug, Subcommand)]
