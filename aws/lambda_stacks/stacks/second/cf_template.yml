@@ -1,10 +1,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: MyStacks-Second with 3 Lambda functions
+Parameters:
+  StackSuffix:
+    Type: String
+    Description: CloudFormation stack suffix
 Resources:
   SecondStackLambda1:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: second_stack-lambda_1
+      FunctionName: !Sub second_stack-lambda_1${StackSuffix}
       Handler: func1.handler
       Runtime: python3.11
       Code:
@@ -16,7 +20,7 @@ Resources:
   SecondStackLambda2:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: second_stack-lambda_2
+      FunctionName: !Sub second_stack-lambda_2${StackSuffix}
       Handler: func2.handler
       Runtime: python3.11
       Code:
@@ -28,7 +32,7 @@ Resources:
   SecondStackLambda3:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: second_stack-lambda_3
+      FunctionName: !Sub second_stack-lambda_3${StackSuffix}
       Handler: func3.handler
       Runtime: python3.11
       Code:
@@ -40,4 +44,4 @@ Resources:
   SecondStackBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: second-stack-bucket
+      BucketName: !Sub second-stack-bucket${StackSuffix}

@@ -1,10 +1,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: MyStacks-Third with 2 Lambda functions
+Parameters:
+  StackSuffix:
+    Type: String
+    Description: CloudFormation stack suffix
 Resources:
   ThirdStackLambda1:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: third_stack-lambda_1
+      FunctionName: !Sub third_stack-lambda_1${StackSuffix}
       Handler: func1.handler
       Runtime: python3.11
       Code:
@@ -16,4 +20,4 @@ Resources:
   ThirdStackBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: third-stack-bucket
+      BucketName: !Sub third-stack-bucket${StackSuffix}
