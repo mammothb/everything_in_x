@@ -1,4 +1,11 @@
+mod lambda;
+
 use std::process::ExitCode;
+
+pub(crate) use lambda::display::UrlType as DisplayUrlType;
+pub(crate) use lambda::display::display_url as lambda_display_url;
+pub(crate) use lambda::fetch::fetch as lambda_fetch;
+pub(crate) use lambda::find::find as lambda_find;
 
 #[derive(Clone, Copy)]
 pub enum ExitStatus {

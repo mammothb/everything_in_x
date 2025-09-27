@@ -1,11 +1,15 @@
 use anyhow::Result;
 
-pub enum UrlType {
-    Function,
-    Log,
-}
+use crate::commands::ExitStatus;
 
-pub(crate) fn display_url(lambda_name: &str, url_type: UrlType) -> Result<()> {
+pub(crate) fn display_url(
+    lambda_name: &str,
+    url_type: &UrlType,
+) -> Result<ExitStatus> {
+    if lambda_name.is_empty() {
+        return Ok(ExitStatus::Success);
+    }
+
     let url = match url_type {
         UrlType::Function => format!(
             "https://app.localstack.cloud/inst/default/resources/lambda/functions/{lambda_name}"
@@ -17,5 +21,11 @@ pub(crate) fn display_url(lambda_name: &str, url_type: UrlType) -> Result<()> {
 
     tracing::info!(url);
     webbrowser::open(&url)?;
-    Ok(())
+
+    Ok(ExitStatus::Success)
+}
+
+pub(crate) enum UrlType {
+    Function,
+    Log,
 }

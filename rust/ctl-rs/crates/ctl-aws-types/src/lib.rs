@@ -1,8 +1,8 @@
 use std::{fmt, str::FromStr};
 
-use serde::{Deserialize, Deserializer, de};
+use serde::{Deserialize, Deserializer};
 
-#[derive(Clone, Debug, Default, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "kebab-case")]
 pub enum Environment {
     #[default]
@@ -34,7 +34,7 @@ impl FromStr for Environment {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub enum StackSuffix {
     #[default]
     Dev1,
@@ -86,6 +86,6 @@ impl<'de> Deserialize<'de> for StackSuffix {
         D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
-        StackSuffix::from_str(&s).map_err(de::Error::custom)
+        Self::from_str(&s).map_err(serde::de::Error::custom)
     }
 }
