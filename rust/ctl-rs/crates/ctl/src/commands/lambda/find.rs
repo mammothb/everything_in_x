@@ -2,16 +2,18 @@ use std::io::Write;
 use std::process::{Command, Stdio};
 
 use anyhow::{Context, Result};
+use ctl_aws_types::{Environment, StackSuffix};
 
-use crate::{
-    cache::{Cache, CacheBucket, CacheEntry},
-    config::LambdaConfig,
-};
+use ctl_cache::{Cache, CacheBucket, CacheEntry};
 
-pub(crate) fn find(config: &LambdaConfig, cache: &Cache) -> Result<String> {
-    let file = format!("{}{}.json", config.environment, config.suffix);
+pub(crate) fn find(
+    environment: &Environment,
+    suffix: &StackSuffix,
+    cache: &Cache,
+) -> Result<String> {
+    let file = format!("{environment}{suffix}.json");
     let cache_entry = cache.entry(CacheBucket::Lambda, file);
-    let lambda_names = read_cache(cache_entry)?;
+    let lambda_names = read_cache(&cache_entry)?;
 
     let mut child = Command::new("fzf")
         .stdin(Stdio::piped())
@@ -30,7 +32,7 @@ pub(crate) fn find(config: &LambdaConfig, cache: &Cache) -> Result<String> {
     Ok(selected)
 }
 
-fn read_cache(cache_entry: CacheEntry) -> Result<Vec<String>> {
+fn read_cache(cache_entry: &CacheEntry) -> Result<Vec<String>> {
     let cache_path = cache_entry.get()?;
     let content = fs_err::read_to_string(cache_path)?;
     let data = serde_json::from_str(&content)?;

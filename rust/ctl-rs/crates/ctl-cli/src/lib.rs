@@ -2,9 +2,7 @@ use std::path::PathBuf;
 
 use clap::{Args, Parser, Subcommand};
 
-use crate::types::{Environment, StackSuffix};
-
-pub mod types;
+use ctl_aws_types::{Environment, StackSuffix};
 
 #[derive(Debug, Parser)]
 #[command(name = "dev")]
@@ -19,12 +17,12 @@ pub struct Cli {
 
 #[derive(Debug, Parser)]
 pub struct GlobalArgs {
-    /// Stack suffix
-    #[arg(short, long, value_enum)]
-    pub suffix: Option<StackSuffix>,
     /// Deployment environment
     #[arg(short, long, value_enum)]
     pub environment: Option<Environment>,
+    /// Stack suffix
+    #[arg(short, long, value_enum)]
+    pub suffix: Option<StackSuffix>,
     /// Verbose logging
     #[arg(short, long)]
     pub verbose: bool,
@@ -32,8 +30,8 @@ pub struct GlobalArgs {
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
-    /// IaC deploy/destroy
-    Ctl(CtlNamespace),
+    /// Deploy/destroy resources
+    Aws(AwsNamespace),
     /// Lambda utilities
     Lambda(LambdaNamespace),
     /// Run commands through a custom environment
@@ -41,20 +39,19 @@ pub enum Commands {
 }
 
 #[derive(Args, Debug)]
-pub struct CtlNamespace {
+pub struct AwsNamespace {
     #[command(subcommand)]
-    pub command: CtlCommand,
+    pub command: AwsCommands,
 }
 
 #[derive(Debug, Subcommand)]
-pub enum CtlCommand {
-    Down2,
-    Up(CtlUpArgs),
-    Up2,
+pub enum AwsCommands {
+    Down,
+    Up(AwsUpArgs),
 }
 
 #[derive(Args, Debug)]
-pub struct CtlUpArgs {
+pub struct AwsUpArgs {
     /// Stacks to deploy
     #[arg(short, long)]
     pub stacks: Vec<String>,
@@ -72,7 +69,7 @@ pub enum LambdaCommands {
     Deps,
     /// Fetch Lambda function names
     Fetch(LambdaFetchArgs),
-    /// Open CloudWatch logs
+    /// Open Cloudwatch logs
     Log,
 }
 

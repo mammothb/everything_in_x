@@ -4,39 +4,34 @@ use anyhow::{Result, anyhow};
 use aws_sdk_cloudformation::Client;
 use saphyr::{LoadableYamlNode, Yaml};
 
-use crate::{
-    cache::{Cache, CacheBucket, CacheEntry},
-    config::{LambdaConfig, LambdaFetchConfig},
-};
-use dev_rs::types::StackSuffix;
-
-const DEFAULT_STACK_NAMES: [&str; 2] = ["MyStacks-First", "MyStacks-Second"];
+use crate::{commands::ExitStatus, settings::LambdaFetchSettings};
+use ctl_aws_types::StackSuffix;
+use ctl_cache::{Cache, CacheBucket, CacheEntry};
 
 pub(crate) async fn fetch(
-    config: &LambdaFetchConfig,
+    settings: &LambdaFetchSettings,
     cache: &Cache,
-) -> Result<()> {
-    let LambdaFetchConfig {
-        definition_path,
-        config:
-            LambdaConfig {
-                environment,
-                suffix,
-                verbose,
-            },
-    } = config;
+) -> Result<ExitStatus> {
+    let LambdaFetchSettings {
+        path,
+        stack_names,
+        environment,
+        suffix,
+        verbose,
+    } = settings;
 
-    let stack_names: Vec<String> = match definition_path {
+    let stack_names: Vec<String> = match path {
         Some(path) => parse_stack_names(path)?,
-        None => DEFAULT_STACK_NAMES.iter().map(|&s| s.into()).collect(),
+        None => stack_names.iter().map(std::convert::Into::into).collect(),
     };
     let stack_names = with_suffix(&stack_names, suffix);
     let data = fetch_all_lambda_names(&stack_names, *verbose).await?;
 
     let file = format!("{environment}{suffix}.json");
     let cache_entry = cache.entry(CacheBucket::Lambda, file);
-    write_cache(cache_entry, &data)?;
-    Ok(())
+    write_cache(&cache_entry, &data)?;
+
+    Ok(ExitStatus::Success)
 }
 
 async fn fetch_all_lambda_names(
@@ -100,7 +95,7 @@ fn with_suffix(items: &[String], suffix: &StackSuffix) -> Vec<String> {
         .collect()
 }
 
-fn write_cache(cache_entry: CacheEntry, data: &[String]) -> Result<()> {
+fn write_cache(cache_entry: &CacheEntry, data: &[String]) -> Result<()> {
     let content = serde_json::to_string_pretty(data)?;
     let cache_path = cache_entry.get()?;
     fs_err::write(cache_path, content)?;
