@@ -1,13 +1,15 @@
+mod aws;
 mod lambda;
 
 use std::process::ExitCode;
 
+pub(crate) use aws::up::up as aws_up;
 pub(crate) use lambda::display::UrlType as DisplayUrlType;
 pub(crate) use lambda::display::display_url as lambda_display_url;
 pub(crate) use lambda::fetch::fetch as lambda_fetch;
 pub(crate) use lambda::find::find as lambda_find;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum ExitStatus {
     Success,
     /// The command failed due to an error in the user input

@@ -1,4 +1,5 @@
 pub(crate) mod commands;
+pub(crate) mod process;
 pub(crate) mod settings;
 
 use std::process::ExitCode;
@@ -53,7 +54,7 @@ async fn run() -> Result<ExitStatus> {
 
         Commands::Aws(AwsNamespace {
             command: AwsCommands::Up(args),
-        }) => Ok(ExitStatus::Success),
+        }) => commands::aws_up().await,
 
         Commands::Lambda(LambdaNamespace { command: None }) => {
             let lambda_name = commands::lambda_find(
