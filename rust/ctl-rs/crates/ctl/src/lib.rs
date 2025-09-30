@@ -11,7 +11,7 @@ use tracing_subscriber::FmtSubscriber;
 
 use crate::{
     commands::{DisplayUrlType, ExitStatus},
-    settings::{GlobalSettings, LambdaFetchSettings},
+    settings::{AwsUpSettings, GlobalSettings, LambdaFetchSettings},
 };
 use ctl_cache::Cache;
 use ctl_cli::{
@@ -44,6 +44,7 @@ async fn run() -> Result<ExitStatus> {
     let cache_dir = user_cache_dir().context("Cannot find cache directory")?;
     let cache = Cache::from_path(cache_dir);
     let filesystem = FilesystemOptions::user()?;
+    println!("{filesystem:#?}");
     let globals =
         GlobalSettings::resolve(&cli.global_args, filesystem.as_ref())?;
 
@@ -54,7 +55,16 @@ async fn run() -> Result<ExitStatus> {
 
         Commands::Aws(AwsNamespace {
             command: AwsCommands::Up(args),
-        }) => commands::aws_up().await,
+        }) => {
+            let settings = AwsUpSettings::resolve(
+                args,
+                filesystem.as_ref(),
+                globals.environment.clone(),
+                globals.suffix.clone(),
+                globals.verbose,
+            )?;
+            commands::aws_up(&settings).await
+        }
 
         Commands::Lambda(LambdaNamespace { command: None }) => {
             let lambda_name = commands::lambda_find(

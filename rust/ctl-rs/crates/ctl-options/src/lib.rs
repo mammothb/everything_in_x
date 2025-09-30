@@ -1,10 +1,11 @@
+use std::collections::HashMap;
 use std::ops::Deref;
 use std::path::Path;
 use std::{io, path::PathBuf};
 
 use serde::Deserialize;
 
-use ctl_aws_types::{Environment, StackSuffix};
+use ctl_aws_types::{AwsJob, Environment, StackSuffix};
 use ctl_dirs::user_config_dir;
 
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -13,6 +14,7 @@ pub struct Options {
     #[serde(flatten)]
     pub global: Option<GlobalOptions>,
     pub lambda: Option<LambdaOptions>,
+    pub aws: Option<AwsOptions>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -26,6 +28,12 @@ pub struct GlobalOptions {
 #[serde(deny_unknown_fields)]
 pub struct LambdaOptions {
     pub stack_names: Vec<String>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+pub struct AwsOptions {
+    #[serde(flatten)]
+    pub jobs: HashMap<String, AwsJob>,
 }
 
 #[derive(Clone, Debug)]

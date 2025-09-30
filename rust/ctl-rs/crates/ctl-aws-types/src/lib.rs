@@ -1,4 +1,4 @@
-use std::{fmt, str::FromStr};
+use std::{collections::HashMap, fmt, path::PathBuf, str::FromStr};
 
 use serde::{Deserialize, Deserializer};
 
@@ -88,4 +88,19 @@ impl<'de> Deserialize<'de> for StackSuffix {
         let s = String::deserialize(deserializer)?;
         Self::from_str(&s).map_err(serde::de::Error::custom)
     }
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "kebab-case")]
+pub struct AwsJob {
+    pub steps: Vec<AwsStep>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "kebab-case")]
+pub struct AwsStep {
+    pub cmd: String,
+    pub chdir: Option<PathBuf>,
+    pub executable: Option<PathBuf>,
+    pub env: Option<HashMap<String, String>>,
 }

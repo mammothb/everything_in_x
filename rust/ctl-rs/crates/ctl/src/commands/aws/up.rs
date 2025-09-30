@@ -4,8 +4,10 @@ use anyhow::Result;
 
 use crate::commands::ExitStatus;
 use crate::process::Process;
+use crate::settings::AwsUpSettings;
 
-pub(crate) async fn up() -> Result<ExitStatus> {
+pub(crate) async fn up(settings: &AwsUpSettings) -> Result<ExitStatus> {
+    println!("{settings:?}");
     let env = HashMap::new();
     let shell = Process::new(
         String::from("ls"),

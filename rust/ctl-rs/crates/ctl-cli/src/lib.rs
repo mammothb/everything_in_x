@@ -52,9 +52,12 @@ pub enum AwsCommands {
 
 #[derive(Args, Debug)]
 pub struct AwsUpArgs {
-    /// Stacks to deploy
+    /// Job which contains the steps to deploy the cloud resources
     #[arg(short, long)]
-    pub stacks: Vec<String>,
+    pub job: Option<String>,
+    /// Stacks to deploy
+    #[arg(short, long, value_delimiter = ',')]
+    pub stack_names: Vec<String>,
 }
 
 #[derive(Args, Debug)]

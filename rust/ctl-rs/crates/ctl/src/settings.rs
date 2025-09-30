@@ -1,9 +1,9 @@
 use std::path::PathBuf;
 
-use anyhow::{Result, bail};
+use anyhow::{Context, Result, bail};
 
-use ctl_aws_types::{Environment, StackSuffix};
-use ctl_cli::{GlobalArgs, LambdaFetchArgs};
+use ctl_aws_types::{AwsStep, Environment, StackSuffix};
+use ctl_cli::{AwsUpArgs, GlobalArgs, LambdaFetchArgs};
 use ctl_options::FilesystemOptions;
 
 #[derive(Clone, Debug)]
@@ -50,12 +50,43 @@ impl GlobalSettings {
         Ok(())
     }
 }
-// #[derive(Clone, Debug)]
-// pub(crate) struct CtlSettings {
-//     pub(crate) environment: Environment,
-//     pub(crate) suffix: StackSuffix,
-//     pub(crate) verbose: bool,
-// }
+
+#[derive(Clone, Debug)]
+pub(crate) struct AwsUpSettings {
+    pub(crate) steps: Vec<AwsStep>,
+    pub(crate) stack_names: Vec<String>,
+    pub(crate) environment: Environment,
+    pub(crate) suffix: StackSuffix,
+    pub(crate) verbose: bool,
+}
+
+impl AwsUpSettings {
+    pub(crate) fn resolve(
+        args: AwsUpArgs,
+        filesystem: Option<&FilesystemOptions>,
+        environment: Environment,
+        suffix: StackSuffix,
+        verbose: bool,
+    ) -> Result<Self> {
+        let job_name = args.job.as_deref().unwrap_or("default");
+        let steps = filesystem
+            .and_then(|f| f.aws.clone())
+            .map(|a| a.jobs)
+            .context("No AWS jobs defined")?
+            .get(job_name)
+            .with_context(|| format!("Job `{job_name}` not defined"))?
+            .steps
+            .clone();
+        let settings = Self {
+            steps,
+            stack_names: args.stack_names,
+            environment,
+            suffix,
+            verbose,
+        };
+        Ok(settings)
+    }
+}
 
 #[derive(Clone, Debug)]
 pub(crate) struct LambdaFetchSettings {
