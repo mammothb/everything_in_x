@@ -26,6 +26,7 @@
 | 1531. String Compression II | Hard | Dynamic Programming, String | cpp, py, rs |
 | 1659. Maximum Erasure Value | Medium | Array, Hash Table | cpp, py, rs |
 | 1772. Sort Features by Popularity | Medium | Array, Hash Table, Sorting, String | cpp, py, rs |
+| 1944. Number of Visible People in a Queue | Hard | Array | cpp, py, rs |
 | 2438. Range Product Queries of Powers | Medium | Array, Binary | cpp, py, rs |
 
 
