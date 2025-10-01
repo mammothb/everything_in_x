@@ -278,7 +278,7 @@ The standard normal variable, denoted by $ Z $, is the random variable with
     \end{equation}
 \end{definition}
 
-\begin{lemma}
+\begin{lemma}\label{lemma:standard-normal-distribution-symmetry}
     Let $ Z $ be the standard normal variable.
     Then,
     \begin{equation}
@@ -429,3 +429,99 @@ Thus, the relevant factor when pricing an option with strike $ K $ is
 \end{equation*}
 which represents the percentage by which an option is in-the-money or
     out-of-money at time $ t $.
+
+\section{The Greeks of European call and put options}
+Let $ V $ be the value of a portfolio of derivative securities on one underlying
+    asset.
+The rates of change of the value of the portfolio with respect to various
+    parameters, e.g., the price of the underlying asset or the volatility of the
+    underlying asset, are important for hedging purposes.
+The most commonly used rates of change are listed below.
+\begin{itemize}
+    \item Delta ($ \Delta $) is the rate of change of the value of the value of
+        the portfolio with respect to the spot price $ S $ of the underlying
+        asset:
+        \begin{equation}
+            \Delta(V) = \frac{\partial V}{\partial S};
+            \label{eq:rate-of-change-of-value-to-price}
+        \end{equation}
+    \item Gamma ($ \Gamma $) is the rate of change of the Delta of the portfolio
+        with respect to the spot price $ S $ of the underlying asset, i.e., the
+        second partial derivative of the value of the portfolio with respect to
+        $ S $:
+        \begin{equation}
+            \Gamma(V) = \frac{\partial^2 V}{\partial S^2};
+            \label{eq:rate-of-change-of-delta}
+        \end{equation}
+    \item Theta ($ \Theta $) is the rate of change of the value of the portfolio
+        with respect to time $ t $ (not with respect to maturity $ T $):
+        \begin{equation}
+            \Theta(V) = \frac{\partial V}{\partial t};
+            \label{eq:rate-of-change-of-value-to-time}
+        \end{equation}
+    \item Rho ($ \rho $) is the rate of change of the value of the portfolio
+        with respect to the risk-free interest rate $ r $:
+        \begin{equation}
+            \rho(V) = \frac{\partial V}{\partial r};
+            \label{eq:rate-of-change-of-value-to-interest}
+        \end{equation}
+    \item Vega is the rate of change of the value of the portfolio with respect
+        to the volatility $ \sigma $ of the underlying asset:
+        \begin{equation}
+            \vega(V) = \frac{\partial V}{\partial \sigma}.
+            \label{eq:rate-of-change-of-value-to-volatility}
+        \end{equation}
+\end{itemize}
+
+From the Black-Scholes formulas \eqref{eq:black-scholes-call} and
+    \eqref{eq:black-scholes-put} for options on assets paying continuous
+    dividends, the following closed formulas for computing the Greeks of
+    European plain vanilla call and put options can be derived:
+\begin{align}
+    \Delta(C) &= e^{-q(T-t)}N(d_1); \label{eq:greeks-delta-call} \\
+    \Delta(P) &= -e^{-q(T-t)}N(-d_1); \label{eq:greeks-delta-put}
+\end{align}
+\begin{align}
+    \Gamma(C) &= \frac{e^{-q(T-t)}}{S \sigma \sqrt{T - t}}
+        \frac{1}{\sqrt{2 \pi}}e^{-\frac{d_1^2}{2}}; \\
+    \Gamma(P) &= \Gamma(C);
+\end{align}
+\begin{align}
+    \Theta(C) &= -\frac{S \sigma e^{-q(T-t)}}{2 \sqrt{2 \pi (T - t)}}
+        e^{-\frac{d_1^2}{2}} + q S e^{q(T-t)} N(d_1) -
+        r K e^{-r(T-t)} N(d_2); \\
+    \Theta(P) &= -\frac{S \sigma e^{-q(T-t)}}{2 \sqrt{2 \pi (T - t)}}
+        e^{-\frac{d_1^2}{2}} - q S e^{-q(T-t)} N(-d_1) +
+        r K e^{-r(T-t)} N(-d_2);
+\end{align}
+\begin{align}
+    \rho(C) &= K (T - t) e^{-r(T-t)} N(d_2); \\
+    \rho(P) &= -K (T - t) e^{-r(T-t)} N(-d_2);
+\end{align}
+\begin{align}
+    \vega(C) &= S e^{-q(T-t)} \sqrt{T - t} \frac{1}{\sqrt{2 \pi}}
+        e^{-\frac{d_1^2}{2}}; \\
+    \vega(P) &= \vega(C).
+\end{align}
+
+Note that, as soon as the formulas for the Greeks corresponding to a call
+    option are derive, the Put-Call parity can be used to obtain the
+    corresponding Greeks for the put option.
+For example, to compute the Delta of a put option, we write the Put-Call parity
+    formula \eqref{eq:put-call-parity-dividend} as
+\begin{equation}
+    P = C - S(t) e^{-q (T - t)} + K e^{-r (T - t)}.
+    \label{eq:put-call-parity-greeks}
+\end{equation}
+By differentiating \eqref{eq:put-call-parity-greeks} with respect to S, we find
+    that
+\begin{equation*}
+    \Delta(P) = \Delta(C) - e^{-q(T-t)}.
+\end{equation*}
+Using formula \eqref{eq:greeks-delta-call} for $ \Delta(C) $ and Lemma
+    \ref{lemma:standard-normal-distribution-symmetry}, we obtain the formula
+    \eqref{eq:greeks-delta-put}, i.e.,
+\begin{equation*}
+    \Delta(P) = e^{-q(T-t)} N(d_1) - e^{-q(T-t)} = -e^{-q(T-t)} (1 - N(d_1)) =
+        -e^{-q(T-t)} N(-d_1).
+\end{equation*}
