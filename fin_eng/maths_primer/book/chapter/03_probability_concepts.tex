@@ -525,3 +525,108 @@ Using formula \eqref{eq:greeks-delta-call} for $ \Delta(C) $ and Lemma
     \Delta(P) = e^{-q(T-t)} N(d_1) - e^{-q(T-t)} = -e^{-q(T-t)} (1 - N(d_1)) =
         -e^{-q(T-t)} N(-d_1).
 \end{equation*}
+
+\subsection{Explaining the magic of Greeks computation}
+
+The Delta of a call is defined as
+\begin{equation*}
+    \Delta(C) = \frac{\partial C}{\partial S}.
+\end{equation*}
+Differentiating the Black-Scholes formula \eqref{eq:black-scholes-call} with
+    respect to S, we obtain
+\begin{equation}
+    \Delta(C) = e^{-q(T-t)} N(d_1) + S e^{-q(T-t)}
+    \frac{\partial}{\partial S} (N(d_1)) - K e^{-r(T-t)}
+    \frac{\partial}{\partial S} (N(d_2)),
+    \label{eq:black-scholes-call-delta}
+\end{equation}
+since both $ d_1 $ and $ d_2 $ are functions of $ S $.
+
+However, we know from \eqref{eq:greeks-delta-call} that
+\begin{equation}
+    \Delta(C) = e^{-(T-t)} N(d_1).
+    \label{eq:greeks-delta-call-2}
+\end{equation}
+
+To understand how \eqref{eq:black-scholes-call-delta} reduces to
+    \eqref{eq:greeks-delta-call-2}, we apply chain rule and obtain that
+\begin{align}
+    \frac{\partial}{\partial S}(N(d_1)) &= N'(d_1)
+        \frac{\partial d_1}{\partial S}; \\
+    \frac{\partial}{\partial S} (N(d_2)) &= N'(d_2)
+        \frac{\partial d_2}{\partial S}.
+\end{align}
+Then, we can write \eqref{eq:black-scholes-call-delta} as
+\begin{equation}
+    \Delta(C) = e^{-q(T-t)} N(d_1) + S e^{-q(T-t)} N'(d_1)
+        \frac{\partial d_1}{\partial S} - K e^{-q(T-t)} N'(d_2)
+        \frac{\partial d_2}{\partial S}.
+        \label{eq:black-scholes-call-delta-2}
+\end{equation}
+
+Note that formulas \eqref{eq:black-scholes-drift-1} and
+    \eqref{eq:black-scholes-drift-2} for $ d_1 $ and $ d_2 $ can be written as
+\begin{align}
+    d_1 &= \frac{\ln \left( \frac{S}{K} \right) + (r - q) (T - t)}{\sigma
+        \sqrt{T - t}} + \frac{\sigma \sqrt{T - t}}{2};
+        \label{eq:black-scholes-drift-1-2} \\
+    d_2 &= d_1 - \sigma \sqrt{T - t} = \frac{\ln \left( \frac{S}{K} \right) +
+        (r - q)(T - t)}{\sigma \sqrt{T - t}} - \frac{\sigma \sqrt{T - t}}{2}.
+        \label{eq:black-scholes-drift-2-2}
+\end{align}
+\begin{lemma}
+    Let $ d_1 $ and $ d_2 $ be given by \eqref{eq:black-scholes-drift-1-2} and
+        \eqref{eq:black-scholes-drift-2-2}.
+    Then
+    \begin{equation}
+        S e^{-q(T-t)} N'(d_1) = K e^{-r(T-t)} N'(d_2).
+    \end{equation}
+\end{lemma}
+From \eqref{eq:black-scholes-drift-1-2} and
+    \eqref{eq:black-scholes-drift-2-2}, we find that
+\begin{equation}
+    \frac{\partial d_1}{\partial S} = \frac{\partial d_2}{\partial S} =
+        \frac{1}{\sigma S \sqrt{T - t}}.
+\end{equation}
+We conclude that \eqref{eq:black-scholes-call-delta-2} becomes
+\begin{align*}
+    \Delta(C)
+        &= e^{-q(T-t)} N(d_1) + S e^{-q(T-t)} N'(d_1)
+            \frac{\partial d_1}{\partial S} - K e^{-r(T-t)} N'(d_2)
+            \frac{\partial d_2}{\partial S} \\
+        &= e^{-q(T-t)} N(d_1) + S e^{-q(T-t)} N'(d_1)
+            \left( \frac{\partial d_1}{\partial S} -
+            \frac{\partial d_2}{\partial S} \right) \\
+        &= e^{-q(T-t)} N(d_1).
+\end{align*}
+
+\subsection{Implied volatility}
+
+The only parameter needed in the Black-Scholes formulas
+    \eqref{eq:black-scholes-call} - \eqref{eq:black-scholes-drift-2} that is
+    not directly observable in the markets is the volatility $ \sigma $ of the
+    underlying asset.
+The risk free rate $ r $ and the continuous dividend yield $ q $ of the asset
+    can be estimated from market data; the maturity date $ T $ and the strike
+    $ K $ of the option, as well as the spot price $ S $ of the underlying
+    asset are known when a price for the option is quoted.
+
+The implied volatility $ \sigma_{imp} $ is the value of the volatility
+    parameter $ \sigma $ that makes teh Black-Scholes value of the option equal
+    to the traded price of the option.
+To formalize this, denote by $ C_{BS}(S,K,T,\sigma,r,q) $ the Black-Scholes
+    value of a call option with strike $ K $ and maturity $ T $ on an
+    underlying asset with spot price $ S $ paying dividends continuously at the
+    rate $ q $, if interest rates are constant and equal to $ r $.
+If $ C $ is the quoted values of a call with parameters $ S $, $ K $, $ T $,
+    $ \sigma $, $ r $, and $ q $, the implied volatility $ \sigma_{imp} $
+    corresponding to the price $ C $ is, by definition, the solution to
+\begin{equation}
+    C_{BS}(S, K, T, \sigma_{imp}, r, q) = C.
+\end{equation}
+The implied volatility can also be derived from the given price $ P $ of a put
+    option, by solving
+\begin{equation}
+    P_{BS}(S, K, T, \sigma_{imp}, r, q) = P,
+\end{equation}
+where $ P_{BS}(S,K,T,\sigma,r,q) $ is the Black-Scholes value of a put option.
