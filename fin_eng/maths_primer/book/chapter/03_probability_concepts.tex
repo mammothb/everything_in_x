@@ -630,3 +630,12 @@ The implied volatility can also be derived from the given price $ P $ of a put
     P_{BS}(S, K, T, \sigma_{imp}, r, q) = P,
 \end{equation}
 where $ P_{BS}(S,K,T,\sigma,r,q) $ is the Black-Scholes value of a put option.
+
+\subsection{The concept of hedging. $ \Delta $-hedging and $ \Gamma $-hedging}
+
+To protect against a downturn in the price of underlying asset, i.e., to hedge,
+    you sell short $ \Delta $ units of the underlying asset.
+You not have a portfolio consisting of a long position in one call option and a
+    short position in $ \Delta $ units of the underlying asset.
+The goal is to choose $ \Delta $ in such a way that the value of the portfolio
+    is not sensitive to small changes in the price of the underlying asset.
