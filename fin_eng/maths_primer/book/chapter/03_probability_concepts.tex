@@ -639,3 +639,78 @@ You not have a portfolio consisting of a long position in one call option and a
     short position in $ \Delta $ units of the underlying asset.
 The goal is to choose $ \Delta $ in such a way that the value of the portfolio
     is not sensitive to small changes in the price of the underlying asset.
+
+If $ \Pi $ is the value of the portfolio, then,
+\begin{equation*}
+    \Pi(S) = C(S) - \Delta \cdot S.
+\end{equation*}
+
+Assume that the spot price of the underlying asset changes to $ S + dS $, where
+    $ dS $ is small, i.e., $ dS << S $.
+The change in the value of the portfolio is
+\begin{align}
+    \Pi(S + dS) - \Pi(S)
+        &= C(S + dS) - \Delta \cdot (S + dS) - (C(S) - \Delta \cdot S)
+            \nonumber \\
+        &= C(S + dS) - C(S) - \Delta dS.
+\end{align}
+We look for $ \Delta $ such that the value of the portfolio is insensitive to
+    small changes in the price of the underlying asset, i.e., such that
+\begin{equation}
+    \Pi(S + dS) - \Pi(S) \approx 0.
+\end{equation}
+Solving for $ \Delta $, we find that
+\begin{equation*}
+    \Delta \approx \frac{C(S + dS) - C(S)}{dS}.
+\end{equation*}
+By letting $ dS \rightarrow 0 $, we find the appropriate position $ \Delta $ in
+    the underlying asset in order to hedge a call option is
+\begin{equation*}
+    \Delta = \frac{\partial C}{\partial S},
+\end{equation*}
+which is the same as $ \Delta(C) $, the Delta of a call option as the rate of
+    change of the value of the call with respect to changes in the price of the
+    underlying asset.
+
+A similar argument on hedging a long position in a portfolio with price $ V $
+    made of derivative securities on a single underlying asset shows that the
+    appropriate $ \Delta $-hedging position to be taken in the asset is
+\begin{equation*}
+    \Delta = \frac{\partial V}{\partial S},
+\end{equation*}
+where $ S $ is the spot price of the asset.
+
+To achieve a better hedge of the portfolio, i.e., to have a portfolio that is
+    even less sensitive to small changes in the price of the underlying asset
+    than a Delta-neutral portfolio, we look for a portfolio that is both
+    Delta-neutral and Gamma-neutral, i.e., such that
+\begin{equation*}
+    \Delta(\Pi) = \frac{\partial \Pi}{\partial S} = 0 \quad \text{and} \quad
+        \Gamma(\Pi) = \frac{\partial^2 \Pi}{\partial S^2} = 0,
+\end{equation*}
+where the Gamma of the portfolio is denoted by $ \Gamma(\Pi) $.
+Note that
+\begin{equation*}
+    \Gamma(\Pi) = \frac{\partial \Delta(\Pi)}{\partial S}.
+\end{equation*}
+
+The value $ \Pi $ of a portfolio made of the initial portfolio and positions
+    $ x_1 $ and $ x_2 $ in $ D_1 $ and $ D_2 $, respectively, is
+\begin{equation*}
+    \Pi = V + x_1 D_1 + x_2 D_2.
+\end{equation*}
+This portfolio is Delta- and Gamma-neutral, i.e., $ \Delta(\Pi) = 0 $ and
+    $ \Gamma(\Pi) = 0 $, if and only if
+\begin{align*}
+    \Delta(\Pi) &= \Delta(V) + x_1 \Delta(D_1) + x_2 \Delta(D_2) = 0; \\
+    \Gamma(\Pi) &= \Gamma(V) + x_1 \Gamma(D_1) + x_2 \Gamma(D_2) = 0.
+\end{align*}
+Then, $ x_1 $ and $ x_2 $ are the solutions of the linear system
+\begin{equation*}
+    \begin{cases}
+        x_1 \Delta(D_1) + x_2 \Delta(D_2) &= -\Delta(V); \\
+        x_1 \Gamma(D_1) + x_2 \Gamma(D_2) &= -\Gamma(V).
+    \end{cases}
+\end{equation*}
+This system has a unique solution as long as $ D_1 $ and $ D_2 $ do not have
+    the same Delta to Gamma ratio.
