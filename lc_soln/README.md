@@ -21,6 +21,7 @@
 | 169. Majority Element | Easy | Array, Hash Table | cpp, py, rs |
 | 189. Rotate Array | Medium | Array | cpp, py, rs |
 | 209. Minimum Size Subarray Sum | Medium | Array | cpp, py, rs |
+| 215. Kth Largest Element in an Array | Medium | Array, Heap (Priority Queue) | cpp, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
 | 1011. Capacity To Ship Packages Within D Days | Medium | Array | cpp, py, rs |
 | 1347. Minimum Number of Steps to Make Two Strings Anagram | Medium | Hash Table, String | cpp, py, rs |
