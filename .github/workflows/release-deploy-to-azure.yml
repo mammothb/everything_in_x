@@ -1,10 +1,18 @@
 name: Release - Deploy to Azure
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      project-name:
+        description: Project name
+        required: true
+        type: choice
+        options:
+          - ProgressiveWorkout
 permissions:
   contents: read
   id-token: write
 env:
+  APP_PROJECTDIR: "./azure/${{ inputs.project-name }}"
   AZUREPLATFORM_CLIENTID: ${{ vars.AZUREPLATFORM_CLIENTID }}
   AZUREPLATFORM_SUBSCRIPTIONID: ${{ vars.AZUREPLATFORM_SUBSCRIPTIONID }}
   AZUREPLATFORM_TENANTID: ${{ vars.AZUREPLATFORM_TENANTID }}
@@ -33,6 +41,7 @@ jobs:
         run: |
           terraform init -backend=false
           terraform validate
+        working-directory: "${{ env.APP_PROJECTDIR }}/InfrastructureAsCode"
       - name: Azure - Create Terraform state container
         run: |
           az storage container create \
@@ -47,3 +56,4 @@ jobs:
             -backend-config="resource_group_name=${TF_VAR_resource_group_name}" \
             -backend-config="storage_account_name=${TF_BACKEND_STORAGEACCOUNTNAME}" \
             -backend-config="use_oidc=${TF_BACKEND_USEOIDC}"
+        working-directory: "${{ env.APP_PROJECTDIR }}/InfrastructureAsCode"
