@@ -1,0 +1,49 @@
+name: Release - Deploy to Azure
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  id-token: write
+env:
+  AZUREPLATFORM_CLIENTID: ${{ vars.AZUREPLATFORM_CLIENTID }}
+  AZUREPLATFORM_SUBSCRIPTIONID: ${{ vars.AZUREPLATFORM_SUBSCRIPTIONID }}
+  AZUREPLATFORM_TENANTID: ${{ vars.AZUREPLATFORM_TENANTID }}
+  TF_BACKEND_CONTAINERNAME: "${{ vars.APPLICATION_SHORTNAME }}-${{ vars.AZUREPLATFORM_APPLICATIONINSTANCE }}-terraform-state"
+  TF_BACKEND_STORAGEACCOUNTNAME: ${{ vars.AZUREPLATFORM_STORAGEACCOUNTNAME }}
+  TF_BACKEND_KEY: "${{ vars.APPLICATION_SHORTNAME }}-${{ vars.AZUREPLATFORM_APPLICATIONINSTANCE }}"
+  TF_VAR_resource_group_name: ${{ vars.AZUREPLATFORM_RESOURCEGROUPNAME }}
+  TF_BACKEND_USEOIDC: "true"
+jobs:
+  terraform:
+    name: Terraform
+    environment: pw_dev
+    runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+    - name: Setup - Install Terraform
+      uses: hashicorp/setup-terraform@v3
+    - name: Setup - Login Azure
+      uses: azure/login@v2
+      with:
+        client-id: ${{ env.AZUREPLATFORM_CLIENTID }}
+        subscription-id: ${{ env.AZUREPLATFORM_SUBSCRIPTIONID }}
+        tenant-id: ${{ env.AZUREPLATFORM_TENANTID }}
+    - name: Terraform - Validate
+      run: |
+        terraform init -backend=false
+        terraform validate
+    - name: Azure - Create Terraform state container
+      run: |
+        az storage container create \
+          --name "${TF_BACKEND_CONTAINERNAME}" \
+          --account-name "${TF_BACKEND_STORAGEACCOUNTNAME}" \
+          --auth-mode login
+    - name: Terraform - Init
+      run: |
+        terraform init \
+          -backend-config="container_name=${TF_BACKEND_CONTAINERNAME}" \
+          -backend-config="key=${TF_BACKEND_KEY}" \
+          -backend-config="resource_group_name=${TF_VAR_resource_group_name}" \
+          -backend-config="storage_account_name=${TF_BACKEND_STORAGEACCOUNTNAME}" \
+          -backend-config="use_oidc=${TF_BACKEND_USEOIDC}"
