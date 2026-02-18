@@ -11,6 +11,9 @@ TF_BACKEND_USEAZUREAUTH := true
 TF_PLAN_PATH := ./tfplan
 export TF_VAR_application_name := $(APPLICATION_SHORTNAME)
 export TF_VAR_application_instance_name := $(AZUREPLATFORM_APPLICATIONINSTANCE)
+export TF_VAR_auth_client_id := $(AZUREPLATFORM_AUTHCLIENTID)
+export TF_VAR_auth_secret_name := $(AZUREPLATFORM_AUTHSECRETNAME)
+export TF_VAR_key_vault_name := $(AZUREPLATFORM_KEYVAULTNAME)
 export TF_VAR_resource_group_name := $(AZUREPLATFORM_RESOURCEGROUPNAME)
 export TF_VAR_subscription_id := $(AZUREPLATFORM_SUBSCRIPTIONID)
 
