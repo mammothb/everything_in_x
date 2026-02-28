@@ -8,7 +8,8 @@
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "OTEL_RESOURCE_ATTRIBUTES": "service.namespace=local,service.name=api"
+        "OTEL_RESOURCE_ATTRIBUTES": "service.namespace=local,service.name=api",
+        "Wger:AuthToken:BaseAddress": "https://wger.de/api/v2/"
       }
     },
     "https": {
@@ -18,7 +19,8 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "OTEL_RESOURCE_ATTRIBUTES": "service.namespace=local,service.name=api"
+        "OTEL_RESOURCE_ATTRIBUTES": "service.namespace=local,service.name=api",
+        "Wger:AuthToken:BaseAddress": "https://wger.de/api/v2/"
       }
     }
   }

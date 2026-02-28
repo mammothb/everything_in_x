@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
@@ -14,7 +15,8 @@ public static class DependencyInjection
         builder.Logging.AddOpenTelemetry();
         builder
             .Services.AddOpenTelemetry()
-            .UseAzureMonitor()
+            .UseOtlpExporter()
+            // .UseAzureMonitor()
             .WithTracing(tracing => tracing.AddAspNetCoreInstrumentation())
             .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation());
 

@@ -8,7 +8,7 @@ PUBLISH_DIR := ./publish
 
 .DEFAULT_GOAL := infra-up
 
-.PHONY: app-build app-deploy app-publish app-run clean infra-down infra-up
+.PHONY: app-build app-deploy app-publish app-run clean infra-down infra-up monitor
 
 app-build:
 	dotnet restore
@@ -25,6 +25,19 @@ app-deploy: app-publish
 	resource_group_name=$$(cd $(IAC_DIR) && terraform output -raw resource_group_name); \
 		api_web_app_name=$$(cd $(IAC_DIR) && terraform output -raw api_web_app_name); \
 		az webapp deploy --resource-group $${resource_group_name} --name $${api_web_app_name} --src-path ./$(PROJECT_NAME).zip --type zip
+
+monitor:
+	docker run --rm --name jaeger \
+		-e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+		-p 16686:16686 \
+		-p 4317:4317 \
+		-p 4318:4318 \
+		-p 14250:14250 \
+		-p 14268:14268 \
+		-p 14269:14269 \
+		-p 9411:9411 \
+		jaegertracing/all-in-one:1.76.0
+
 
 clean:
 	dotnet clean

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProgressiveWorkout.Telemetry\ProgressiveWorkout.Telemetry.csproj" />
+    <ProjectReference Include="..\ProgressiveWorkout.Infrastructure\ProgressiveWorkout.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
