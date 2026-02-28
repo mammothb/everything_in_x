@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="ProgressiveWorkout.Api/ProgressiveWorkout.Api.csproj" />
+  <Project Path="ProgressiveWorkout.Telemetry/ProgressiveWorkout.Telemetry.csproj" />
 </Solution>

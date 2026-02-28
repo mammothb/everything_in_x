@@ -30,8 +30,10 @@ resource "azurerm_linux_web_app" "api" {
   https_only = true
 
   app_settings = {
-    AZUREAD_AUTH_CLIENT_SECRET       = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.main.name};SecretName=${var.auth_secret_name})"
-    WEBSITE_AUTH_AAD_ALLOWED_TENANTS = data.azurerm_client_config.main.tenant_id
+    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+    AZUREAD_AUTH_CLIENT_SECRET            = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.main.name};SecretName=${var.auth_secret_name})"
+    OTEL_RESOURCE_ATTRIBUTES              = "service.namespace=${local.prefix},service.name=api"
+    WEBSITE_AUTH_AAD_ALLOWED_TENANTS      = data.azurerm_client_config.main.tenant_id
   }
 
   auth_settings_v2 {

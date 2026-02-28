@@ -1,5 +1,8 @@
-﻿WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+﻿using ProgressiveWorkout.Telemetry;
 
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.RegisterTelemetry();
 builder.Services.AddHealthChecks();
 
 WebApplication app = builder.Build();
