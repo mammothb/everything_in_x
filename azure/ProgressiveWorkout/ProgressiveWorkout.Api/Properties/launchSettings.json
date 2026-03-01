@@ -9,7 +9,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "OTEL_RESOURCE_ATTRIBUTES": "service.namespace=local,service.name=api",
-        "Wger:AuthToken:BaseAddress": "https://wger.de/api/v2/"
+        "Wger:AuthToken:BaseAddress": "https://wger.de/api/v2/",
+        "Wger:Workout:BaseAddress": "https://wger.de/api/v2/"
       }
     },
     "https": {
@@ -20,7 +21,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "OTEL_RESOURCE_ATTRIBUTES": "service.namespace=local,service.name=api",
-        "Wger:AuthToken:BaseAddress": "https://wger.de/api/v2/"
+        "Wger:AuthToken:BaseAddress": "https://wger.de/api/v2/",
+        "Wger:Workout:BaseAddress": "https://wger.de/api/v2/"
       }
     }
   }

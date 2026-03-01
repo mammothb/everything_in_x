@@ -56,7 +56,7 @@ public sealed class WgerAuthTokenService : IAuthTokenService
 
     private async Task<Token> ObtainTokenAsync()
     {
-        var body = new TokenObtainRequest
+        var body = new ObtainTokenRequest
         {
             Username = _options.Username,
             Password = _options.Password,
@@ -72,15 +72,15 @@ public sealed class WgerAuthTokenService : IAuthTokenService
         using HttpResponseMessage response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        TokenObtainResponse tokenResponse =
-            await response.Content.ReadFromJsonAsync<TokenObtainResponse>()
+        ObtainTokenResponse tokenResponse =
+            await response.Content.ReadFromJsonAsync<ObtainTokenResponse>()
             ?? throw new JsonException("Failed to parse token response");
         return WgerAuthTokenMapper.Map(tokenResponse);
     }
 
     private async Task<Token> RefreshTokenAsync(string refreshToken)
     {
-        var body = new TokenRefreshRequest { Refresh = refreshToken };
+        var body = new RefreshTokenRequest { Refresh = refreshToken };
         var request = new HttpRequestMessage(HttpMethod.Post, "token/refresh")
         {
             Content = new StringContent(
@@ -92,8 +92,8 @@ public sealed class WgerAuthTokenService : IAuthTokenService
         using HttpResponseMessage response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        TokenRefreshResponse tokenResponse =
-            await response.Content.ReadFromJsonAsync<TokenRefreshResponse>()
+        RefreshTokenResponse tokenResponse =
+            await response.Content.ReadFromJsonAsync<RefreshTokenResponse>()
             ?? throw new JsonException("Failed to parse token response");
 
         Token token = WgerAuthTokenMapper.Map(tokenResponse, refreshToken);
@@ -103,7 +103,7 @@ public sealed class WgerAuthTokenService : IAuthTokenService
 
     private async Task<bool> VerifyTokenAsync(string token)
     {
-        var body = new TokenVerifyRequest { Token = token };
+        var body = new VerifyTokenRequest { Token = token };
         var request = new HttpRequestMessage(HttpMethod.Post, "token/verify")
         {
             Content = new StringContent(

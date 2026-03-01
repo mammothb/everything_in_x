@@ -2,7 +2,7 @@
 
 namespace ProgressiveWorkout.Infrastructure.Auth;
 
-public class TokenObtainRequest
+public class ObtainTokenRequest
 {
     [JsonPropertyName("username")]
     public required string Username { get; init; }
@@ -11,7 +11,7 @@ public class TokenObtainRequest
     public required string Password { get; init; }
 }
 
-public class TokenObtainResponse
+public class ObtainTokenResponse
 {
     [JsonPropertyName("access")]
     public required string Access { get; init; }
@@ -20,19 +20,19 @@ public class TokenObtainResponse
     public required string Refresh { get; init; }
 }
 
-public class TokenRefreshRequest
+public class RefreshTokenRequest
 {
     [JsonPropertyName("refresh")]
     public required string Refresh { get; init; }
 }
 
-public class TokenRefreshResponse
+public class RefreshTokenResponse
 {
     [JsonPropertyName("access")]
     public required string Access { get; init; }
 }
 
-public class TokenVerifyRequest
+public class VerifyTokenRequest
 {
     [JsonPropertyName("token")]
     public required string Token { get; init; }
