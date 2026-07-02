@@ -7,9 +7,10 @@ import tomllib
 SOLUTION_DIR = Path(__file__).parents[1].resolve()
 
 Difficulty = Literal["Easy", "Medium", "Hard"]
-Language = Literal["cpp", "py", "rs"]
+Language = Literal["cpp", "cs", "py", "rs"]
 LANGUAGE_TO_FILE: dict[Language, str] = {
     "cpp": "solution.cpp",
+    "cs": "solution.cs",
     "py": "solution.py",
     "rs": "solution.rs",
 }
