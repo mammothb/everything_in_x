@@ -5,7 +5,7 @@ hooks = [
         id = "lc_soln_readme",
         name = "lc_soln_readme",
         language = "system",
-        entry = "python3 scripts/gen-readme.py",
+        entry = "python3 lc_soln/scripts/gen-readme.py",
         files = "lc_soln/*"
     }
 ]
