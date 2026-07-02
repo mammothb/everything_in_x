@@ -1,0 +1,4 @@
+number = 150
+title = "Evaluate Reverse Polish Notation"
+difficulty = "Medium"
+topics = ["Array", "Math"]

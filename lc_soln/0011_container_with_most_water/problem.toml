@@ -1,0 +1,4 @@
+number = 11
+title = "Container With Most Water"
+difficulty = "Medium"
+topics = ["Array", "Greedy"]

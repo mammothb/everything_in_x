@@ -1,0 +1,4 @@
+number = 16
+title = "3Sum Closest"
+difficulty = "Medium"
+topics = ["Array", "Sorting"]

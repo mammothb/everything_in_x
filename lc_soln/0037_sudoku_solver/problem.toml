@@ -1,0 +1,4 @@
+number = 37
+title = "Sudoku Solver"
+difficulty = "Hard"
+topics = ["Array", "Backtracking", "Hash Table", "Matrix"]

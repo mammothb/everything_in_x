@@ -1,0 +1,4 @@
+number = 1005
+title = "Maximize Sum of Array After K Negations"
+difficulty = "Easy"
+topics = ["Array", "Greedy"]

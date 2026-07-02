@@ -1,0 +1,4 @@
+number = 123
+title = "Best Time to Buy and Sell Stock III"
+difficulty = "Hard"
+topics = ["Array", "Dynamic Programming"]

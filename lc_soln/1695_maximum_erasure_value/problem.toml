@@ -1,0 +1,4 @@
+number = 1695
+title = "Maximum Erasure Value"
+difficulty = "Medium"
+topics = ["Array", "Hash Table", "Sliding Window"]

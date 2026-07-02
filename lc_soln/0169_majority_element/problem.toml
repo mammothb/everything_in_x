@@ -1,0 +1,4 @@
+number = 169
+title = "Majority Element"
+difficulty = "Easy"
+topics = ["Array", "Hash Table"]
