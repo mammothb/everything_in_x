@@ -1,5 +1,4 @@
 # lc_soln
-
 | Name | Difficulty | Topics | Language |
 | ---- | ---------- | ------ | -------- |
 | 1. Two Sum | Easy | Array, Hash Table | cpp, py, rs |
@@ -27,9 +26,7 @@
 | 1347. Minimum Number of Steps to Make Two Strings Anagram | Medium | Hash Table, String | cpp, py, rs |
 | 1353. Maximum Number of Events That Can Be Attended | Medium | Array, Greedy, Heap (Priority Queue), Sorting | cpp, py, rs |
 | 1531. String Compression II | Hard | Dynamic Programming, String | cpp, py, rs |
-| 1659. Maximum Erasure Value | Medium | Array, Hash Table | cpp, py, rs |
+| 1695. Maximum Erasure Value | Medium | Array, Hash Table, Sliding Window | cpp, py, rs |
 | 1772. Sort Features by Popularity | Medium | Array, Hash Table, Sorting, String | cpp, py, rs |
 | 1944. Number of Visible People in a Queue | Hard | Array | cpp, py, rs |
 | 2438. Range Product Queries of Powers | Medium | Array, Binary | cpp, py, rs |
-
-

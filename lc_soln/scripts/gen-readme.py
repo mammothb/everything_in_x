@@ -68,12 +68,12 @@ def _load_problem(path: Path) -> Problem:
 
 def _render_readme(problems: list[Problem]) -> None:
     with (SOLUTION_DIR / "README.md").open("w") as f:
-        f.write("# lc-soln\n")
+        f.write("# lc_soln\n")
         f.write("| Name | Difficulty | Topics | Language |\n")
-        f.write("| - | - | - | - |\n")
-        for problem in problems:
+        f.write("| ---- | ---------- | ------ | -------- |\n")
+        for problem in sorted(problems, key=lambda p: p["number"]):
             f.write(
-                f"| {problem['title']} | {problem['difficulty']} | {', '.join(problem['topics'])} | {', '.join(problem['languages'])} |\n"
+                f"| {problem['number']}. {problem['title']} | {problem['difficulty']} | {', '.join(problem['topics'])} | {', '.join(problem['languages'])} |\n"
             )
 
 
