@@ -4,17 +4,14 @@ struct Solution;
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut seen: HashMap<i32, usize> = HashMap::new();
-        let mut result = Vec::new();
-        for (i, num) in nums.into_iter().enumerate() {
-            if let Some(&j) = seen.get(&(target - num)) {
-                result.push(i as i32);
-                result.push(j as i32);
-                break;
+        let mut seen = HashMap::<i32, usize>::new();
+        for (i, num) in nums.iter().enumerate() {
+            if let Some(&j) = seen.get(&num) {
+                return vec![j as i32, i as i32];
             }
-            seen.insert(num, i);
+            seen.insert(target - num, i);
         }
-        result
+        vec![]
     }
 }
 

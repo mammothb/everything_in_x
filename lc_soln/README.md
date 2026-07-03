@@ -1,7 +1,7 @@
 # lc_soln
 | Name | Difficulty | Topics | Language |
 | ---- | ---------- | ------ | -------- |
-| 1. Two Sum | Easy | Array, Hash Table | cpp, py, rs |
+| 1. Two Sum | Easy | Array, Hash Table | cpp, cs, py, rs |
 | 11. Container With Most Water | Medium | Array, Greedy | cpp, py, rs |
 | 14. Longest Common Prefix | Easy | Array, String | cpp, py, rs |
 | 15. 3Sum | Medium | Array, Sorting | cpp, py, rs |

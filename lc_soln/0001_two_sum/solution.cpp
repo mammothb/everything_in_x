@@ -8,12 +8,12 @@ class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
         unordered_map<int, int> seen;
-        vector<int> result;
         for (int i = 0; i < nums.size(); ++i) {
-            if (seen.contains(target - nums[i])) {
-                return {i, seen[target - nums[i]]};
+            int num = nums[i];
+            if (seen.contains(num)) {
+                return {i, seen[num]};
             }
-            seen[nums[i]] = i;
+            seen[target - num] = i;
         }
         return {};
     }
