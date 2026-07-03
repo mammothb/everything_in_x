@@ -1,0 +1,4 @@
+number = 49
+title = "Group Anagrams"
+difficulty = "Medium"
+topics = ["Array", "Hash Table"]
