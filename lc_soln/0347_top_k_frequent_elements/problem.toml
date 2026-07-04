@@ -1,0 +1,4 @@
+number = 347
+title = "Top K Frequent Elements"
+difficulty = "Medium"
+topics = ["Array", "Hash Table", "Sorting"]
