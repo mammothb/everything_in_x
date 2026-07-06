@@ -24,6 +24,7 @@
 | 215. Kth Largest Element in an Array | Medium | Array, Heap (Priority Queue) | cpp, py, rs |
 | 217. Contains Duplicate | Easy | Array | cpp, cs, py, rs |
 | 242. Valid Anagram | Easy | Sting | cpp, cs, py, rs |
+| 271. Encode and Decode Strings | Medium | Array, String | cpp, cs, py, rs |
 | 347. Top K Frequent Elements | Medium | Array, Hash Table, Sorting | cpp, cs, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
 | 1011. Capacity To Ship Packages Within D Days | Medium | Array | cpp, py, rs |
