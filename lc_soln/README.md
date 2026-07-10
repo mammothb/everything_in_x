@@ -18,7 +18,7 @@
 | 128. Longest Consecutive Sequence | Medium | Array, Hash Table | cpp, cs, py, rs |
 | 150. Evaluate Reverse Polish Notation | Medium | Array, Math | cpp, py, rs |
 | 152. Maximum Product Subarray | Medium | Array, Dynamic Programming | cpp, py, rs |
-| 167. Two Sum II - Input Array Is Sorted | Medium | Array | cpp, py, rs |
+| 167. Two Sum II - Input Array Is Sorted | Medium | Array | cpp, cs, py, rs |
 | 169. Majority Element | Easy | Array, Hash Table | cpp, py, rs |
 | 189. Rotate Array | Medium | Array | cpp, py, rs |
 | 209. Minimum Size Subarray Sum | Medium | Array | cpp, py, rs |
