@@ -2,6 +2,7 @@
 | Name | Difficulty | Topics | Language |
 | ---- | ---------- | ------ | -------- |
 | 1. Two Sum | Easy | Array, Hash Table | cpp, cs, py, rs |
+| 3. Longest Substring Without Repeating Characters | Medium | Hash Table, String | cpp, cs, py, rs |
 | 11. Container With Most Water | Medium | Array, Greedy | cpp, cs, py, rs |
 | 14. Longest Common Prefix | Easy | Array, String | cpp, py, rs |
 | 15. 3Sum | Medium | Array, Sorting | cpp, cs, py, rs |
