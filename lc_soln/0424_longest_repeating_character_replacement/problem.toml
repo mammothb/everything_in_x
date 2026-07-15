@@ -1,0 +1,4 @@
+number = 424
+title = "Longest Repeating Character Replacement"
+difficulty = "Medium"
+topics = ["Hash Table", "String"]
