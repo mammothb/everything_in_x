@@ -1,0 +1,4 @@
+number = 567
+title = "Permutation in String"
+difficulty = "Medium"
+topics = ["Hash Table", "Sliding Window"]
