@@ -28,6 +28,7 @@
 | 215. Kth Largest Element in an Array | Medium | Array, Heap (Priority Queue) | cpp, py, rs |
 | 217. Contains Duplicate | Easy | Array | cpp, cs, py, rs |
 | 238. Products of Array Except Self | Medium | Array | cpp, cs, py, rs |
+| 239. Sliding Window Maximum | Hard | Array, Sliding Window, Heap (Priority Queue) | cpp, cs, py, rs |
 | 242. Valid Anagram | Easy | Sting | cpp, cs, py, rs |
 | 271. Encode and Decode Strings | Medium | Array, String | cpp, cs, py, rs |
 | 347. Top K Frequent Elements | Medium | Array, Hash Table, Sorting | cpp, cs, py, rs |
