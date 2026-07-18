@@ -8,7 +8,7 @@
 | 15. 3Sum | Medium | Array, Sorting | cpp, cs, py, rs |
 | 16. 3Sum Closest | Medium | Array, Sorting | cpp, py, rs |
 | 18. 4Sum | Medium | Array, Sorting | cpp, py, rs |
-| 20. Valid Parentheses | Easy | String | cpp, py, rs |
+| 20. Valid Parentheses | Easy | String | cpp, cs, py, rs |
 | 36. Valid Sudoku | Medium | Array | cpp, cs, py, rs |
 | 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
 | 42. Trapping Rain Water | Hard | Array | cpp, cs, py, rs |
