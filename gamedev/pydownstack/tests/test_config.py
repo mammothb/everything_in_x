@@ -11,26 +11,29 @@ from pydownstack.game.config import ConfigError, GuidelineConfig
 _GUIDELINE = Path("src/pydownstack/resources/guideline.yml")
 
 
-def _raw() -> dict:
+from typing import Any
+
+
+def _raw() -> dict[str, Any]:
     with _GUIDELINE.open() as f:
         return yaml.safe_load(f)
 
 
-def _j_piece() -> dict:
+def _j_piece() -> dict[str, Any]:
     return _raw()["pieces"]["J"]
 
 
-def _o_piece() -> dict:
+def _o_piece() -> dict[str, Any]:
     raw = _raw()["pieces"]["O"]
     return {**raw, "kicks": {}}  # O has no kicks
 
 
-def _piece() -> dict:
+def _piece() -> dict[str, Any]:
     return _j_piece()
 
 
-def _config(**overrides) -> dict:
-    base: dict = {
+def _config(**overrides: Any) -> dict[str, Any]:
+    base: dict[str, Any] = {
         "num_cols": 10,
         "num_rows": 25,
         "num_visible_rows": 20,

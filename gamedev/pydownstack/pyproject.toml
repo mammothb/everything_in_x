@@ -12,6 +12,10 @@ dependencies = [
 [tool.basedpyright]
 reportAny = "none"
 reportExplicitAny = "none"
+executionEnvironments = [
+    { root = "tests", reportPrivateUsage = false, reportUnusedCallResult = false },
+    { root = "src" },
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
