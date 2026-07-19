@@ -1,6 +1,7 @@
+import typing
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Self, cast
+from typing import Any, ClassVar, Self, cast
 
 import yaml
 
@@ -30,8 +31,16 @@ class GuidelineConfig:
     num_previews: int
     pieces: dict[Mino, PieceConfig]
 
-    _SRS_IDX: list[tuple[str, int]] = [("0", 0), ("R", 1), ("2", 2), ("L", 3)]
-    _KEY_TO_ROT: dict[str, Rotation] = {"cw": Rotation.CW, "ccw": Rotation.CCW}
+    _SRS_IDX: ClassVar[tuple[tuple[str, int], ...]] = (
+        ("0", 0),
+        ("R", 1),
+        ("2", 2),
+        ("L", 3),
+    )
+    _KEY_TO_ROT: ClassVar[dict[str, Rotation]] = {
+        "cw": Rotation.CW,
+        "ccw": Rotation.CCW,
+    }
 
     @classmethod
     def load(cls, path: Path) -> Self:
@@ -63,33 +72,42 @@ class GuidelineConfig:
             coords: list[list[Vector2D]] = []
             for state_key, _ in sorted(cls._SRS_IDX, key=lambda p: p[1]):
                 cells_raw = _require_key(
-                    d=coords_raw, key=state_key, expected=list[list[int]]
+                    d=coords_raw,
+                    key=state_key,
+                    expected=list[list[int]],
+                    path="coords",
                 )
                 coords.append([Vector2D(x=c[0], y=c[1]) for c in cells_raw])
 
+            is_mino_o = mino == Mino.O
             kicks_raw = _require_key(
                 d=piece,
                 key="kicks",
                 expected=dict[str, dict[str, list[list[int]]]],
-                allow_empty=(mino == Mino.O),
+                allow_empty=is_mino_o,
             )
             kicks: dict[Rotation, dict[int, list[Vector2D]]] = {}
-            for dir_key, rot in cls._KEY_TO_ROT.items():
-                kicks[rot] = {}
-                dir_kicks_raw = _require_key(
-                    d=kicks_raw,
-                    key=dir_key,
-                    expected=dict[str, list[list[int]]],
-                    path=f"kicks.{dir_key}",
-                )
-                for state_key, to_idx in cls._SRS_IDX:
-                    offsets_raw = _require_key(
-                        d=dir_kicks_raw,
-                        key=state_key,
-                        expected=list[list[int]],
-                        path=f"kicks.{dir_key}.{state_key}",
+            if is_mino_o and not kicks_raw:
+                pass
+            else:
+                for dir_key, rot in cls._KEY_TO_ROT.items():
+                    kicks[rot] = {}
+                    dir_kicks_raw = _require_key(
+                        d=kicks_raw,
+                        key=dir_key,
+                        expected=dict[str, list[list[int]]],
+                        path="kicks",
                     )
-                    kicks[rot][to_idx] = [Vector2D(x=o[0], y=o[1]) for o in offsets_raw]
+                    for state_key, to_idx in cls._SRS_IDX:
+                        offsets_raw = _require_key(
+                            d=dir_kicks_raw,
+                            key=state_key,
+                            expected=list[list[int]],
+                            path=f"kicks.{dir_key}",
+                        )
+                        kicks[rot][to_idx] = [
+                            Vector2D(x=o[0], y=o[1]) for o in offsets_raw
+                        ]
 
             origin_raw = _require_key(d=piece, key="origin", expected=list[int])
             if len(origin_raw) != 2:
@@ -128,11 +146,15 @@ def _require_key[T](
         raise ConfigError(f"Missing required key: {full}")
 
     val = d[key]
-    if not isinstance(val, expected):
-        raise ConfigError(
-            f"{full}: expected {expected.__name__}, got {type(val).__name__}"
-        )
+    origin = typing.get_origin(expected) or expected
+    if not isinstance(val, origin):
+        expected_name = getattr(expected, "__name__", None)
+        if expected_name is None:
+            expected_name = getattr(
+                getattr(expected, "__origin__", None), "__name__", str(expected)
+            )
+        raise ConfigError(f"{full}: expected {expected_name}, got {type(val).__name__}")
     if isinstance(val, (dict, list)) and not val and not allow_empty:
         raise ConfigError(f"{full}: must not be empty")
 
-    return val
+    return cast(T, val)
