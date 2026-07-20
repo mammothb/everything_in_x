@@ -14,3 +14,11 @@ class Action(Enum):
     RESET = auto()
     PAUSE = auto()
     QUIT = auto()
+
+
+class GamePhase(Enum):
+    PLAYING = auto()
+    PAUSED = auto()
+    LINE_CLEARING = auto()
+    SPAWN = auto()
+    GAME_OVER = auto()

@@ -1,1 +1,12 @@
 difficulty: 1 # 1 - 4
+das_frames: 105
+arr_frames: 13
+keybindings:
+  move_left: left
+  move_right: right
+  soft_drop: down
+  hard_drop: space
+  rotate_ccw: d
+  rotate_cw: f
+  hold: s
+  reset: f4

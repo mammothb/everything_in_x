@@ -1,13 +1,24 @@
 import pygame
 
+from pydownstack.game.events import EventBus
+from pydownstack.inbound_ports import GameEnginePort
+from pydownstack.outbound_ports import InputPort, RendererPort
+from pydownstack.visual.renderer import DEFAULT_SIZE
+
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode(DEFAULT_SIZE)
     clock = pygame.time.Clock()
-    running = True
 
-    while running:
+    # input_port: InputPort = PygameInput()
+    # renderer: RendererPort = PygameRenderer(screen)
+    bus = EventBus()
+
+    # engine: GameEnginePort = GameEngine(bus, seed=None)
+    # scoring = ScoringSystem(bus)
+
+    while True:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
