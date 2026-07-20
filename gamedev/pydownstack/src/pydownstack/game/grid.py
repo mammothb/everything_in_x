@@ -26,10 +26,10 @@ class Grid:
         self._cells.insert(y, [Mino.EMPTY] * self.num_cols)
 
     def insert_bottom_row(self, row: list[Mino]) -> None:
-        self._cells.append(row)
+        self._cells.insert(0, row)
 
     def remove_row(self, y: int) -> None:
         del self._cells[y]
 
     def remove_top_row(self) -> None:
-        del self._cells[0]
+        del self._cells[-1]

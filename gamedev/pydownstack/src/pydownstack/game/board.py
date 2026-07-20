@@ -14,16 +14,15 @@ class Board:
         for y in sorted(row_indices, reverse=True):
             self.grid.remove_row(y)
         for _ in row_indices:
-            self.grid.insert_empty_row(0)
+            self.grid.insert_empty_row(self.grid.num_rows - 1)
 
     def collides(self, cells: list[Vector2D]) -> bool:
         """Checks if the provided `cells` has collision with any cells in the
         board or the walls.
         """
-        try:
-            return any(self.grid[coord] != Mino.EMPTY for coord in cells)
-        except IndexError:
-            return True
+        return any(
+            coord not in self.grid or self.grid[coord] != Mino.EMPTY for coord in cells
+        )
 
     def insert_garbage(self, line: list[Mino]) -> None:
         self.grid.insert_bottom_row(line)

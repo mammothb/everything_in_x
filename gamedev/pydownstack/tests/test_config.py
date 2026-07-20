@@ -92,8 +92,6 @@ def test_kick_structure(config: dict[str, Any]) -> None:
 
 
 def test_load_from_file() -> None:
-    if not _GUIDELINE.exists():
-        pytest.skip("guideline.yml not found")
     cfg = GuidelineConfig.load(_GUIDELINE)
     assert len(cfg.pieces) == 7
 
