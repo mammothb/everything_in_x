@@ -29,7 +29,7 @@ class Board:
         self.grid.remove_top_row()  # board doesn't grow
 
     def is_top_out(self, cells: list[Vector2D], buffer_rows: int) -> bool:
-        return any(coord.y < buffer_rows for coord in cells)
+        return any(coord.y >= self.grid.num_rows - buffer_rows for coord in cells)
 
     def lock(self, cells: list[Vector2D], mino: Mino) -> list[int]:
         """Write piece cells into the grid. Returns indices of full rows."""
