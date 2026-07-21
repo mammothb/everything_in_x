@@ -1,4 +1,3 @@
-from collections import deque
 from dataclasses import dataclass
 
 from pydownstack.domain.mino import Mino
@@ -8,7 +7,7 @@ from pydownstack.game.bag import Bag
 from pydownstack.game.board import Board
 
 
-@dataclass
+@dataclass(frozen=True)
 class GameState:
     board: Board
     curr_piece: Mino | None
@@ -16,7 +15,7 @@ class GameState:
     curr_origin: Vector2D
     hold_piece: Mino | None
     hold_used: bool
-    next_queue: deque[Mino]
+    next_queue: list[Mino]
     bag: Bag
     score: int
     lines_cleared: int
