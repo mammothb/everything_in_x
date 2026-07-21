@@ -12,8 +12,9 @@ dependencies = [
 [tool.basedpyright]
 reportAny = "none"
 reportExplicitAny = "none"
+reportUnusedCallResult = "none"
 executionEnvironments = [
-    { root = "tests", reportPrivateUsage = false, reportUnusedCallResult = false },
+    { root = "tests", reportPrivateUsage = false },
     { root = "src" },
 ]
 

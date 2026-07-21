@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from game.actions import Action
+from pydownstack.game.actions import Action
 
 
 @dataclass(frozen=True)
