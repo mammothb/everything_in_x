@@ -13,6 +13,7 @@ class GameState:
     curr_piece: Mino | None
     curr_rot: int
     curr_origin: Vector2D
+    ghost_origin: Vector2D
     hold_piece: Mino | None
     hold_used: bool
     next_queue: list[Mino]

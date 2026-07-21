@@ -18,7 +18,7 @@ from pydownstack.game.events import (
     PieceRotated,
 )
 from pydownstack.game.game_state import GameState
-from pydownstack.game.piece import get_cells, try_rotation
+from pydownstack.game.piece import get_cells, ghost_origin, try_rotation
 from pydownstack.inbound_ports import GameEnginePort
 
 
@@ -87,6 +87,12 @@ class GameEngine(GameEnginePort):
             curr_piece=self._curr_piece,
             curr_rot=self._curr_rot,
             curr_origin=self._curr_origin,
+            ghost_origin=ghost_origin(
+                piece=self._piece_config,
+                rot=self._curr_rot,
+                origin=self._curr_origin,
+                board=self._board,
+            ),
             hold_piece=self._hold,
             hold_used=self._hold_used,
             next_queue=list(self._next_queue),

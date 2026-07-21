@@ -1,41 +1,57 @@
+import sys
+from pathlib import Path
+
+CWD = Path(__file__).parent.resolve()
+sys.path.append(str(CWD / "src"))
+
 import pygame
 
+from pydownstack.game.actions import Action
+from pydownstack.game.config import GuidelineConfig
+from pydownstack.game.engine import GameEngine
 from pydownstack.game.events import EventBus
-from pydownstack.inbound_ports import GameEnginePort
-from pydownstack.outbound_ports import InputPort, RendererPort
-from pydownstack.visual.renderer import DEFAULT_SIZE
+from pydownstack.visual.input_handler import InputHandler
+from pydownstack.visual.renderer import PygameRenderer
+from pydownstack.visual.yaml_settings import YamlSettings
 
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode(DEFAULT_SIZE)
-    clock = pygame.time.Clock()
 
-    # input_port: InputPort = PygameInput()
-    # renderer: RendererPort = PygameRenderer(screen)
+    config = GuidelineConfig.load(
+        path=CWD / "src" / "pydownstack" / "resources" / "guideline.yml"
+    )
+    yaml_settings = YamlSettings(CWD / "settings.yml")
+    settings = yaml_settings.load()
+
+    input_handler = InputHandler(settings)
+    renderer = PygameRenderer(config)
     bus = EventBus()
+    engine = GameEngine(config=config, gravity_frames=1)
 
-    # engine: GameEnginePort = GameEngine(bus, seed=None)
-    # scoring = ScoringSystem(bus)
+    clock = pygame.time.Clock()
+    gravity_timer = 0
+    gravity_interval = 1
 
     while True:
-        # poll for events
-        # pygame.QUIT event means the user clicked X to close your window
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+        clock.tick(60)
 
-        # fill the screen with a color to wipe away anything from last frame
-        screen.fill("purple")
+        input_handler.push_events(pygame.event.get())
+        for action in input_handler.poll_actions():
+            if action == Action.QUIT:
+                pygame.quit()
+                sys.exit()
 
-        # RENDER YOUR GAME HERE
+            for event in engine.apply_action(action):
+                bus.emit(event)
 
-        # flip() the display to put your work on screen
-        pygame.display.flip()
+        gravity_timer += 1
+        if gravity_timer >= gravity_interval:
+            for event in engine.tick():
+                bus.emit(event)
+            gravity_timer = 0
 
-        clock.tick(60)  # limits FPS to 60
-
-    pygame.quit()
+        renderer.draw_frame(state=engine.get_state())
 
 
 if __name__ == "__main__":
