@@ -4,7 +4,7 @@ import pygame
 
 from pydownstack.domain.mino import Mino
 from pydownstack.domain.vector import Vector2D
-from pydownstack.game.config import GuidelineConfig
+from pydownstack.game.config import GuidelineConfig, PieceConfig
 from pydownstack.game.game_state import GameState
 from pydownstack.outbound_ports import RendererPort
 
@@ -142,12 +142,15 @@ class PygameRenderer(RendererPort):
             _CELL,
         )
 
-    def _draw_mini_piece(self, piece, color: pygame.Color, ox: int, oy: int) -> None:
+    def _draw_mini_piece(
+        self, piece: PieceConfig, color: pygame.Color, ox: int, oy: int
+    ) -> None:
         """Draw a small piece preview (3×3 or 4×4 cells at reduced scale)."""
         s = _CELL // 2
+        h = piece.width - 1  # max Y in bounding box
         for dx, dy in piece.coords[0]:
             rx = ox + dx * s
-            ry = oy + dy * s
+            ry = oy + (h - dy) * s  # flip Y: math convention -> screen
             rect = pygame.Rect(rx, ry, s, s)
             pygame.draw.rect(self._screen, color, rect)
 
