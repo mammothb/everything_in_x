@@ -18,7 +18,7 @@ from pydownstack.game.events import (
 
 @pytest.fixture
 def engine(guideline_config: GuidelineConfig) -> GameEngine:
-    return GameEngine(config=guideline_config, seed=42)
+    return GameEngine(config=guideline_config, difficulty=1, seed=42)
 
 
 def _fill_row(engine: GameEngine, y: int, mino: Mino = Mino.T) -> None:
@@ -242,13 +242,13 @@ class TestGameOver:
 
 
 class TestReset:
-    def test_reset_clears_board(self, engine: GameEngine) -> None:
-        _fill_row(engine, 5, Mino.T)
+    def test_reset_restores_initial_state(self, engine: GameEngine) -> None:
+        _fill_row(engine, 15, Mino.T)  # above garbage zone
         engine.apply_action(Action.RESET)
         board = engine.get_state().board
-        for y in range(board.grid.num_rows):
-            for x in range(board.grid.num_cols):
-                assert board.grid[Vector2D(x, y)] == Mino.EMPTY
+        # Row 15 should be clean (was filled with T before reset)
+        for x in range(board.grid.num_cols):
+            assert board.grid[Vector2D(x, 15)] == Mino.EMPTY
 
     def test_reset_resets_lines_cleared(self, engine: GameEngine) -> None:
         _fill_row(engine, 0, Mino.T)

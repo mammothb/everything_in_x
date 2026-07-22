@@ -1,3 +1,4 @@
+import random
 from collections import deque
 from typing import final, override
 
@@ -25,9 +26,12 @@ from pydownstack.inbound_ports import GameEnginePort
 @final
 class GameEngine(GameEnginePort):
     def __init__(
-        self, config: GuidelineConfig, seed: int | None = None
+        self, config: GuidelineConfig, difficulty: int, seed: int | None = None
     ) -> None:
         self._config = config
+        self._difficulty = difficulty
+        self._garbage_interval = 6 - difficulty
+        self._rng = random.Random(seed)
         self._bag = Bag(config=config, seed=seed)
         self._board = Board(num_cols=config.num_cols, num_rows=config.num_rows)
         self._next_queue: deque[Mino] = deque()
@@ -37,6 +41,10 @@ class GameEngine(GameEnginePort):
         self._hold_used = False
         self._score = 0
         self._lines_cleared = 0
+        self._pieces_since_garbage = 0
+        # Initial garbage: 10 lines
+        for _ in range(10):
+            self._insert_cheese()
         self._spawn()
 
     @override
@@ -67,7 +75,7 @@ class GameEngine(GameEnginePort):
 
     @override
     def reset(self) -> None:
-        self.__init__(config=self._config)
+        self.__init__(config=self._config, difficulty=self._difficulty)
 
     @override
     def tick(self) -> list[GameEvent]:
@@ -166,9 +174,24 @@ class GameEngine(GameEnginePort):
             events.append(LineCleared(count=cleared, was_tetris=(cleared == 4)))
             self._lines_cleared += cleared
         self._hold_used = False
+        self._pieces_since_garbage += 1
         self._spawn()
+        if (
+            self._phase != GamePhase.GAME_OVER
+            and self._pieces_since_garbage >= self._garbage_interval
+        ):
+            self._pieces_since_garbage = 0
+            self._insert_cheese()
         if self._phase == GamePhase.GAME_OVER:
             events.append(GameOver())
+
+    def _insert_cheese(self) -> None:
+        hole = self._rng.randrange(self._config.num_cols)
+        line = [
+            Mino.EMPTY if x == hole else Mino.GARBAGE
+            for x in range(self._config.num_cols)
+        ]
+        self._board.insert_garbage(line)
 
     def _hold_piece(self) -> None:
         if self._hold_used:

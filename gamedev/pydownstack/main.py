@@ -27,7 +27,7 @@ def main():
     input_handler = InputHandler(settings)
     renderer = PygameRenderer(config)
     bus = EventBus()
-    engine = GameEngine(config=config)
+    engine = GameEngine(config=config, difficulty=settings.difficulty)
 
     clock = pygame.time.Clock()
 
