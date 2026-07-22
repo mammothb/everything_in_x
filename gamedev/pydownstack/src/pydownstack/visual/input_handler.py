@@ -81,6 +81,12 @@ class InputHandler(InputPort):
             return
         self._pending.append(action)
         if action in _DAS_REPEATABLE:
+            # Cancel opposing direction - newest press wins
+            other = (
+                Action.MOVE_RIGHT if action == Action.MOVE_LEFT else Action.MOVE_LEFT
+            )
+            self._keys_held.discard(other)
+            self._das_states.pop(other, None)
             self._keys_held.add(action)
             self._das_states[action] = _DasState()
         elif action == Action.SOFT_DROP:

@@ -157,22 +157,20 @@ class TestDasArr:
         for _ in range(10):
             assert Action.MOVE_LEFT not in fast_handler.poll_actions()
 
-    def test_both_directions_das_independently(
+    def test_newest_direction_wins(
         self, fast_handler: InputHandler
     ) -> None:
         fast_handler.push_events([_keydown(pygame.K_LEFT)])
-        left_first = fast_handler.poll_actions()
-        assert Action.MOVE_LEFT in left_first
-        # Also press right — both should repeat independently
+        assert Action.MOVE_LEFT in fast_handler.poll_actions()
+        # Press right — cancels left DAS, starts right
         fast_handler.push_events([_keydown(pygame.K_RIGHT)])
-        right_first = fast_handler.poll_actions()
-        assert Action.MOVE_RIGHT in right_first
-        # Both DAS states advance together
-        # After das_frames=3, both should fire
-        _poll_n(fast_handler, 2)  # wait through DAS delay
         actions = fast_handler.poll_actions()
-        assert Action.MOVE_LEFT in actions
-        assert Action.MOVE_RIGHT in actions
+        assert Action.MOVE_RIGHT in actions  # KEYDOWN fires immediately
+        # Left should NOT repeat — it was cancelled
+        _poll_n(fast_handler, 4)  # wait through DAS delay
+        actions = fast_handler.poll_actions()
+        assert Action.MOVE_RIGHT in actions  # right repeats
+        assert Action.MOVE_LEFT not in actions  # left is dead
 
 
 # ── ordering: events before poll ─────────────────────────────────────
@@ -182,17 +180,15 @@ class TestOrdering:
     def test_keydown_fires_before_das_repeat_in_same_frame(
         self, fast_handler: InputHandler
     ) -> None:
-        # Press left, wait through DAS, then press right WHILE left is repeating
+        # Press left, wait through DAS, left is repeating
         fast_handler.push_events([_keydown(pygame.K_LEFT)])
         _poll_n(fast_handler, 1)  # KEYDOWN
         _poll_n(fast_handler, 3)  # DAS → first repeat of left
-        # Now press right — should fire immediately, then both repeat
+        # Press right — cancels left, fires right immediately
         fast_handler.push_events([_keydown(pygame.K_RIGHT)])
         actions = fast_handler.poll_actions()
-        # Right KEYDOWN fires in same poll_batch as potential left ARR repeat
         assert Action.MOVE_RIGHT in actions  # immediate KEYDOWN
-        # Left is in ARR phase (arr_frames=1) so it should also fire
-        assert Action.MOVE_LEFT in actions
+        assert Action.MOVE_LEFT not in actions  # cancelled by right press
 
 
 # ── edge cases ───────────────────────────────────────────────────────
