@@ -7,6 +7,7 @@ from pydownstack.domain.vector import Vector2D
 from pydownstack.game.config import GuidelineConfig, PieceConfig
 from pydownstack.game.game_state import GameState
 from pydownstack.outbound_ports import RendererPort
+from pydownstack.visual.frame_data import FrameData
 
 _COLORS: dict[Mino, pygame.Color] = {
     Mino.J: pygame.Color("#8193FF"),
@@ -27,7 +28,7 @@ _VISIBLE = 20
 _SIDE_X = _BOARD_X + 10 * _CELL + 8
 _HOLD_Y = _BOARD_Y
 _NEXT_Y = _HOLD_Y + 5 * _CELL + 16
-_HUD_Y = _NEXT_Y + 6 * 3 * _CELL + 16
+_HUD_Y = _HOLD_Y + 2 * _CELL + 16
 
 _BG = pygame.Color("#0F0F23")
 _GRID = pygame.Color("#2A2A4A")
@@ -40,7 +41,7 @@ def _darken(c: pygame.Color) -> pygame.Color:
 
 @final
 class PygameRenderer(RendererPort):
-    """Renders GameState to a pygame window. Single Y-flip boundary."""
+    """Renders FrameData to a pygame window. Single Y-flip boundary."""
 
     def __init__(self, config: GuidelineConfig) -> None:
         self._config = config
@@ -49,15 +50,15 @@ class PygameRenderer(RendererPort):
         self._small = pygame.font.Font(None, 16)
 
     @override
-    def draw_frame(self, state: GameState) -> None:
+    def draw_frame(self, frame: FrameData) -> None:
         self._screen.fill(_BG)
-        self._draw_board(state)
-        if state.curr_piece is not None:
-            self._draw_ghost(state)
-            self._draw_active_piece(state)
-        self._draw_hold(state)
-        self._draw_next(state)
-        self._draw_hud(state)
+        self._draw_board(frame.state)
+        if frame.state.curr_piece is not None:
+            self._draw_ghost(frame.state)
+            self._draw_active_piece(frame.state)
+        self._draw_hold(frame.state)
+        self._draw_next(frame.state)
+        self._draw_hud(frame)
         pygame.display.flip()
 
     # ── board ──────────────────────────────────────────────────────
@@ -121,15 +122,15 @@ class PygameRenderer(RendererPort):
 
     # ── HUD ────────────────────────────────────────────────────────
 
-    def _draw_hud(self, state: GameState) -> None:
+    def _draw_hud(self, frame: FrameData) -> None:
         y = _HUD_Y
         self._label("SCORE", _SIDE_X, y)
         y += 18
-        self._value(str(state.score), _SIDE_X, y)
+        self._value(str(frame.score), _SIDE_X, y)
         y += 28
         self._label("LINES", _SIDE_X, y)
         y += 18
-        self._value(str(state.lines_cleared), _SIDE_X, y)
+        self._value(str(frame.lines), _SIDE_X, y)
 
     # ── helpers ────────────────────────────────────────────────────
 
@@ -150,7 +151,7 @@ class PygameRenderer(RendererPort):
         h = piece.width - 1  # max Y in bounding box
         for dx, dy in piece.coords[0]:
             rx = ox + dx * s
-            ry = oy + (h - dy) * s  # flip Y: math convention -> screen
+            ry = oy + (h - dy) * s  # flip Y: math convention → screen
             rect = pygame.Rect(rx, ry, s, s)
             pygame.draw.rect(self._screen, color, rect)
 

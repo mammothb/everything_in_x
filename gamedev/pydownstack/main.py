@@ -1,8 +1,6 @@
 import sys
 from pathlib import Path
 
-from pydownstack.game.scoring import ScoringSystem
-
 CWD = Path(__file__).parent.resolve()
 sys.path.append(str(CWD / "src"))
 
@@ -12,6 +10,8 @@ from pydownstack.game.actions import Action
 from pydownstack.game.config import GuidelineConfig
 from pydownstack.game.engine import GameEngine
 from pydownstack.game.events import EventBus
+from pydownstack.game.scoring import ScoringSystem
+from pydownstack.visual.frame_data import FrameData
 from pydownstack.visual.input_handler import FPS, InputHandler
 from pydownstack.visual.renderer import PygameRenderer
 from pydownstack.visual.yaml_settings import YamlSettings
@@ -47,7 +47,12 @@ def main():
             for event in engine.apply_action(action):
                 bus.emit(event)
 
-        renderer.draw_frame(state=engine.get_state())
+        frame = FrameData(
+            state=engine.get_state(),
+            score=scoring.score,
+            lines=scoring.lines,
+        )
+        renderer.draw_frame(frame)
 
 
 if __name__ == "__main__":

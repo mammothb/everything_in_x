@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
 from pydownstack.game.actions import Action
-from pydownstack.game.game_state import GameState
 from pydownstack.game.settings import Settings
+from pydownstack.visual.frame_data import FrameData
 
 
 class RendererPort(ABC):
     @abstractmethod
-    def draw_frame(self, state: GameState) -> None: ...
+    def draw_frame(self, frame: FrameData) -> None: ...
 
 
 class InputPort(ABC):
