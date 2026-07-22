@@ -1,5 +1,6 @@
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
 
 class GameEvent: ...
@@ -30,14 +31,13 @@ class PieceRotated(GameEvent): ...
 class GameOver(GameEvent): ...
 
 
-type Handler = Callable[[GameEvent], None]
-
-
 class EventBus:
-    def __init__(self):
-        self._event_to_handlers: dict[type[GameEvent], list[Handler]] = {}
+    def __init__(self) -> None:
+        self._event_to_handlers: dict[type[GameEvent], list[Callable[[Any], None]]] = {}
 
-    def subscribe(self, event_type: type[GameEvent], handler: Handler) -> None:
+    def subscribe[T: GameEvent](
+        self, event_type: type[T], handler: Callable[[T], None]
+    ) -> None:
         self._event_to_handlers.setdefault(event_type, []).append(handler)
 
     def emit(self, event: GameEvent) -> None:

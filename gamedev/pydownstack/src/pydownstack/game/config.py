@@ -30,6 +30,7 @@ class GuidelineConfig:
     num_rots: int
     num_previews: int
     pieces: dict[Mino, PieceConfig]
+    scoring: dict[int, int]  # lines_cleared → base_points
 
     _SRS_IDX: ClassVar[tuple[tuple[str, int], ...]] = (
         ("0", 0),
@@ -127,6 +128,7 @@ class GuidelineConfig:
             num_rots=_require_key(d=raw, key="num_rots", expected=int),
             num_previews=_require_key(d=raw, key="num_previews", expected=int),
             pieces=pieces,
+            scoring=raw.get("scoring", {1: 100, 2: 300, 3: 500, 4: 800}),
         )
 
 

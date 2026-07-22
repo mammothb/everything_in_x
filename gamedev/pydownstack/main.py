@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 
+from pydownstack.game.scoring import ScoringSystem
+
 CWD = Path(__file__).parent.resolve()
 sys.path.append(str(CWD / "src"))
 
@@ -28,6 +30,8 @@ def main():
     renderer = PygameRenderer(config)
     bus = EventBus()
     engine = GameEngine(config=config, difficulty=settings.difficulty)
+
+    scoring = ScoringSystem(bus=bus, config=config)
 
     clock = pygame.time.Clock()
 
