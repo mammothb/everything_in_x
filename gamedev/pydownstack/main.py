@@ -10,7 +10,7 @@ from pydownstack.game.actions import Action
 from pydownstack.game.config import GuidelineConfig
 from pydownstack.game.engine import GameEngine
 from pydownstack.game.events import EventBus
-from pydownstack.visual.input_handler import InputHandler
+from pydownstack.visual.input_handler import FPS, InputHandler
 from pydownstack.visual.renderer import PygameRenderer
 from pydownstack.visual.yaml_settings import YamlSettings
 
@@ -32,7 +32,7 @@ def main():
     clock = pygame.time.Clock()
 
     while True:
-        clock.tick(60)
+        clock.tick(FPS)
 
         input_handler.push_events(pygame.event.get())
         for action in input_handler.poll_actions():

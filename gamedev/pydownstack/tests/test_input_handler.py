@@ -13,7 +13,8 @@ def settings() -> Settings:
 
 @pytest.fixture
 def fast_settings() -> Settings:
-    return Settings(das_frames=3, arr_frames=1)
+    # 50ms ≈ 3 frames, 17ms ≈ 1 frame at 60fps
+    return Settings(das_frames=50, arr_frames=17)
 
 
 @pytest.fixture

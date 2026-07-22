@@ -9,6 +9,8 @@ from pydownstack.game.settings import Settings
 from pydownstack.outbound_ports import InputPort
 
 # Horizontal movement uses DAS/ARR. Soft drop is continuous (fires every frame).
+FPS = 60
+
 _DAS_REPEATABLE: set[Action] = {Action.MOVE_LEFT, Action.MOVE_RIGHT}
 
 
@@ -32,8 +34,8 @@ class InputHandler(InputPort):
         for action, key_name in settings.keybindings.items():
             self._key_to_action[pygame.key.key_code(key_name)] = action
 
-        self._das_frames = settings.das_frames
-        self._arr_frames = settings.arr_frames
+        self._das_frames = max(1, settings.das_frames * FPS // 1000)
+        self._arr_frames = max(1, settings.arr_frames * FPS // 1000)
 
         self._das_states: dict[Action, _DasState] = {}
         self._keys_held: set[Action] = set()
