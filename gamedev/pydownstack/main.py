@@ -27,11 +27,9 @@ def main():
     input_handler = InputHandler(settings)
     renderer = PygameRenderer(config)
     bus = EventBus()
-    engine = GameEngine(config=config, gravity_frames=1)
+    engine = GameEngine(config=config)
 
     clock = pygame.time.Clock()
-    gravity_timer = 0
-    gravity_interval = 1
 
     while True:
         clock.tick(60)
@@ -44,12 +42,6 @@ def main():
 
             for event in engine.apply_action(action):
                 bus.emit(event)
-
-        gravity_timer += 1
-        if gravity_timer >= gravity_interval:
-            for event in engine.tick():
-                bus.emit(event)
-            gravity_timer = 0
 
         renderer.draw_frame(state=engine.get_state())
 

@@ -18,7 +18,7 @@ from pydownstack.game.events import (
 
 @pytest.fixture
 def engine(guideline_config: GuidelineConfig) -> GameEngine:
-    return GameEngine(config=guideline_config, gravity_frames=1, seed=42)
+    return GameEngine(config=guideline_config, seed=42)
 
 
 def _fill_row(engine: GameEngine, y: int, mino: Mino = Mino.T) -> None:
@@ -137,31 +137,17 @@ class TestHardDrop:
         assert drop.distance >= 0
 
 
-# ── gravity ──────────────────────────────────────────────────────────
+# ── tick (no-op for cheese mode) ────────────────────────────────────
 
 
-class TestGravity:
-    def test_tick_drops_piece(self, engine: GameEngine) -> None:
-        before = engine.get_state().curr_origin
-        engine.tick()
-        assert engine.get_state().curr_origin.y == before.y - 1
+class TestTick:
+    def test_tick_always_returns_empty(self, engine: GameEngine) -> None:
+        assert engine.tick() == []
 
-    def test_tick_locks_when_blocked(self, engine: GameEngine) -> None:
-        state = engine.get_state()
-        piece_cfg = engine._config.pieces[state.curr_piece]
-        below_row = min(c.y - 1 for c in piece_cfg.coords[state.curr_rot])
-        target_y = state.curr_origin.y + below_row
-        if target_y >= 0:
-            _fill_row(engine, target_y)
-        events = engine.tick()
-        assert _has_event(events, PieceLocked)
-
-    def test_tick_ignored_in_game_over(self, engine: GameEngine) -> None:
+    def test_tick_empty_in_game_over(self, engine: GameEngine) -> None:
         _fill_board(engine)
         engine.apply_action(Action.HARD_DROP)
-        if engine.get_state().phase == GamePhase.GAME_OVER:
-            events = engine.tick()
-            assert events == []
+        assert engine.tick() == []
 
 
 # ── hold ─────────────────────────────────────────────────────────────

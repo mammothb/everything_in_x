@@ -25,10 +25,9 @@ from pydownstack.inbound_ports import GameEnginePort
 @final
 class GameEngine(GameEnginePort):
     def __init__(
-        self, config: GuidelineConfig, gravity_frames: int, seed: int | None = None
+        self, config: GuidelineConfig, seed: int | None = None
     ) -> None:
         self._config = config
-        self._gravity_frames = gravity_frames
         self._bag = Bag(config=config, seed=seed)
         self._board = Board(num_cols=config.num_cols, num_rows=config.num_rows)
         self._next_queue: deque[Mino] = deque()
@@ -38,7 +37,6 @@ class GameEngine(GameEnginePort):
         self._hold_used = False
         self._score = 0
         self._lines_cleared = 0
-        self._gravity_counter = 0
         self._spawn()
 
     @override
@@ -69,17 +67,11 @@ class GameEngine(GameEnginePort):
 
     @override
     def reset(self) -> None:
-        self.__init__(config=self._config, gravity_frames=self._gravity_frames)
+        self.__init__(config=self._config)
 
     @override
     def tick(self) -> list[GameEvent]:
-        if self._phase != GamePhase.PLAYING:
-            return []
-        self._gravity_counter += 1
-        if self._gravity_counter >= self._gravity_frames:
-            self._gravity_counter = 0
-            return self._gravity_drop()
-        return []
+        return []  # no gravity — downstack cheese mode
 
     def get_state(self) -> GameState:
         return GameState(
@@ -161,16 +153,6 @@ class GameEngine(GameEnginePort):
         )
         events.append(HardDropped(distance=distance))
         self._lock(events)
-
-    def _gravity_drop(self) -> list[GameEvent]:
-        events: list[GameEvent] = []
-        origin = Vector2D(x=self._curr_origin.x, y=self._curr_origin.y - 1)
-        cells = get_cells(piece=self._piece_config, rot=self._curr_rot, origin=origin)
-        if self._board.collides(cells):
-            self._lock(events)
-        else:
-            self._curr_origin = origin
-        return events
 
     def _lock(self, events: list[GameEvent]) -> None:
         cells = get_cells(
