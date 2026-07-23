@@ -14,6 +14,7 @@
 | 42. Trapping Rain Water | Hard | Array | cpp, cs, py, rs |
 | 49. Group Anagrams | Medium | Array, Hash Table | cpp, cs, py, rs |
 | 76. Minimum Window Substring | Hard | Hash Table, Sliding Window | cpp, cs, py, rs |
+| 84. Largest Rectangle in Histogram | Hard | Array, Stack | cpp, cs, py, rs |
 | 115. Min Stack | Medium | Stack | cpp, cs, py, rs |
 | 121. Best Time to Buy and Sell Stock | Easy | Array, Dynamic Programming | cpp, cs, py, rs |
 | 122. Best Time to Buy and Sell Stock II | Medium | Array, Dynamic Programming, Greedy | cpp, py, rs |
