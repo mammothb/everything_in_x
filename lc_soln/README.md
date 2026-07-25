@@ -36,6 +36,7 @@
 | 347. Top K Frequent Elements | Medium | Array, Hash Table, Sorting | cpp, cs, py, rs |
 | 424. Longest Repeating Character Replacement | Medium | Hash Table, String | cpp, cs, py, rs |
 | 567. Permutation in String | Medium | Hash Table, Sliding Window | cpp, cs, py, rs |
+| 704. Binary Search | Easy | Array, Binary Search | cpp, cs, py, rs |
 | 739. Daily Temperatures | Medium | Array, Stack | cpp, cs, py, rs |
 | 853. Car Fleet | Medium | Array, Stack | cpp, cs, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
