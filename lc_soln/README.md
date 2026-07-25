@@ -13,6 +13,7 @@
 | 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
 | 42. Trapping Rain Water | Hard | Array | cpp, cs, py, rs |
 | 49. Group Anagrams | Medium | Array, Hash Table | cpp, cs, py, rs |
+| 74. Search a 2D Matrix | Medium | Array, Binary Search | cpp, cs, py, rs |
 | 76. Minimum Window Substring | Hard | Hash Table, Sliding Window | cpp, cs, py, rs |
 | 84. Largest Rectangle in Histogram | Hard | Array, Stack | cpp, cs, py, rs |
 | 115. Min Stack | Medium | Stack | cpp, cs, py, rs |
