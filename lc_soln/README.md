@@ -43,6 +43,7 @@
 | 739. Daily Temperatures | Medium | Array, Stack | cpp, cs, py, rs |
 | 853. Car Fleet | Medium | Array, Stack | cpp, cs, py, rs |
 | 875. Koko Eating Bananas | Medium | Array, Binary Search | cpp, cs, py, rs |
+| 981. Time Based Key-Value Store | Medium | Binary Search | cpp, cs, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
 | 1011. Capacity To Ship Packages Within D Days | Medium | Array | cpp, py, rs |
 | 1347. Minimum Number of Steps to Make Two Strings Anagram | Medium | Hash Table, String | cpp, py, rs |
