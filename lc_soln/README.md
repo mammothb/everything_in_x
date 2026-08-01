@@ -10,6 +10,7 @@
 | 16. 3Sum Closest | Medium | Array, Sorting | cpp, py, rs |
 | 18. 4Sum | Medium | Array, Sorting | cpp, py, rs |
 | 20. Valid Parentheses | Easy | String | cpp, cs, py, rs |
+| 21. Merge Two Sorted Lists | Easy | Linked List | cpp, cs, py, rs |
 | 33. Search in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
 | 36. Valid Sudoku | Medium | Array | cpp, cs, py, rs |
 | 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
@@ -30,6 +31,7 @@
 | 167. Two Sum II - Input Array Is Sorted | Medium | Array | cpp, cs, py, rs |
 | 169. Majority Element | Easy | Array, Hash Table | cpp, py, rs |
 | 189. Rotate Array | Medium | Array | cpp, py, rs |
+| 206. Reverse Linked List | Easy | Linked List | cpp, cs, py, rs |
 | 209. Minimum Size Subarray Sum | Medium | Array | cpp, py, rs |
 | 215. Kth Largest Element in an Array | Medium | Array, Heap (Priority Queue) | cpp, py, rs |
 | 217. Contains Duplicate | Easy | Array | cpp, cs, py, rs |
