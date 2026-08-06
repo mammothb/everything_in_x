@@ -9,6 +9,7 @@
 | 15. 3Sum | Medium | Array, Sorting | cpp, cs, py, rs |
 | 16. 3Sum Closest | Medium | Array, Sorting | cpp, py, rs |
 | 18. 4Sum | Medium | Array, Sorting | cpp, py, rs |
+| 19. Remove Nth Node From End of List | Medium | Linked List | cpp, cs, py, rs |
 | 20. Valid Parentheses | Easy | String | cpp, cs, py, rs |
 | 21. Merge Two Sorted Lists | Easy | Linked List | cpp, cs, py, rs |
 | 33. Search in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
@@ -26,6 +27,7 @@
 | 125. Valid Palindrome | Easy | String | cpp, cs, py, rs |
 | 128. Longest Consecutive Sequence | Medium | Array, Hash Table | cpp, cs, py, rs |
 | 141. Linked List Cycle Detection | Easy | Linked List | cpp, cs, py, rs |
+| 143. Reorder Linked List | Medium | Linked List | cpp, py, rs |
 | 150. Evaluate Reverse Polish Notation | Medium | Array, Math | cpp, cs, py, rs |
 | 152. Maximum Product Subarray | Medium | Array, Dynamic Programming | cpp, py, rs |
 | 153. Find Minimum in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
