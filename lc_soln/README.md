@@ -2,6 +2,7 @@
 | Name | Difficulty | Topics | Language |
 | ---- | ---------- | ------ | -------- |
 | 1. Two Sum | Easy | Array, Hash Table | cpp, cs, py, rs |
+| 2. Add Two Numbers | Medium | Linked List | cpp, cs, py, rs |
 | 3. Longest Substring Without Repeating Characters | Medium | Hash Table, String | cpp, cs, py, rs |
 | 4. Median of Two Sorted Arrays | Hard | Array, Binary Search | py, rs |
 | 11. Container With Most Water | Medium | Array, Greedy | cpp, cs, py, rs |
