@@ -44,6 +44,7 @@
 | 239. Sliding Window Maximum | Hard | Array, Sliding Window, Heap (Priority Queue) | cpp, cs, py, rs |
 | 242. Valid Anagram | Easy | Sting | cpp, cs, py, rs |
 | 271. Encode and Decode Strings | Medium | Array, String | cpp, cs, py, rs |
+| 287. Find the Duplicate Number | Medium | Array | cpp, cs, py, rs |
 | 347. Top K Frequent Elements | Medium | Array, Hash Table, Sorting | cpp, cs, py, rs |
 | 424. Longest Repeating Character Replacement | Medium | Hash Table, String | cpp, cs, py, rs |
 | 567. Permutation in String | Medium | Hash Table, Sliding Window | cpp, cs, py, rs |
