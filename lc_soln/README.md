@@ -30,6 +30,7 @@
 | 138. Copy List with Random Pointer | Medium | Linked List | cpp, cs, py |
 | 141. Linked List Cycle Detection | Easy | Linked List | cpp, cs, py, rs |
 | 143. Reorder Linked List | Medium | Linked List | cpp, py, rs |
+| 146. LRU Cache | Medium | Linked List, Hash Table | cpp, cs, py |
 | 150. Evaluate Reverse Polish Notation | Medium | Array, Math | cpp, cs, py, rs |
 | 152. Maximum Product Subarray | Medium | Array, Dynamic Programming | cpp, py, rs |
 | 153. Find Minimum in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
