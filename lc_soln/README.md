@@ -14,6 +14,7 @@
 | 20. Valid Parentheses | Easy | String | cpp, cs, py, rs |
 | 21. Merge Two Sorted Lists | Easy | Linked List | cpp, cs, py, rs |
 | 23. Merge K Sorted Linked Lists | Hard | Linked List, Heap | cpp, cs, py |
+| 25. Reverse Nodes in K-Group | Hard | Linked List | cpp, cs, py |
 | 33. Search in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
 | 36. Valid Sudoku | Medium | Array | cpp, cs, py, rs |
 | 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
