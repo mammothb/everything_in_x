@@ -52,6 +52,7 @@
 | 287. Find the Duplicate Number | Medium | Array | cpp, cs, py, rs |
 | 347. Top K Frequent Elements | Medium | Array, Hash Table, Sorting | cpp, cs, py, rs |
 | 424. Longest Repeating Character Replacement | Medium | Hash Table, String | cpp, cs, py, rs |
+| 543. Diameter of Binary Tree | Easy | Tree | cpp, cs, py |
 | 567. Permutation in String | Medium | Hash Table, Sliding Window | cpp, cs, py, rs |
 | 704. Binary Search | Easy | Array, Binary Search | cpp, cs, py, rs |
 | 739. Daily Temperatures | Medium | Array, Stack | cpp, cs, py, rs |
