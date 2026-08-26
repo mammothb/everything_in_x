@@ -56,6 +56,7 @@
 | 424. Longest Repeating Character Replacement | Medium | Hash Table, String | cpp, cs, py, rs |
 | 543. Diameter of Binary Tree | Easy | Tree | cpp, cs, py |
 | 567. Permutation in String | Medium | Hash Table, Sliding Window | cpp, cs, py, rs |
+| 572. Subtree of Another Tree | Easy | Tree | cpp, cs, py, rs |
 | 704. Binary Search | Easy | Array, Binary Search | cpp, cs, py, rs |
 | 739. Daily Temperatures | Medium | Array, Stack | cpp, cs, py, rs |
 | 853. Car Fleet | Medium | Array, Stack | cpp, cs, py, rs |
