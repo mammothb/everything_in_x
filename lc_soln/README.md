@@ -27,6 +27,7 @@
 | 100. Same Binary Tree | Easy | Tree | cpp, cs, py, rs |
 | 102. Binary Tree Level Order Traversal | Medium | Tree | cpp, cs, py, rs |
 | 104. Maximum Depth of Binary Tree | Easy | Tree | cpp, cs, py, rs |
+| 105. Construct Binary Tree from Preorder and Inorder Traversal | Medium | Tree | cpp, cs, py, rs |
 | 110. Balanced Binary Tree | Easy | Tree | cpp, cs, py, rs |
 | 115. Min Stack | Medium | Stack | cpp, cs, py, rs |
 | 121. Best Time to Buy and Sell Stock | Easy | Array, Dynamic Programming | cpp, cs, py, rs |
