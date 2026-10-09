@@ -33,6 +33,7 @@
 | 121. Best Time to Buy and Sell Stock | Easy | Array, Dynamic Programming | cpp, cs, py, rs |
 | 122. Best Time to Buy and Sell Stock II | Medium | Array, Dynamic Programming, Greedy | cpp, py, rs |
 | 123. Best Time to Buy and Sell Stock III | Hard | Array, Dynamic Programming | cpp, py, rs |
+| 124. Binary Tree Maximum Path Sum | Hard | Tree | cpp, cs, py, rs |
 | 125. Valid Palindrome | Easy | String | cpp, cs, py, rs |
 | 128. Longest Consecutive Sequence | Medium | Array, Hash Table | cpp, cs, py, rs |
 | 138. Copy List with Random Pointer | Medium | Linked List | cpp, cs, py |
