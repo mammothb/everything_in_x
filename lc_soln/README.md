@@ -51,6 +51,7 @@
 | 208. Implement Trie (Prefix Tree) | Medium | Trie | cpp, cs, py, rs |
 | 209. Minimum Size Subarray Sum | Medium | Array | cpp, py, rs |
 | 211. Design Add and Search Word Data Structure | Medium | Trie | cpp, cs, py, rs |
+| 212. Word Search II | Hard | Trie | cpp, cs, py, rs |
 | 215. Kth Largest Element in an Array | Medium | Array, Heap (Priority Queue) | cpp, py, rs |
 | 217. Contains Duplicate | Easy | Array | cpp, cs, py, rs |
 | 226. Invert Binary Tree | Easy | Tree | cpp, cs, py, rs |
