@@ -18,6 +18,7 @@
 | 33. Search in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
 | 36. Valid Sudoku | Medium | Array | cpp, cs, py, rs |
 | 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
+| 39. Combination Sum | Medium | Backtracking | cpp, cs, py, rs |
 | 42. Trapping Rain Water | Hard | Array | cpp, cs, py, rs |
 | 49. Group Anagrams | Medium | Array, Hash Table | cpp, cs, py, rs |
 | 74. Search a 2D Matrix | Medium | Array, Binary Search | cpp, cs, py, rs |
