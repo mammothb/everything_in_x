@@ -19,7 +19,9 @@
 | 36. Valid Sudoku | Medium | Array | cpp, cs, py, rs |
 | 37. Sudoku Solver | Hard | Array, Backtracking, Hash Table, Matrix | cpp, py, rs |
 | 39. Combination Sum | Medium | Backtracking | cpp, cs, py, rs |
+| 40. Combination Sum II | Medium | Backtracking | cpp, cs, py, rs |
 | 42. Trapping Rain Water | Hard | Array | cpp, cs, py, rs |
+| 46. Permutations | Medium | Backtracking | cpp, cs, py, rs |
 | 49. Group Anagrams | Medium | Array, Hash Table | cpp, cs, py, rs |
 | 74. Search a 2D Matrix | Medium | Array, Binary Search | cpp, cs, py, rs |
 | 76. Minimum Window Substring | Hard | Hash Table, Sliding Window | cpp, cs, py, rs |
