@@ -27,6 +27,7 @@
 | 76. Minimum Window Substring | Hard | Hash Table, Sliding Window | cpp, cs, py, rs |
 | 78. Subsets | Medium | Backtracking | cpp, cs, py, rs |
 | 84. Largest Rectangle in Histogram | Hard | Array, Stack | cpp, cs, py, rs |
+| 90. Backtracking II | Medium | Backtracking | cpp, cs, py, rs |
 | 98. Valid Binary Search Tree | Medium | Tree | cpp, cs, py, rs |
 | 100. Same Binary Tree | Easy | Tree | cpp, cs, py, rs |
 | 102. Binary Tree Level Order Traversal | Medium | Tree | cpp, cs, py, rs |
