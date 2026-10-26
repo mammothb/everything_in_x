@@ -13,6 +13,7 @@
 | 19. Remove Nth Node From End of List | Medium | Linked List | cpp, cs, py, rs |
 | 20. Valid Parentheses | Easy | String | cpp, cs, py, rs |
 | 21. Merge Two Sorted Lists | Easy | Linked List | cpp, cs, py, rs |
+| 22. Generate Parentheses | Medium | Backtracking | cpp, cs, py, rs |
 | 23. Merge K Sorted Linked Lists | Hard | Linked List, Heap | cpp, cs, py |
 | 25. Reverse Nodes in K-Group | Hard | Linked List | cpp, cs, py |
 | 33. Search in Rotated Sorted Array | Medium | Array, Binary Search | cpp, cs, py, rs |
