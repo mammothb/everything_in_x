@@ -27,6 +27,7 @@
 | 74. Search a 2D Matrix | Medium | Array, Binary Search | cpp, cs, py, rs |
 | 76. Minimum Window Substring | Hard | Hash Table, Sliding Window | cpp, cs, py, rs |
 | 78. Subsets | Medium | Backtracking | cpp, cs, py, rs |
+| 79. Word Search | Medium | Backtracking | cpp, cs, py, rs |
 | 84. Largest Rectangle in Histogram | Hard | Array, Stack | cpp, cs, py, rs |
 | 90. Backtracking II | Medium | Backtracking | cpp, cs, py, rs |
 | 98. Valid Binary Search Tree | Medium | Tree | cpp, cs, py, rs |

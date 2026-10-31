@@ -1,0 +1,4 @@
+number = 79
+title = "Word Search"
+difficulty = "Medium"
+topics = ["Backtracking"]
