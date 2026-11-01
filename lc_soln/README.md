@@ -43,6 +43,7 @@
 | 124. Binary Tree Maximum Path Sum | Hard | Tree | cpp, cs, py, rs |
 | 125. Valid Palindrome | Easy | String | cpp, cs, py, rs |
 | 128. Longest Consecutive Sequence | Medium | Array, Hash Table | cpp, cs, py, rs |
+| 131. Palindrome Partitioning | Medium | Backtracking | cpp, cs, py, rs |
 | 138. Copy List with Random Pointer | Medium | Linked List | cpp, cs, py |
 | 141. Linked List Cycle Detection | Easy | Linked List | cpp, cs, py, rs |
 | 143. Reorder Linked List | Medium | Linked List | cpp, py, rs |
