@@ -9,6 +9,7 @@
 | 14. Longest Common Prefix | Easy | Array, String | cpp, py, rs |
 | 15. 3Sum | Medium | Array, Sorting | cpp, cs, py, rs |
 | 16. 3Sum Closest | Medium | Array, Sorting | cpp, py, rs |
+| 17. Letter Combinations of a Phone Number | Medium | Backtracking | cpp, cs, py, rs |
 | 18. 4Sum | Medium | Array, Sorting | cpp, py, rs |
 | 19. Remove Nth Node From End of List | Medium | Linked List | cpp, cs, py, rs |
 | 20. Valid Parentheses | Easy | String | cpp, cs, py, rs |
