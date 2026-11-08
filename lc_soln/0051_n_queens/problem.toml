@@ -1,0 +1,4 @@
+number = 51
+title = "N-Queens"
+difficulty = "Hard"
+topics = ["Backtracking"]
