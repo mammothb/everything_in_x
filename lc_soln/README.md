@@ -86,6 +86,7 @@
 | 981. Time Based Key-Value Store | Medium | Binary Search | cpp, cs, py, rs |
 | 1005. Maximize Sum of Array After K Negations | Easy | Array, Greedy | cpp, py, rs |
 | 1011. Capacity To Ship Packages Within D Days | Medium | Array | cpp, py, rs |
+| 1046. Last Stone Weight | Easy | Heap | cpp, cs, py, rs |
 | 1347. Minimum Number of Steps to Make Two Strings Anagram | Medium | Hash Table, String | cpp, py, rs |
 | 1353. Maximum Number of Events That Can Be Attended | Medium | Array, Greedy, Heap (Priority Queue), Sorting | cpp, py, rs |
 | 1448. Count Good Nodes in Binary Tree | Medium | Tree | cpp, cs, py, rs |
